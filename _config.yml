@@ -2,12 +2,13 @@
 name: VizLab
 description: ""
 intro: What's down there
-url: "http://akadealloc.github.io" 
 baseurl: "/blog" 
-pygments: true
+url: "http://akadealloc.github.io" 
+
 
 # Build settings
-markdown: redcarpet
+markdown: kramdown
+highlighter: pygments
 permalink:    pretty
 
 # Owner/author information
