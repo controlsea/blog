@@ -1,9 +1,6 @@
 # Site settings
-name: VizLab
-description: ""
-intro: What's down there
-baseurl: "/blog" 
-url: "http://akadealloc.github.io" 
+baseurl: /blog 
+url: http://akadealloc.github.io"
 
 
 # Build settings
