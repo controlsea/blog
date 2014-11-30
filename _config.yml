@@ -1,11 +1,13 @@
 # Site settings
-title: VizLab
+name: VizLab
 email: Jayson.xu@foxmail.com
 description: ""
+intro: What's down there
 baseurl: "/blog"
 url: "http://akadealloc.github.io"
 twitter_username: ecs_tee
 github_username:  akadealloc
+logo:             logo.png
 
 # Google analytics
 google_analytics:
@@ -18,13 +20,7 @@ show_post_footers:  false
 # Social icons
 show_social_icons: false
 
-
-
-
-
 # Build settings
-markdown: kramdown
+paginate: 8
+markdown: redcarpet
 permalink:    pretty
-paginate:     6
-sass:
-  compressed: true
