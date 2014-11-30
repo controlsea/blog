@@ -3,17 +3,10 @@ name: VizLab
 email: Jayson.xu@foxmail.com
 description: ""
 intro: What's down there
-url: "http://akadealloc.github.io"
-baseurl: "/blog"
+url: "http://akadealloc.github.io/blog"
 twitter_username: ecs_tee
 github_username:  akadealloc
 logo:             logo.png
-permalink: /:title
-
-
-sass:
-  sass_dir: /css/
-  style: :compressed
 
 # Build settings
 paginate: 8
