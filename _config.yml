@@ -9,6 +9,13 @@ twitter_username: ecs_tee
 github_username:  akadealloc
 logo:             logo.png
 
+
+css:
+  css_dir: /css/
+sass:
+  sass_dir: /css/
+  style: :compressed
+
 # Build settings
 paginate: 8
 markdown: redcarpet
