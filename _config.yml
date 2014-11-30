@@ -7,5 +7,24 @@ url: "http://akadealloc.github.io"
 twitter_username: ecs_tee
 github_username:  akadealloc
 
+# Google analytics
+google_analytics:
+
+# Optional features
+animated:           false
+show_related_posts: false
+show_post_footers:  false
+
+# Social icons
+show_social_icons: false
+
+
+
+
+
 # Build settings
 markdown: kramdown
+permalink:    pretty
+paginate:     6
+sass:
+  compressed: true

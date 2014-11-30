@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>VizLab</title>
-    <description>What&#39;s down there</description>
-    <link>/</link>
-    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 30 Nov 2014 21:41:59 +0800</pubDate>
-    <lastBuildDate>Sun, 30 Nov 2014 21:41:59 +0800</lastBuildDate>
+    <description></description>
+    <link>http://akadealloc.github.io/blog/</link>
+    <atom:link href="http://akadealloc.github.io/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 30 Nov 2014 22:12:48 +0800</pubDate>
+    <lastBuildDate>Sun, 30 Nov 2014 22:12:48 +0800</lastBuildDate>
     <generator>Jekyll v2.5.2</generator>
     
       <item>
@@ -27,8 +27,8 @@
 
 </description>
         <pubDate>Sun, 30 Nov 2014 06:17:12 +0800</pubDate>
-        <link>/jekyll/update/2014/11/30/welcome-to-jekyll.html</link>
-        <guid isPermaLink="true">/jekyll/update/2014/11/30/welcome-to-jekyll.html</guid>
+        <link>http://akadealloc.github.io/blog/jekyll/update/2014/11/30/welcome-to-jekyll/</link>
+        <guid isPermaLink="true">http://akadealloc.github.io/blog/jekyll/update/2014/11/30/welcome-to-jekyll/</guid>
         
         
         <category>jekyll</category>
