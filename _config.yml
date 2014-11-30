@@ -3,22 +3,11 @@ name: VizLab
 email: Jayson.xu@foxmail.com
 description: ""
 intro: What's down there
-baseurl: "/blog"
 url: "http://akadealloc.github.io"
+baseurl: "/blog"
 twitter_username: ecs_tee
 github_username:  akadealloc
 logo:             logo.png
-
-# Google analytics
-google_analytics:
-
-# Optional features
-animated:           false
-show_related_posts: false
-show_post_footers:  false
-
-# Social icons
-show_social_icons: false
 
 # Build settings
 paginate: 8
