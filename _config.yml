@@ -11,6 +11,12 @@ markdown: kramdown
 highlighter: pygments
 permalink:    pretty
 
+sass:
+  sass_dir: css
+
+css:
+  css_dir: css
+
 # Owner/author information
 owner:
   name:           Jayson
