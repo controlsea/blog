@@ -1,6 +1,6 @@
 ---
-layout: default
-desc: 最近大家都开始用AFNetworking，今天看了下它网络请求的代码，采用的也是NSOperation+NSURLConnetion并发模型。一般使用这种模型都要解决一个问题： NSURLConnection对象在下载完前，所在线程就退出了，NSOperation对象也就接收不到回调。
+layout: post
+
 ---
 
 
@@ -24,7 +24,7 @@ NSURLConnection对象在下载完前，所在线程就退出了，NSOperation对
 
 - 让发起请求的线程不退出，通过内置一个runloop来实现
  
-```objc
+```c
 NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
 [runLoop addPort:[NSPort port] forMode:NSRunLoopCommonModes];      
 [_connection scheduleInRunLoop:runLoop forMode:NSRunLoopCommonModes];

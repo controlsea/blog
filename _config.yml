@@ -1,7 +1,7 @@
 # Site settings
 baseurl: /blog 
 url: http://akadealloc.github.io
-
+title: What's Down There?
 #url: 127.0.0.1
 #baseurl:
 
@@ -12,12 +12,8 @@ redcarpet:
   extensions: ["fenced_code_blocks", "tables", "highlight", "strikethrough"]
 
 
-# Owner/author information
-owner:
-  name:           Jayson
-  avatar:         ""
-  email:          Jayson.xu@foxmail.com
-  # Social networking links used in footer. Update and remove as you like.
-  twitter:		ecs_tee
-  github:		akadealloc
+#user info:
+twitter_username: ecs_tee
+github_username:  akadealloc
+email: jayson.xu@foxmail.com
 
