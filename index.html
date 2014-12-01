@@ -8,7 +8,7 @@ layout: default
       <h2><span class="mega-octicon octicon-flame" style="min-width: 32px;"></span><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></h2>
       <p class="post-date">{{ post.date | date_to_string }}</p>
 
-      <p>{{ post.excerpt }}</p>
+      <p>{{ post.desc }}</p>
     </div>
     {% endfor %}
 </div>

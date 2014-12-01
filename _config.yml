@@ -1,14 +1,15 @@
 # Site settings
-baseurl: /blog 
-url: http://akadealloc.github.io
+# baseurl: /blog 
+# url: http://akadealloc.github.io
 
 #url: 127.0.0.1
 #baseurl:
 
 # Build settings
-markdown: kramdown
+markdown: redcarpet
 highlighter: pygments
-permalink:    pretty
+redcarpet:
+  extensions: ["fenced_code_blocks", "tables", "highlight", "strikethrough"]
 
 
 # Owner/author information
