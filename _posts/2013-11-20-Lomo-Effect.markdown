@@ -198,16 +198,23 @@ return newImg;
 command+R，来看看结果：
 
 
-<div style="overflow: hidden; width: 100%;">
-<a style="display: block; float:left" href="/blog/images/2013/12/hefe_lena_ori.png"><img src="/blog/images/2013/12/hefe_lena_ori.png" alt="hefe_lena_ori" width="200" height="200" class="alignnone size-full wp-image-577" /></a>
+<ul style="overflow: hidden; width: 100%; list-style: none; margin-left: 0px;">
+<li style="width: 48%; display:inline-block; ">
+<a style="float:left; " href="/blog/images/2013/12/hefe_lena_ori.png"><img style="margin-left: 0;" src="/blog/images/2013/12/hefe_lena_ori.png" alt="hefe_lena_ori" width="200" height="200" class="alignnone size-full wp-image-577" /></a>
+</li>
 
-<a style="display: block; float:left;margin-left:30px" href="/blog/images/2013/12/hefe_lena.png"><img src="/blog/images/2013/12/hefe_lena.png" alt="hefe_lena" width="200" height="200" class="alignnone size-full wp-image-578" /></a>
+<li style="width: 48%; float: left; display:inline-block;">
+<a style="margin-left:4%;" href="/blog/images/2013/12/hefe_lena.png"><img src="/blog/images/2013/12/hefe_lena.png" alt="hefe_lena" width="200" height="200" class="alignnone size-full wp-image-578" /></a>
+</li>
 
-<a style="display: block; float:left;margin-left:30px" href="/blog/images/2013/12/hefe_lena_blur.png"><img src="/blog/images/2013/12/hefe_lena_blur.png" alt="hefe_lena_blur" width="200" height="200" class="alignnone size-full wp-image-582" /></a>
+<li style="width: 48%; clear: left; display:inline-block; ">
+<a  href="/blog/images/2013/12/hefe_lena_blur.png"><img src="/blog/images/2013/12/hefe_lena_blur.png" alt="hefe_lena_blur" width="200" height="200" class="alignnone size-full wp-image-582" /></a>
+</li>
 
-<a style="display: block; float:left;margin-left:30px" href="/blog/images/2013/12/hefe_final.png"><img src="/blog/images/2013/12/hefe_final.png" alt="hefe_final" width="200" height="200" class="alignnone size-full wp-image-589" /></a>
-
-</div>
+<li style="width: 48%; float: left; display:inline-block;">
+<a style="float: left; margin-left:4%;" href="/blog/images/2013/12/hefe_final.png"><img src="/blog/images/2013/12/hefe_final.png" alt="hefe_final" width="200" height="200" class="alignnone size-full wp-image-589" /></a>
+</li>
+</ul>
 
 最后边的一张为最后的结果，效果和我们预期的一致：中心一圈最清楚（半径根据sigma调整），向外侧依次模糊，最外面一圈最模糊。
 
