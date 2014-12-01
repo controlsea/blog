@@ -309,7 +309,7 @@ General Purpose Registers:
 
 <a style = " float : left; margin-right:30px;" href="/blog/images/2013/06/assembly-stack1.png"><img src="/blog/images/2013/06/assembly-stack1.png" alt="assembly-stack1" width="155" height="277"/></a>
 
-很爽吧，你想看的，全在这里了，r0,r1填好了入参50，51，sp指向栈底，lr指向下一条函数的入口地址
+如图所示，r0,r1填好了入参50，51，sp指向栈底，lr指向下一条函数的入口地址
 好了，下面我们来分析stack：<code>memory read/6xw 0x27d1fcbc</code>从当前sp的位置向上6*4 = 24字节：
 
 ```
@@ -321,11 +321,12 @@ General Purpose Registers:
 
 一切准备就绪！
 
+
 <p style="clear: both;">
 接下来，我们执行addFunction:
 </p>
 
-<a href="/images/2013/06/assembly-break3.png"><img src="/images/2013/06/assembly-break3.png" alt="assembly-break3" width="432" height="69"/></a>
+<a href="/blog/images/2013/06/assembly-break3.png"><img src="/blog/images/2013/06/assembly-break3.png" alt="assembly-break3" width="432" height="69"/></a>
 
 
 再<code>bt</code>
