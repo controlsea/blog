@@ -14,14 +14,15 @@ NSURLConnection对象在下载完前，所在线程就退出了，NSOperation对
 针对这个问题，通常有这么两种解法：
 
 
-1，所有connection在主线程的runloop中发起，回调也都由主线程的runloop分发：
+- 所有connection在主线程的runloop中发起，回调也都由主线程的runloop分发：
 
 ```objc
  NSRunLoop *runLoop = [NSRunLoop mainRunLoop];
 [_connection scheduleInRunLoop:runLoop forMode:NSRunLoopCommonModes];
 [_connection start];
 ```
-2, 让发起请求的线程不退出，通过内置一个runloop来实现
+
+- 让发起请求的线程不退出，通过内置一个runloop来实现
  
 ```objc
 NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
@@ -71,7 +72,7 @@ AFNetworking解决这个问题采用了另一种方法：单独起一个global t
 
 整个请求流程如下：
 
-![Alt text](/images/2012/11/QQ20131125-11.png)
+![Alt text](/blog/images/2012/11/QQ20131125-11.png)
 
 这个想法其实不是AFNetworking最早想出来的，是apple的一个demo：<a href="https://developer.apple.com/LIBRARY/IOS/samplecode/MVCNetworking/Introduction/Intro.html ">MVCNetworking</a>，AFNetworking简单粗暴的借鉴了这个demo。
 
