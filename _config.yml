@@ -2,6 +2,8 @@
 baseurl: /blog 
 url: http://akadealloc.github.io
 
+#url: 127.0.0.1
+#baseurl:
 
 # Build settings
 markdown: kramdown
