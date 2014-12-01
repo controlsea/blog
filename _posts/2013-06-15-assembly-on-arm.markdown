@@ -307,21 +307,26 @@ General Purpose Registers:
       cpsr = 0x20000030
 ```
 
-<a style = " float : left; margin-left:30px;" href="/blog/images/2013/06/assembly-stack1.png"><img src="/blog/images/2013/06/assembly-stack1.png" alt="assembly-stack1" width="155" height="277"/></a>
+<a style = " float : left; margin-right:30px;" href="/blog/images/2013/06/assembly-stack1.png"><img src="/blog/images/2013/06/assembly-stack1.png" alt="assembly-stack1" width="155" height="277"/></a>
 
 很爽吧，你想看的，全在这里了，r0,r1填好了入参50，51，sp指向栈底，lr指向下一条函数的入口地址
 好了，下面我们来分析stack：<code>memory read/6xw 0x27d1fcbc</code>从当前sp的位置向上6*4 = 24字节：
+
 ```
 0x27d1fcbc: 0x2be8c384 0x27d1fcf4 0x00000000 0x27d1fcd8
 0x27d1fccc: 0x000eab8f 0x27d1fcfc
+
 ```
 此时的stack frame如右图所示：我们看到，lr和r7已经入栈。
 
 一切准备就绪！
 
+<p style="clear: both;">
 接下来，我们执行addFunction:
+</p>
 
-<a href="/blog/images/2013/06/assembly-break3.png"><img src="/blog/images/2013/06/assembly-break3.png" alt="assembly-break3" width="432" height="69"/></a>
+<a href="/images/2013/06/assembly-break3.png"><img src="/images/2013/06/assembly-break3.png" alt="assembly-break3" width="432" height="69"/></a>
+
 
 再<code>bt</code>
 
@@ -356,12 +361,13 @@ General Purpose Registers:
       cpsr = 0x20000030
 ```
 
-<a style = " float : left; margin-left:30px;" href="/blog/images/2013/06/assembly-stack2.png"><img src="/blog/images/2013/06/assembly-stack2.png" alt="assembly-stack2" width="157" height="388"/></a>
 
+<a style = " float : left; margin-right:30px;" href="/blog/images/2013/06/assembly-stack2.png"><img src="/blog/images/2013/06/assembly-stack2.png" alt="assembly-stack2" width="157" height="388"/></a>
 
 此时，r0，r1为入参，sp指向栈底，当前sp位置为0x27d1fcb0，和上图中的位置正好相差12字节！这12字节也就是addFunction的stack frame。此时lr指向了下一条函数入口：fooFunction。值为:0x000eab63，比我们bt出来的0x000eab62多一个字节。因为lr永远指向下一条函数入口地址的下一个字节。
 
 好了我们看看此时的栈的情况<code> memory read/3xw 0x27d1fcb0</code>：从栈底向上12字节，如图所示：每一个4字节单元保存了具体运算的数值，对照我们之前的分析，完全吻合。
 
 后面的过程，我们便可以依此方法去观察寄存器和stack情况，来印证我们上文的分析。
+
 
