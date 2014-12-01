@@ -7,10 +7,12 @@ layout: post
 
 objective-C的[...]语法来源于smallTalk，其设计初衷是希望它是一种动态的，在运行时决定函数的入口地址。
 
-由于objective-C本质上也还是C语言，因此[...]语法在编译后实际上是一条标准C函数：objc_msgSend:
-<code><span style="color: #0000ff;">
+由于objective-C本质上也还是C语言，因此[...]语法在编译后实际上是一条标准C函数：
+
+```c
 id objc_msgSend(id self, SEl OP, ...)
-</span></code>
+```
+
 而C语言是一种静态语言，也就是说，函数的入口在编译的时候就已经确定了(static binding)。例如这样一段代码：
 
 ```c
@@ -111,14 +113,14 @@ struct objc_cache *cache
 例如：
 
 ```
-	2   CoreFoundation                      0x01a0c903 -[NSObject(NSObject) doesNotRecognizeSelector:] + 275
-	3   CoreFoundation                      0x0195f90b ___forwarding___ + 1019
-	4   CoreFoundation                      0x0195f4ee _CF_forwarding_prep_0 + 14
-	5   libobjc.A.dylib                     0x014c6275 _class_initialize + 599
-	6   libobjc.A.dylib                     0x014cd0f1 lookUpImpOrForward + 158
-	7   libobjc.A.dylib                     0x014cd04e _class_lookupMethodAndLoadCache3 + 55
-	8   libobjc.A.dylib                     0x014d512f objc_msgSend + 139
-	9   UIKit                               0x0034b9d4 -[UIViewController loadViewIfReq
+2   CoreFoundation                      0x01a0c903 -[NSObject(NSObject) doesNotRecognizeSelector:] + 275
+3   CoreFoundation                      0x0195f90b ___forwarding___ + 1019
+4   CoreFoundation                      0x0195f4ee _CF_forwarding_prep_0 + 14
+5   libobjc.A.dylib                     0x014c6275 _class_initialize + 599
+6   libobjc.A.dylib                     0x014cd0f1 lookUpImpOrForward + 158
+7   libobjc.A.dylib                     0x014cd04e _class_lookupMethodAndLoadCache3 + 55
+8   libobjc.A.dylib                     0x014d512f objc_msgSend + 139
+9   UIKit                               0x0034b9d4 -[UIViewController loadViewIfReq
 ```
 
 虽然有cache或有一些优化在，但效率毕竟还是低于static binding，但对于现在的硬件条件来讲，这个也不算是瓶颈。
@@ -160,23 +162,25 @@ public class main {
 ```
 public static void main(java.lang.String[]);
   Code:
-   Stack=2, Locals=2, Args_size=1
-   0:	new	#15; //class testObj
-   3:	dup
-   4:	invokespecial	#17; //Method testObj."<init>":()V
-   7:	astore_1
-   8:	aload_1
-   9:	iconst_0
-   10:	invokevirtual	#18; //Method testObj.searchProduct:(I)V
-   13:	aload_1
-   14:	ldc	#22; //String iphone
-   16:	invokevirtual	#24; //Method testObj.searchProduct:(Ljava/lang/String;)
+  Stack=2, Locals=2, Args_size=1
+  0:	new	#15; //class testObj
+  3:	dup
+  4:	invokespecial	#17; //Method testObj."<init>":()V
+  7:	astore_1
+  8:	aload_1
+  9:	iconst_0
+  10:	invokevirtual	#18; //Method testObj.searchProduct:(I)V
+  13:	aload_1
+  14:	ldc	#22; //String iphone
+  16:	invokevirtual	#24; //Method testObj.searchProduct:(Ljava/lang/String;)
 ```
 为什么OC不行呢？
 
 对同名的方法，参数类型不同，仅靠SEL是无法区别的：
 
+```objc
 @selector(searchProduct:)
+```
 
 如果有同名方法，谁知道该调用哪一个呢？
 
