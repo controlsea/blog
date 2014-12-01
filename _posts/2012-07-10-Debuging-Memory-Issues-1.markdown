@@ -1,3 +1,8 @@
+---
+layout: post
+
+---
+
 <em>所有文章均为作者原创，转载请注明出处</em>
 
 <em> updated @2014/01/10 : 补充了WWDC2013：session410 </em>
