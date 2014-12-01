@@ -33,7 +33,7 @@ layout: post
 
 <a href="/blog/images/2013/07/cell.png"><img class="alignnone size-full wp-image-251" alt="cell" src="/blog/images/2013/07/cell.png" width="311" height="96" /></a>
 
-1. 传统的做法：
+###传统的做法：
 
 传统的做法是定义一个cell，列出要显示UI元素的组件：三个label，一个imagView（已经抽象到父类），然后把他们add到contentView上：
 
@@ -43,9 +43,13 @@ layout: post
 @property(nonatomic,strong) UILabel* nameLabel;
 @property(nonatomic,strong) UILabel* priceLabel;
 @property(nonatomic,strong) UILabel* summaryLabel;
-@end</pre>
+@end
+```
+
 当有数据来的时候（setItem为父类的方法，子类重载一下），将数据交给label显示：
-<pre class="theme:tomorrow-night lang:objc decode:true">{
+
+```objc
+{
     self.nameLabel.text = appItem.appName;
     self.priceLabel.text = appItem.appPrice;
     self.summaryLabel.text = appItem.appSummary;
@@ -66,7 +70,7 @@ layout: post
 }
 ```
 
-2. Twitter的做法：
+###Twitter的做法：
 
 首先也是需要定义个cell：
 
@@ -154,7 +158,8 @@ InternalContent通过实现它drawRect的方法，将数据绘制出来。然后
 
 从上面的过程来看，显然，传统方式GPU的工作多一些，当layer-tree很复杂的时候，GPU的耗时也会增加，但是CPU的压力不大。twitter这种方式，CPU的压力大一些，因为Core Graphic的api是CPU在执行，但是由于之渲染一个bitmap，GPU的压力小很多。
 
-- 结论：
+###结论：
+
 所以，这是一个test - measure的过程。twitter最开始使用这种方式而获得性能上的成功要追溯到2008年，那时候的iPhone还是低清屏的3gs，到了retina的时代，这种方式还适不适合，<a href="http://floriankugler.com/blog/2013/5/24/layer-trees-vs-flat-drawing-graphics-performance-across-ios-device-generations">这篇文章</a>给出了量化的结论：在retina的时代里，使用Core Graphic绘制的代价远高于GPU渲染layer-tree的代价，在iPhone4及以后的平台上使用这种方式绘制cell，时间反而会变长，twitter的这种方式过时了！
 
 但就我个人而言，我更喜欢这种方式，倒不是因为效率问题，而是这种写法很简单，项目里，一般不复杂的列表，没有性能问题的，我都这么写。但是如果很复杂的列表，像path这种的，使用这种方式就是灾难了，尤其在retina屏上，效率很低了。
@@ -323,6 +328,7 @@ self.view.content.layer = (id)image.cgImage;
 通过这种绘制方式来绘制UITableViewCell，非常流畅，但是也有它的问题：
 
 （1）消耗更多的内存
+
 （2）view的点击事件需要自己处理
 
 That's all
