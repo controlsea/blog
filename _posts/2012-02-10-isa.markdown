@@ -55,7 +55,7 @@ Apple对isa_x的描述是metaClass，也就是class的class，这也很好理解
 
 上面描述的结构如下图所示：
 
-<a href="/blog/images/2012/02/class_hierarchy.png"><img src=/blog/images/2012/02/class_hierarchy.png" alt="class_hierarchy"width="511" height="181"/></a>
+<a href="/blog/images/2012/02/class_hierarchy.png"><img src="/blog/images/2012/02/class_hierarchy.png" alt="class_hierarchy"width="511" height="181"/></a>
 
 so far so good，Let's go on...
 
