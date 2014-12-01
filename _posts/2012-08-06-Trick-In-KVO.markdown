@@ -97,7 +97,7 @@ NSArray* normalClassMethods = ClassMethodNames(object_getClass(normalClass));
 NSArray* kvoClassMethods    = ClassMethodNames(object_getClass(kvoClass));
         
 NSLog(@"\n normal class : \n %@ kvo class: %@ \n",normalClassMethods,kvoClassMethods);
-```objc
+```
 
 输出为：
 
