@@ -200,19 +200,19 @@ command+R，来看看结果：
 
 <ul style="overflow: hidden; width: 100%; list-style: none; margin-left: 0px;">
 <li style="width: 48%; display:inline-block; ">
-<a style="float:left; " href="/blog/images/2013/12/hefe_lena_ori.png"><img style="margin-left: 0;" src="/blog/images/2013/12/hefe_lena_ori.png" alt="hefe_lena_ori" width="200" height="200" class="alignnone size-full wp-image-577" /></a>
+<a style="float:left; " href="/blog/images/2013/12/hefe_lena.png"><img style="margin-left: 0;" src="/blog/images/2013/12/hefe_lena.png" alt="hefe_lena_ori" width="200" height="200" class="alignnone size-full wp-image-577" /></a>
 </li>
 
 <li style="width: 48%; float: left; display:inline-block;">
-<a style="margin-left:4%;" href="/blog/images/2013/12/hefe_lena.png"><img src="/blog/images/2013/12/hefe_lena.png" alt="hefe_lena" width="200" height="200" class="alignnone size-full wp-image-578" /></a>
+<a style="margin-left:4%;" href="/blog/images/2013/12/hefe_lena_ori.png"><img src="/blog/images/2013/12/hefe_lena_ori.png" alt="hefe_lena" width="200" height="200" class="alignnone size-full wp-image-578" /></a>
 </li>
 
 <li style="width: 48%; clear: left; display:inline-block; ">
-<a  href="/blog/images/2013/12/hefe_lena_blur.png"><img src="/blog/images/2013/12/hefe_lena_blur.png" alt="hefe_lena_blur" width="200" height="200" class="alignnone size-full wp-image-582" /></a>
+<a  href="/blog/images/2013/12/hefe_final.png"><img src="/blog/images/2013/12/hefe_lena_blur.png" alt="hefe_final" width="200" height="200" class="alignnone size-full wp-image-582" /></a>
 </li>
 
 <li style="width: 48%; float: left; display:inline-block;">
-<a style="float: left; margin-left:4%;" href="/blog/images/2013/12/hefe_final.png"><img src="/blog/images/2013/12/hefe_final.png" alt="hefe_final" width="200" height="200" class="alignnone size-full wp-image-589" /></a>
+<a style="float: left; margin-left:4%;" href="/blog/images/2013/12/hefe_lena_blur.png"><img src="/blog/images/2013/12/hefe_lena_blur.png" alt="hefe_final" width="200" height="200" class="alignnone size-full wp-image-589" /></a>
 </li>
 </ul>
 
