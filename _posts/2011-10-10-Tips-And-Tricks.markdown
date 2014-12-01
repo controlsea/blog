@@ -56,7 +56,6 @@ http://www.abakia.de/blog/2012/12/05/nsstring-hash-is-bad/
 
 这种情况可以用sha1算法代替
 
-<hr></hr>
 
 <h3>使用NSCache</h3>
 
@@ -92,11 +91,10 @@ http://www.abakia.de/blog/2012/12/05/nsstring-hash-is-bad/
 
 基本上使用NSCache可以解决大部分的问题：你可以尽情的向cache中塞图片，当内存不足时，你可以选择手动释放掉NSCache中所有图片，也可以默认NSCache自己的策略：根据LRU规则释放掉最不活跃的图片。当app退到后台时，NSCache会自动释放掉图片，腾出空间给其它app。
 
-<hr></hr>
+
 
 <h3>Objective-C中的copy</h3>
 
-<em></em>
 
 多数情况下，UIKit和Foundation对象的copy都是shallow copy（浅拷贝）。比如UIImage：
 
@@ -111,7 +109,7 @@ NSLog(@"%p,%p,%p,%p",img,img_copy,&img,&img_copy);</pre>
 
 mutableCopy也是shallow copy。
 
-<hr></hr>
+
 
 <h3>NSLog:C语言中的可变参数</h3>
 
@@ -134,7 +132,3 @@ void NSLog(NSString *format, ...)
 }
 </pre> 
 
-
-
-
-<hr></hr>
