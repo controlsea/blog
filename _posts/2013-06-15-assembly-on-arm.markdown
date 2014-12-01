@@ -167,6 +167,7 @@ str  lr , [sp,     #4]
 ```
 <strong>mov r7, sp</strong> ：由于上一步r7中的值已经保存到栈里了，因此现在可以用r7来保存当前sp的地址。
 <strong>sub sp, #12</strong>：从sp当前地址，向下开辟12字节的空间，其中前8个字节用来存放r7和lr的值
+
 ```
 movs	r0, #50
 movt	r0, #0
@@ -174,6 +175,7 @@ movs	r1, #51
 movt	r1, #0
 .loc	1 20 0 prologue_end
 ```
+
 然后将传入的参数50，51分别放到寄存器r0,r1中：r0，r1均为32bit宽，movt将高16bit填充为0.
 最后是prolog过程结束，到此为止，caller的任务就完成了。
 <strong>bl _addFunction</strong>：bl（branch with link）用来执行函数调用，属于Thumb指令集。显然下面就去进入addFunction的函数栈了。
@@ -268,7 +270,8 @@ Lfunc_end0:
 <a href="/blog/images/2013/06/assembly-break.png"><img src="/blog/images/2013/06/assembly-break.png" alt="assembly-break" width="419" height="190"/></a>
 
 然后用真机调试程序，停在断点处：
-我们<a href="/blog/images/2013/06/assembly-break2.png"><img src="/blog/images/2013/06/assembly-break2.png" alt="assembly-break2" width="290" height="65"/></a>
+
+<a href="/blog/images/2013/06/assembly-break2.png"><img src="/blog/images/2013/06/assembly-break2.png" alt="assembly-break2" width="290" height="65"/></a>
 
 这时，我们先用<code>bt</code>查看当前线程的stack frame：
 
