@@ -28,7 +28,7 @@ Allocation除了帮助我们发现当前heap上活跃的object外，还有一个
 
 <em>Jayson updated the picture @2014/01/10</em>
 
-<a href="http://www.objayc.com/blog/wp-content/uploads/2012/07/debug-3.png"><img src="http://www.objayc.com/blog/wp-content/uploads/2012/07/debug-3.png" alt="debug-3" width="472" height="125" class="alignnone size-full wp-image-804" /></a>
+<a href="/blog/images/2012/07/debug-3.png"><img src="/blog/images/2012/07/debug-3.png" alt="debug-3" width="472" height="125" class="alignnone size-full wp-image-804" /></a>
 
 图中，A，B,C,D,E五个点为HeapShot的地方:
 
