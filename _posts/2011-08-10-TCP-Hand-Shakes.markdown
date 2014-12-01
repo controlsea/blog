@@ -104,19 +104,20 @@ Data: 69616d3a61
 
 S收到后，要给出ACK应答，重点关注Ack Num：
 
-<div style = "overflow:hidden"><p style="background:beige;width:auto;float:left;"><code>Source port: mit-dov (91)
-    Destination port: 54133 (54133)
-    [Stream index: 0]
-    Sequence number:0x0f8baa6f
-    Acknowledgment number: 0x0b97d1a2
-    Header length: 32 bytes
-    Flags: 0x010 (ACK)
-    Window size value: 8235
-    [Calculated window size: 131760]
-    [Window size scaling factor: 16]
-    Checksum: 0x69bf [validation disabled]
-    Options: (12 bytes), No-Operation (NOP), No-Operation (NOP), Timestamps
-</code></p></div>
+```
+Source port: mit-dov (91)
+Destination port: 54133 (54133)
+[Stream index: 0]
+Sequence number:0x0f8baa6f
+Acknowledgment number: 0x0b97d1a2
+Header length: 32 bytes
+Flags: 0x010 (ACK)
+Window size value: 8235
+[Calculated window size: 131760]
+[Window size scaling factor: 16]
+Checksum: 0x69bf [validation disabled]
+Options: (12 bytes), No-Operation (NOP), No-Operation (NOP), Timestamps
+```
 
 随后的一个包是S向C发的[PSH,ACK]，然后C应答[ACK]。过程同上。
 
