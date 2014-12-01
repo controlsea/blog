@@ -1,29 +1,42 @@
 
+---
+layout: post
+title: LuaRocks
+
+---
 
 <em>所有文章均为作者原创，转载请注明出处</em>
 
 <a href="http://luarocks.org/">LuaRocks</a>是lua的包管理系统，对于管理lua的module很方便，类似ruby的gem，python的egg，perl的cpan。如果是Mac安装的时候可以使用HomeBrew，也可以手动安装。手动安装要费一点劲儿，由于我机器上已经安装了Lua5.2，装LuaRocks时怎么都不成功，原因是不兼容Lua5.2的Module，折腾到半夜只能把Lua卸了，重新装一个5.1版本。后面就一切正常了。
 
-<!--more-->
 
 使用luaRocks很方便：
 
 比如我们要安装一个json解析器，可以通过luaRocks搜索：
 
-<pre class="lang:sh decode:true " >luarocks search json</pre> 
-
+```
+luarocks search json
+```
 安装某个包：
 
-<pre class="lang:sh decode:true " >luarocks install json4lua</pre>
+```
+luarocks install json4lua
+```
 
 查看安装了哪些包：
 
-<pre class="lang:sh decode:true " >luarocks list</pre>  
+```
+luarocks list
+```  
 
 查看某个包信息:
 
-<pre class="lang:sh decode:true " >luarocks show json4lua</pre> 
+```
+luarocks show json4lua
+``` 
 
 删除某个包：
 
-<pre class="lang:sh decode:true " >luarocks remove json4lua</pre>
+```
+luarocks remove json4lua
+```
