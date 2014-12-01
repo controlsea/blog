@@ -78,6 +78,7 @@ label.text = @"test";
 这样CPU的绘制基本上就完成了。
 
 通过time profiler 可以完整的看到个过程：
+
 ```
 Running Time Self Symbol Name
 2.0ms 1.2% 0.0 +[CATransaction flush]
