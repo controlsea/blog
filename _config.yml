@@ -8,18 +8,13 @@ markdown: kramdown
 highlighter: pygments
 permalink:    pretty
 
-# sass:
-#   sass_dir: css
 
-# css:
-#   css_dir: css
-
-# # Owner/author information
-# owner:
-#   name:           Jayson
-#   avatar:         ""
-#   email:          Jayson.xu@foxmail.com
-#   # Social networking links used in footer. Update and remove as you like.
-#   twitter:		ecs_tee
-#   github:		akadealloc
+# Owner/author information
+owner:
+  name:           Jayson
+  avatar:         ""
+  email:          Jayson.xu@foxmail.com
+  # Social networking links used in footer. Update and remove as you like.
+  twitter:		ecs_tee
+  github:		akadealloc
 
