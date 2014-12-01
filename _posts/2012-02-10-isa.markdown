@@ -55,7 +55,7 @@ Apple对isa_x的描述是metaClass，也就是class的class，这也很好理解
 
 上面描述的结构如下图所示：
 
-<a href="/blog/images/2012/02/class_hierarchy.png"><img src=blog/images/2012/02/class_hierarchy.png" alt="class_hierarchy"width="511" height="181"/></a>
+<a href="/blog/images/2012/02/class_hierarchy.png"><img src=/blog/images/2012/02/class_hierarchy.png" alt="class_hierarchy"width="511" height="181"/></a>
 
 so far so good，Let's go on...
 
@@ -88,20 +88,21 @@ int main(int argc, char *argv[])
 }</pre> 
 
 然后我们用GDB调试：
-<div style = "overflow:hidden";>
-<p style="background: Beige;width:auto;float:left">
-<code>(gdb) p (Class)[obj class]
+
+```
+(gdb) p (Class)[obj class]
 $3 = (Class) 0x3668
 (gdb) p obj->isa
 $2 = (Class) 0x3668
-</code></p></div>
+
+```
 
 这说明[obj Class]等价于obj->isa
 
 然后我们看看objc_class这个结构体中的状态：
-<div style = "overflow:hidden";>
-<p style="background: Beige;width:auto;float:left">
-<code>(gdb) p *obj->isa
+
+```
+(gdb) p *obj->isa
 $7 = {
   isa = 0x3654, 
   super_class = 0x11d4bc0, 
@@ -113,19 +114,20 @@ $7 = {
   methodLists = 0x11d9e40, 
   cache = 0x11d4cbc, 
   protocols = 0x3558
-}</code></p></div>
+}
+```
 
 我们看到了metaClass也就是obj->isa->isa指向了0x3654，我们用GDB调试下：
-<div style = "overflow:hidden";>
-<p style="background: Beige;width:auto;float:left">
-<code>
+
+```
 (gdb) p obj->isa->isa
-$8 = (Class) 0x3654</code></p></div>
+$8 = (Class) 0x3654
+```
 
 接着，我么再看看metaClass的objc_class结构体：
-<div style = "overflow:hidden";>
-<p style="background: Beige;width:auto;float:left">
-<code>(gdb) p *obj->isa->isa
+
+```
+(gdb) p *obj->isa->isa
 $6 = {
   isa = 0x11d4bd4, 
   super_class = 0x11d4bd4, 
@@ -137,23 +139,25 @@ $6 = {
   methodLists = 0x718e150, 
   cache = 0x11d4cbc, 
   protocols = 0x718e0e0
-</code></p></div>
+  }
+```
 
 看到metaClass对象的isa指向了0x11d4bd4，即obj->isa->isa = 0x11d4bd4。这个时候我们发现super_class也是0x11d4bd4，也就是说metaClass的isa指向了其父类，我们看看它父类是什么？
-<div style = "overflow:hidden";>
-<p style="background: Beige;width:auto;float:left">
-<code>(gdb) po obj->isa->isa->isa
-NSObject</code></p></div>
+
+```
+(gdb) po obj->isa->isa->isa
+NSObject
+```
 
 That's it !! That solved mystery!!
 
 But wait ! MetaClass对象的isa指向了super_class，那super_class的父类，也就是NSObject的MetaClass对象的super_class指向哪里？
-<div style = "overflow:hidden";>
-<p style="background: Beige;width:auto;float:left">
-<code>(gdb) po obj->isa->isa->isa->super_class->super_class
-Can't print the description of a NIL object.</code></p></div>
+```
+(gdb) po obj->isa->isa->isa->super_class->super_class
+Can't print the description of a NIL object.
+```
 
-off course it's NIL!!!
+Nil是我们期待的结果
 
 到这里，我们应该把上面的图再改一改：
 
