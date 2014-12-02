@@ -1,8 +1,11 @@
 ---
 title: SML-1
+
 layout: post
 
 ---
+
+<em>Cousera课程笔记</em>
 
 ## 1 - 1:ML Variable Bindings and Expressions
 
