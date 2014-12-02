@@ -1,6 +1,6 @@
 # Site settings
-#baseurl: /blog 
-#url: http://akadealloc.github.io
+baseurl: /blog 
+url: http://akadealloc.github.io
 title: What's Down There?
 #url: 127.0.0.1
 #baseurl:
