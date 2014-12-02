@@ -1,0 +1,427 @@
+---
+title: SML-1
+layout: post
+
+---
+
+## 1 - 1:ML Variable Bindings and Expressions
+
+- "Let go" of all programming languages you already know"
+
+- Treat "ML" as a "totally new thing"
+	
+	- Time later to compare / contrast to what you konw
+	
+- Start from a blank file 
+
+
+
+```
+(* This is a comment. This is our first program. *)
+
+val x = 34; 
+
+(* static enviroment: x : int *)
+(* dynamic enviroment: x --> 34 *)
+
+val y = 17;
+
+(* static enviroment: x:int, y:int *)
+(* dynamic enviroment: x --> 34, y --> 17 *)
+
+val z = (x+y) + (y+2);
+
+(* static enviroment: x:int, y:int, z:int *)
+(* dynamic enviroment: x--> 34, y-->17, z --> 70 *)
+
+val q = z+1
+
+(* static enviroment: x:int, y:int, z:int, q:int *)
+(* dynamic enviroment: x--> 34, y-->17, z --> 71 *)
+
+
+val abs_of_z = if z<0 then 0-z else z;(*bool*)(*int*)
+
+(* dynamic enviroment: ..., abs_if_z --> 70 *)
+
+val abs_of_z_simpler = abs(z)
+
+```
+### A Variable Binding
+
+```
+val z = (x+y) + (y+2);
+```
+More generally: 
+
+` val x = e ; `
+
+- Syntax:
+	
+	- `val`, `=` , `;` 
+	- variable `x`
+	- Expression `e`
+
+
+- Semantics
+
+	- Syntax is just how you write something
+	- Semantics is what that something means
+		- Type Checking (before program runs)
+		- Evaluation (as program runs)
+	
+	- For variable bindings:
+		- Type-check expresson and extend static enviroment
+		- Evaluate expression and extend dynamic enviroment 
+
+
+## 1 - 2:ML Rules for Expressions
+
+
+### Expressions
+
+- We have seen many kinds of expressions:
+
+	34 true false x e1+e2 e1>e2
+	if e1 then e2 else e3
+	
+- Every kind of expression has 
+
+	- syntax
+	- type-checking rules
+		- Produces a type or fails(with a bad error message)
+		- types so far: int bool unit
+		
+	- Evaluation rules(used only on things that type-check)
+		- Produces a value(or exception or infinite-loop)
+		
+		
+### Varibles
+
+- Syntax:
+	sequence of letters,digits,_,not starting with digit
+	
+- Type-checking:
+	Look up type in current static enviroment
+	- if not there fail
+		
+- Evaluation:
+	look up value in current dynamic enviroment
+	
+### Addition
+
+- Syntax:
+	`e1+e2` where `e1` and `e2` are expressions
+	
+- Type-checking:
+	if `e1` and `e2` have type `int`,
+	then `e1` + `e2` has type `int`
+		
+- Evaluation:
+	if `e1` evaluates to `v1` and `e2` evaluates to `v2`,
+	then `e1+e2` evaluates to sum of `v1` and `v2`
+	
+
+### Values
+
+- All values are expressions
+
+- Not all expressions are values
+
+- Every value "evaluates to itself" in "zero steps"
+
+- Examples:
+
+	- `34`,`17`,`42` have type `int`
+	- `true`, `false` have type `bool`
+	- `()` has type `unit`
+	
+
+## 1 - 3:The REPL and Erros
+
+`use "foo.sml";`
+
+- Read-Eval-Print-Loop is well named
+
+###Error
+
+- syntax
+
+- Type-checking
+
+- Evaluation
+
+common error:
+
+- `if` - `then` - `else`
+- if takes a `bool` type value
+- `then` and `else` must return the same type of result
+- 负数：~5
+- "/" : 10 div 5
+
+## 1 - 4:Shadowing
+
+### Multiple binding of same variable
+
+multiple varibale bindings of the same variable is ofter poor style
+
+- Often counfusing
+ 
+But it's an instructive exercise
+
+- Help explain how the enviroment "works"
+- Help explain how a variable binding "works" 
+
+```
+val a = <hidden-value> : int
+val b = 20 : int
+val a = <hidden-value> : int
+val c = 20 : int
+val d = 5 : int
+val a = 6 : int
+val it = () : unit
+```
+
+a之前的赋值被shadow掉，提示<hidden-value>
+
+下面代码:
+
+```
+val a = 1
+val b = a (* b is bound to 1 *)
+val a = 2
+
+```
+
+- Expressions in variable bindings are evaluated "eagerly"
+	- Before the variable binding "finishes"
+	- Afterwards, the expression producing the value is irrelevant
+	
+- There is no way to "assign to" a variable in ML
+	- Can only shadow it in a later enviroment 
+
+
+## 1 - 5:Functions(informally)
+
+###Function definitions
+
+Functions: the most important build block in the whole course
+
+- Like Java methods,have arguments and result
+- But no classes,self,this,return
+
+Example function binding:
+
+```
+(*Note:correct only if y>=0 *)
+
+fun pow(x:int, y:int) = if y=0 then 1 else x*pow(x,y-1)
+
+
+```
+Note：The body includes recursive call
+
+compile and run:
+
+```
+val pow = fn : int * int -> int
+val cube = fn : int -> int
+
+```
+
+- The use of "*" in type syntax is not multiplication
+	- Example: int * int -> int
+	- In expressions, * is multiplication: x*pow(x,y-1)
+
+- Cannot refer to later function bindings
+	- That's simply ML's rule
+	- Helper functions must come before their uses
+	- Need spection construct for mutual recursion(later)
+	
+
+### Recursion 
+
+- if you're not yet comfortable with recursion, you will be soon
+	- Will use for most functions taking or returning lists
+	
+- “Makes sense” because calls to same function solve "simpler problems"
+
+- Recursion more powerful than loops
+	- We won't use a single loop in ML
+	- Loops ofter(not always)obscure simple, elegant solutions
+	
+<Strong>Everything you can do in loop, you can do it in recursion</Strong>
+
+
+## 1 - 6:Functions（formally)
+
+###Function binding : 3 questions
+
+- Syntax : `fun x0（x1:t1,...,xn:tn）= e`
+	- (will generalize in later lecture)
+	
+- Evaluation : <strong>A function is a value!</strong>(No evaluation yet):x0和普通变量一样，只不过类型是funcion
+
+	- Add `x0` to enviroment so later expression can call it
+	- Funcation call semantics will alse allow recursion
+	
+- Type-Checking: 
+	- Adds binding `x0:(t1 *...* tn ) -> t `，首先将`x0`的类型绑定为`(t1 *...* tn)`
+	
+	- Can type-check body `e` to have type `t` in the static envrioment containing:
+		- "Enclosing" static envrioment (earlier bindings)
+		- `x1:t1,...,xn:tn`
+		- `x0 : (t1 *...*tn) -> t`(for recursion)
+		
+### More on type-checking
+
+`fun x0（x1:t1,...,xn:tn）= e`
+
+- New kind of type : `(t1 *...* tn ) -> t`
+	- Result type on right
+	- The overall type-checking result is to give x0 this type in rest of program(unlike Java, not for earlier bindings):意思是ML函数的内容是在运行时赋值的，不像Java，函数的内容是提交编译好的
+	
+	- Arguments can be used only in `e`
+	
+- Because evaluation of a call to `x0` will return result of evaluating `e`，The return type of` x0` is the type of `e`
+
+- The type-checker "magically" figures out `t` if such a `t` exists
+	
+	- Leter lecture:Requires some cleverness due to recursion
+	- More magic after hw1 : Later can omit argument types too
+	
+	
+### Function Calls
+
+A new kind of expression:
+
+- Syntax : `e0 (e1,...,en)`
+
+	- Parentheses optional if there is exactly one argument
+
+- Evaluation:
+
+	1. (Under current dynamic enviroment) evalute e0 to a function :
+	`(t1 *...* tn ) -> t`
+		- Since call type-checked, result will be a function
+	
+	2. evaluate the arguments to value `v1,...,vn`
+	
+	3. Result is evaluation of `e` in an enviroment extended to map x1 to v1, ... xn to vn
+	 	- ("An envrioment" is actually the enviroment where the function was defined, and includes x0 for recursion)
+		
+	
+- Type-Checking:
+	
+	if:
+	
+	- `e0` has some type `(t1 *...* tn ) -> t`
+	- `e1` has type `t1`, ... , `en` has type `tn`
+	
+	then:
+	
+	- `e0 (e1,...,en)` has type `t`
+	Example:`pow(x,y-1)` in previouse example has type `int`
+	
+## 1 - 7:Tuples and Pairs
+
+### Paris(2-tuples)
+
+#### Defination:
+
+- Syntax : `（e1,e2）`
+
+- Evaluation:Evaluate `e1` to `v1` and `e2` to `v2`; result is `(v1,v2)`
+	- A pair of values is a value
+	
+- Type-checking: if `e1` has type `ta` and `e2` has type `tb` then the expression has type `ta * tb`
+	- A new kind of type
+	
+#### Access:
+
+- Syntax： `#1 e` and `#2 e`
+
+- Evaluation: Evaluate e to a pair of values and return first or section piece
+	- Example: if `e` is a variable x then look up x in enviroment
+	
+- Type-checking:if `e` has type `ta * tb` then `#1 e` has type `ta` and `#2 e` has type `tb`
+
+### Tuples
+
+Actually , you can have tuples with more than two parts.
+
+- (e1,e2,...,en)
+- ta * tb * ... * tn
+- "#1 e, #2 e, #3 e ..."
+
+### Nesting
+
+Pairs and tuples can be nested however you want
+
+```
+val x1 = (7,(true,9)) (* int*(bool*int) *)
+
+val x2 = #1 (#2 x1) (* bool *)
+
+```
+
+
+
+## 1 - 8:Lists
+
+- Despite nested tuples, tye type of variable still "commits" to a particular "amount" of data 
+
+In contrast, a list:
+
+- Can have any number of elements
+- But all list elements have the same type
+
+### Building Lists
+
+- The empty list is a value `[]`
+
+- In general, a list of values is a value; elements separated by commas:`[v1,v2,...,vn]`
+
+- if `e1` evaluates to `v` and `e2` evaluates to a list `[v1,...,vn]`,then `e1::e2` evaluates to `[v,..,vn]`
+
+` e1::e2 (*pronounced "cons"*) `
+
+### Accessing Lists
+
+Until we learn pattern-matching, we will use three standard-library functions
+
+- `null e` evaluates to `true` if and only if `e` evaluates to []
+
+- if `e` evaluates to `[v1,v2,...,vn]` then `hd e` evaluates to `v1`
+	- raise exception if e evaluates to []
+	
+- if `e` evaluates to `[v1,v2,...,vn]` then `tl e` evaluates to `[v2,...,vn]`
+	- raise exception if e evaluates to []
+	- Notice result is a list
+	
+
+### Type-checking list operations
+
+Lots of new types： For any type `t`, the type `t list` describes lists where all elements have type `t`
+
+Examples:
+	
+`int list` `bool list` `int list list` `(int * int) list` `(int list*int) list`
+
+- So [] can have type t list of any type
+	- SML uses type `·a list` to indicate this("quote a" or "alpha")
+	
+- For `e1::e2` to type-check, we need a `t` such that `e1` has type `t` and `e2` has type `t list`. Then the result type is `t list`
+
+- null : ·a list -> bool
+
+Takes a alpha list(any type of list)(·a list) and returns a boolean value
+
+
+- hd : ·a list -> ·a
+
+- tl : ·a list -> ·a list
+
+
+## 1 - 9:List Function
+
