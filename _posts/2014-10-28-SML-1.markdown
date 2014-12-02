@@ -5,6 +5,8 @@ layout: post
 
 ---
 
+<em>文章均为作者原创，转载请著名出处</em>
+
 <em>Cousera课程笔记</em>
 
 ## 1 - 1:ML Variable Bindings and Expressions

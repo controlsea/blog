@@ -4,6 +4,8 @@ layout: post
 
 ---
 
+<em>文章均为作者原创，转载请著名出处</em>
+
 大概2，3年前，大家都在用Facebook的Three30，那个时候我们也在用，后来我发现它实在太重，于是我将TTTModelViewController和TTTTableViewController进行了重写，抽象了很多API，比如列表的下拉刷新，自动翻页，数据绑定等，与此同时，又抽象了model的请求和回调，使ViewController变的很轻量。改写完成后基本变成了一种模板+填空的开发模式，使用者只需要override一些简单API就可快速完成业务的开发，这在当时显著的提高了开发效率。
 
 在后来的一段时间里，我不断增加一些新的feature，并放到项目中实践：
