@@ -14,4 +14,4 @@ layout: post
 
 - MVVM
 
-这里是分享的PDF资料，删掉了一些公司内部的内容
+这里是分享的[PDF资料](https://github.com/akaDealloc/blog/tree/gh-pages/pdf)，删掉了一些公司内部的内容
