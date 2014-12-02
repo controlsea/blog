@@ -204,8 +204,6 @@ CoreBluetooth完整的实现了GATT，但是我个人的观点是CoreBluetooth�
 
 上面列出的第一个问题，我认为是所有问题的根源，设计的时候显然是没有想好，准备先开放一些API给大家玩，收集大家的反馈，如果用的人多，我们再开放一些API。这种想法没错，但是最初的API和framework的设计扩展性太差，使后面版本扩展起来很麻烦，又不能重构，只能这么将就下去了。因此，我极其不建议通过Apple的demo来学习CoreBluetooth，如果没人跟你解释，你根本学不明白。在Github上有一些开源的项目，比如<a href="https://github.com/kickingvegas/YmsCoreBluetooth/blob/master/Deanna/Deanna-Info.plist">YmsCoreBluetooth</a>实现了扫描BLE设备的代码，这个开源项目功能很简单，但是作为学习CoreBluetooth足够了。
 
-后面一节我们会讨论设计一套易于使用的，功能完备的CoreBluetooth framework。
-
 2011年iOS 5.0率先引入CoreBluetooth,只提供Central端的API，这意味着你只能作为client链接别人，接受广播。但是，如果你想作为Peripheral和client交换数据，就要用到iOS 6.0的API了：
 
 <a href="/blog/images/2014/03/ble-9.png"><img src="/blog/images/2014/03/ble-9.png" alt="ble-9" width="443" height="156" class="alignnone size-full wp-image-1130" /></a>
