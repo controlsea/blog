@@ -1,8 +1,6 @@
 ---
-layout: page
-title: About
-permalink: /about/
+layout: about
 ---
 
-Available For Hire:
+Available For Hire : Jayson.xu@foxmail.com
 
