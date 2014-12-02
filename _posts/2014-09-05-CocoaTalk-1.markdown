@@ -1,0 +1,17 @@
+---
+title: CocoaTalk#1
+layout: post
+
+---
+
+今天在团队内部分享了一些最近在的思考，实践的东西：
+
+- UIKit Animation
+
+- UIKitDynamics
+
+- ReactiveCocoa
+
+- MVVM
+
+这里是分享的PDF资料，删掉了一些公司内部的内容
