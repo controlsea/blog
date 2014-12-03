@@ -1,5 +1,5 @@
 ---
-title: Ruby 2.0 - Cheatsheet
+title: Ruby 2.0 Quick Reference
 layout: post
 
 ---
