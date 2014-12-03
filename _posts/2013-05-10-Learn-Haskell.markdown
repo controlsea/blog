@@ -27,13 +27,13 @@ doubleXY x y = 2*x + 2*y
 
 - 字符常量:
 
-```
+```haskell
 conanO'Brien = "It's a-me, Conan O'Brien!"  
 ```
 
 - 数组
 
-```
+```haskell
 numbers = [1,2,2,3,4,5,6]
 strings = ["ask","hell"]
 
@@ -41,32 +41,32 @@ strings = ["ask","hell"]
 
 - 数组拼接
 
-```
+```haskell
 addNumbers = [1,2,3] ++ [3,2,1]
 addStrings = ["haskell","java"] ++ ["lua","python"]
 ```
 
 - 塞入
 
-```
+```haskell
 anotherStrings = "shit":["ask","hell"]
 ```
 
 - 索引函数，x为索引值
 
-```
+```haskell
 index x = [1,2,3,4,5,5] !! x 
 ```
 
 - list比较，如果位数相同，则从第一个值开始向后比较
 
-```
+```haskell
 compareResult1 = [3,2,1] > [1,2,3] true
 compareResult2 = [3,4,2] > [99,88] false
 ```
 - list方法
 
-```
+```haskell
 head ： 5
 listHead = head[5,3,2,1]
 
@@ -86,39 +86,39 @@ listLength = length [123,2,3,4]
 
 take返回前几个:1,2,3
 
-```
+```haskell
 listTake = take 3 [1,2,3,4,5,5]
 ```
 
 null检测数组是否为空
 
-```
+```haskell
 listNull = null[12,3]  false
 listNull2 = null[]true
 ```
 
 maximum/minimum数组最大值
 
-```
+```haskell
 listMax = maximum [1,2,3]
 listMin = minimum [3,2,1]
 ```
 
 sum数组求和
 
-```
+```haskell
 listSum = sum [1,2,3]
 ```
 
 elem数组是否包含某个元素
 
-```
+```haskell
 listEle = 4 `elem` [3,3,4,5,5]  true
 ```
 
 range
 
-````
+````haskell
 listRangeInteger = [1..20] 1,2,3,4,5,6...,20
 listRangeString = ['a'..'z'] a,b,c,d..,z
 listRangeEventInteger = [2,4..20]  2,4,6,8...,20
@@ -126,14 +126,14 @@ listRangeEventInteger = [2,4..20]  2,4,6,8...,20
 
 产生无限长的list，取前10个
 
-```
+```haskell
 listCycle10Integer = take 10 (cycle[1,2,3]) 1,2,3,1,2,3,1,2,3,1
 listCycle10String = take 10 (cycle"LOL ") LOL LOL LO
 ```
 
 产生重复的list,取前10个
 
-```
+```haskell
 listRepeat10Integer = take 10 (repeat(4)) 4444444444 
 ```
 
@@ -141,23 +141,23 @@ listRepeat10Integer = take 10 (repeat(4)) 4444444444
 
 
 例如：
-```
+```haskell
 S = {2*x | x -> N, x <=10}
 ```
 用Haskell表示为：1<=x<=10，2x的集合
 
-```
+```haskell
 collectioA = [x*2 | x <- [1..10]]
 ```
 1<=x<=10，2x>12，2x的集合
 
-```
+```haskell
 collectionB = [x*2 | x <- [1..10],2*x >= 12]
 ```
 
 50<=x<=100 && x % 7 == 3的集合
 
-```
+```haskell
 collectionC = [x | x <- [50..100],x `mod` 7 == 3]
 ```
 
@@ -165,7 +165,7 @@ collectionC = [x | x <- [50..100],x `mod` 7 == 3]
 即取一组数并且按照一定的限制条件过滤它们。再举个例子吧
 假如我们想要一个 comprehension，它能够使 List 中所有大于 10 的奇数变为 "BANG"，小于 10 的奇数变为 "BOOM"
 
-```
+```haskell
 boomBangs list = [if x<10 then "BOOM" else "BANG" | x<-list,odd x]
 ```
 
@@ -174,13 +174,13 @@ boomBangs list = [if x<10 then "BOOM" else "BANG" | x<-list,odd x]
 在不过滤的前提 下，取自两个长度为 4 的集合的 comprehension 会产生一个长度为 16 的 List。
 假设有两个 List，[2,5,10] 和 [8,10,11]， 要取它们所有组合的积，可以这样：
 
-```
+```haskell
 multiplyList = [x*y | x<-[2,5,10],y<-[3,6,9]]
 ```
 
 让我们编写自己的 length 函数吧！就叫做 length'!
 
-```
+```haskell
 length' list = sum[1 | _<-list]
 ```
 _ 表示我们并不关心从 List 中取什么值，与其弄个永远不用的变量，不如直接一个 _。
@@ -188,7 +188,7 @@ _ 表示我们并不关心从 List 中取什么值，与其弄个永远不用的
 
 去除字符串中的小写字母
 
-```
+```haskell
 removeNonUppercase list = [c | c<-list, c `elem` ['A'..'Z']]
 ```
 
@@ -202,7 +202,7 @@ Tuple 中的项 由括号括起，并由逗号隔开。
 Tuple类似hash map，但是有多个value
 
 
-```
+```haskell
 tupleA = ("jayson","code",28)
 ```
 
@@ -212,29 +212,29 @@ tupleHead = fst(8,11)
 
 snd返回尾项
 
-```
+```haskell
 tupleTail = snd("jsyon",False)
 ```
 
 zip方法将k-v关联起来
 
-```
+```haskell
 zipValue1 = zip[1..3]["a","b","c"]
 ```
 zip不固定长度
 
-```
+```haskell
 zipValue2 = zip[1,2,4,5]["a","b"] (1,"a")(2,"b")
 ```
 zip不固定长度
 
-```
+```haskell
 zipValue3 = zip[1..]["a","n","c"] (1,"a")(2,"n")(3,"c")
 ```
 
 list 和 tuple
 
-```
+```haskell
 tupleList = [(a,b,c) | a<-[1..10],b<-[2..9],c<-[3..8],a^2+b^2==c^2]
 ```
 
@@ -248,7 +248,7 @@ tupleList = [(a,b,c) | a<-[1..10],b<-[2..9],c<-[3..8],a^2+b^2==c^2]
 
 命令：:t用来查看变量的type
 
-```
+```haskell
 ghci> :t 'a'   
 'a' :: Char   
 
@@ -269,14 +269,14 @@ ghci> :t 4 == 5
 
 函数类型声明：入参->出参
 
-```
+```haskell
 removeNonUppercase :: [Char] -> [Char]   
 removeNonUppercase st = [ c | c <- st, c `elem` ['A'..'Z']]
 ```
 
 入参->入参->入参->出参
 
-```
+```haskell
 addThree :: Int -> Int -> Int -> Int   
 addThree x y z = x + y + z
 ```
@@ -289,7 +289,7 @@ Types : Integer, Float, Double, Bool, Char
 
 主要讨论函数的出参，和入参类型
 
-```
+```haskell
 ghci> :t head   
 head :: [a] -> a
 ```
@@ -301,7 +301,7 @@ head :: [a] -> a
 还是讨论函数的参数问题:有些函数的入参，出参类型是被约束的，它要服从其“父类”的类型约束条件
 例如：
 
-```
+```haskell
 ghci> :t (==)   
 (==) :: (Eq a) => a -> a -> Bool
 
@@ -312,12 +312,12 @@ ghci> :t (==)
 我们可以这样阅读这段类型声明："相等函数取两个相同类型的值作为参数并回传一个布林值，而这两个参数的类型同在 Eq 类之中(即类型约束)"
 
 怎么理解呢？
- “==”这个函数的入参和出参类型，取决于Eq，因为“==”的父类就是Eq，
+ “==” 这个函数的入参和出参类型，取决于Eq，因为 “==” 的父类就是Eq，
  Eq的子类还有“/=”
 
 相似的例子还有Ord：
 
-```
+```haskell
 ghci> :t (>)   
 (>) :: (Ord a) => a -> a -> Bool
 
@@ -326,7 +326,7 @@ ghci> :t (>)
  “>”的参数类型取决于父类Ord
 同理，ord包含了<, >, <=, >= 这几个接口
 
-```
+```haskell
 show1 = show 3  "3"
 
  Main> :t (show)
@@ -339,14 +339,14 @@ show的参数类型取决于show自己，而show这个typeclass包含的参数�
 
 read将字符串转为某成员类型,类型根据第二个参数确定
 
-```
+```haskell
 read1 = read "True" || False  True
 read2 = read "8.2" + 3.8  12.0
 ```
 
 read若只有一个参数，则需要提供一个参数类型，帮助其转换
 
-```
+```haskell
 read3 = read "3" :: Int
 read4 = (read "4.0"::Float)*4
 read5 = read "[1,2,3,4]" :: [Int]   
@@ -356,12 +356,12 @@ read6 = read "(3, 'a')" :: (Int, Char)
 
 Enum包含：
 
-```
+```haskell
 succ，pred，[1..3](range)
 ```
 参数类型包括：
 
-```
+```haskell
 Main> :t ([1..3])
 ([1..3]) :: (Enum t, Num t) => [t]
 ```
@@ -371,14 +371,14 @@ Main> :t ([1..3])
 
 - 参数匹配（代数）
 
-```
+```haskell
 lucky2 :: (Integral a) => a -> String
 lucky2 x = (if x==7 then "LuckNumber" else "wrongNumber")
 ```
 
 等价于这个:
 
-```
+```haskell
 lucky :: (Integral a) => a -> String
 lucky 7 = "Luck Number!"
 lucky x = "wrong number!"
@@ -387,7 +387,7 @@ lucky x = "wrong number!"
 在调用 lucky 时，模式会从上至下进行检查，一旦有匹配，那对应的函数体就被应用了。
 这个模式中的唯一匹配是参数为 7，如果不是 7，就转到下一个模式，它匹配一切数值并将其绑定为 x 。
 
-```
+```haskell
 sayMe :: (Integral a) => a -> String   
 sayMe 1 = "One!"   
 sayMe 2 = "Two!"   
@@ -403,7 +403,7 @@ sayMe x = "Not between 1 and 5"
 
 - 求阶乘:
 
-```
+```haskell
 factorial :: (Integral a) => a -> a   
 factorial 0 = 1   
 factorial n = n * factorial (n - 1)  
@@ -411,13 +411,13 @@ factorial n = n * factorial (n - 1)
 
 - 两个向量相加:限制a类型为num
 
-```
+```haskell
 addVectors :: (Num a) => (a,a) -> (a,a) ->(a,a)
 addVectors a b = (fst a+fst b, snd a+snd b)
 ```
 使用模式匹配:
 
-```
+```haskell
 addVectors2 :: (Num a) => (a, a) -> (a, a) -> (a, a)   
 addVectors2 (x1, y1) (x2, y2) = (x1 + x2, y1 + y2) 
 ```
@@ -431,7 +431,7 @@ addVectors2 (x1, y1) (x2, y2) = (x1 + x2, y1 + y2)
 
 - 自己实现list的head方法
 
-```
+```haskell
 headVal :: [a] -> a   
 headVal [] = error "Can't call head on an empty list, dummy!"   
 headVal (x:_) = x  
@@ -444,7 +444,7 @@ headVal (x:_) = x
 
 弄个简单函数，让它用非标准的英语给我们展示 List 的前几项。
 
-```
+```haskell
 tell :: (Show a) => [a] -> String   
 tell [] = "The list is empty"   
 tell (x:[]) = "The list has one element: " ++ show x   
@@ -459,7 +459,7 @@ tell (x:y:_) = "This list is long. The first two elements are: " ++ show x ++ " 
 
 - list长度:用递归求数组长度 
 
-```
+```haskell
 length'::(Num b) => [a] -> b
 length' [] = 0
 lenght' (_:xs) = length'(xs)+1
@@ -468,7 +468,7 @@ lenght' (_:xs) = length'(xs)+1
 
 例如，输入为:[1,2,3]，匹配的是1:[2,3]依此递归下去,list求和，同样道理
 
-```
+```haskell
 sum' :: (Num a) => [a] -> a   
 sum' [] = 0   
 sum' (x:xs) = x + sum' xs  
@@ -483,7 +483,7 @@ sum' (x:xs) = x + sum' xs
 
 就可以把guard简单理解为if
 
-```
+```haskell
 bmiTell :: (RealFloat a) => a -> String   
 bmiTell x   
     | x <= 18.5 = "You're underweight, you emo, you!"   
@@ -498,7 +498,7 @@ bmiTell x
 
 重写max函数
 
-```
+```haskell
 max' :: (Ord a) => a -> a -> a   
 max' a b    
     | a > b     = a   
@@ -508,7 +508,7 @@ max' a b
 
 - where
 
-```
+```haskell
 bmiTell2 :: (RealFloat a) => a -> a -> String   
 bmiTell2 weight height   
     | bmi <= skinny = "You're underweight, you emo, you!"   
@@ -525,7 +525,7 @@ where必须定义在最后面，而且变量的名字必须排成竖行
 
 - let-in
 
-```
+```haskell
 let-in允许在函数中的任意位置定义局部变量
 
 calcBmis :: (RealFloat a) => [(a, a)] -> [a]   
@@ -542,7 +542,7 @@ Hmm，取一个变量，对它模式匹配，执行对应的代码块。
 
 case表达式：
 
-```
+```haskell
 case expression of pattern -> result   
                    pattern -> result   
                    pattern -> result   
@@ -569,7 +569,7 @@ haskell用递归代替for/while循环
 
 - 递归求最大值
 
-```
+```haskell
 maximumVal :: (Ord a)=>[a]->a
 maximumVal [] = error "error"
 maximumVal [x] = x
@@ -592,7 +592,7 @@ where 子句再取 [5,1] 的最大值。
 如下便是用 max 函数重写的 maximun'
 
 
-```
+```haskell
 maximum' :: (Ord a) => [a] -> a   
 maximum' [] = error "maximum of empty list"   
 maximum' [x] = x   
@@ -601,7 +601,7 @@ maximum' (x:xs) = max x (maximum' xs)
 
 - 实现take
 
-```
+```haskell
 take' :: (Num i, Ord i) => i -> [a] -> [a]
 take' n _
 	 | n <= 0 = []
@@ -611,7 +611,7 @@ take' n (x:xs) = x : take' (n-1) xs
 
 - 实现reverse
 
-```
+```haskell
 reverse' :: [a] -> [a]
 reverse' [] = []
 reverse' (x:xs) = reverse' xs ++ [x]
@@ -619,7 +619,7 @@ reverse' (x:xs) = reverse' xs ++ [x]
 
 - 实现zip
 
-```
+```haskell
 zip' :: [a] -> [b] -> [(a,b)]   
 zip' _ [] = []   
 zip' [] _ = []   
@@ -628,7 +628,7 @@ zip' (x:xs) (y:ys) = (x,y):zip' xs ys
 
 - 快速排序
 
-```
+```haskell
 quicksort :: (Ord a) => [a] -> [a]   
 quicksort [] = []   
 quicksort (x:xs) =   
@@ -642,7 +642,7 @@ quicksort (x:xs) =
 
 其实理解高阶函数从数学的角度比较好理解
 
-```
+```haskell
 f(x) = x^2
 g(x) = 2x+1
 f(g(x)) = (2x+1)^2 = 4x^2+4x+1
@@ -657,7 +657,7 @@ f(g(x)) = (2x+1)^2 = 4x^2+4x+1
 
 以max为例
 
-```
+```haskell
 getMaxValue x  = max 4 5
 ```
 
@@ -665,7 +665,7 @@ getMaxValue x  = max 4 5
 
 这个等价于：
 
-```
+```haskell
 getMaxValue2 x = (max 4) 5
 ```
 
@@ -677,27 +677,27 @@ getMaxValue2 x = (max 4) 5
 
 再看一个乘法：
 
-```
+```haskell
 multThree :: (Num a) => a -> a -> a -> a 
 multThree x y z = x * y * z
 ```
 
 假设输入为multThree 3 5 9，根据空格，它的执行过程为：
 
-```
+```haskell
 (((multThree 3)5)9)
 ```
 
 比较大小的函数：
 
-```
+```haskell
 compareWithHundred :: (Num a,Ord a) => a -> Ordering 
 compareWithHundred x = compare 100 x 
 ```
 
 这个函数也可以忽略掉参数
 
-```
+```haskell
 compareWithHundredWithoutX :: (Num a,Ord a) => a -> Ordering 
 compareWithHundredWithoutX = compare 100 
 
@@ -712,7 +712,7 @@ applyTwice f x = f (f x)
 
 例如：
 
-```
+```haskell
 ghci> applyTwice (+3) 10   
 ```
 
@@ -722,7 +722,7 @@ ghci> applyTwice (+3) 10
 
 实现zipwith,求两个数组的 f 操作
 
-```
+```haskell
 zipWith' :: (a -> b -> c) -> [a] -> [b] -> [c]   
 zipWith' _ [] _ = []   
 zipWith' _ _ [] = []   
@@ -731,7 +731,7 @@ zipWith' f (x:xs) (y:ys) = f x y : zipWith' f xs ys
 
 例如求和
 
-```
+```haskell
 ghci> zipWith' (+) [4,2,5,6] [2,6,2,3]   
 [6,8,7,9]
 
@@ -741,7 +741,7 @@ f x y 返回的就是 x+y
 
 各种花样
 
-```
+```haskell
 ghci> zipWith' max [6,3,2,1] [7,3,1,5]   
 [7,3,2,5]   
 ghci> zipWith' (++) ["foo "，"bar "，"baz "] ["fighters"，"hoppers"，"aldrin"]   
@@ -754,7 +754,7 @@ ghci> zipWith' (zipWith' (*)) [[1,2,3],[3,5,6],[2,3,4]] [[3,2,2],[3,4,5],[5,4,3]
 ```
 - map：取一个函数和 List 做参数，遍历该 List 的每个元素来调用该函数产生一个新的 List。 看下它的类型声明和实现:
 
-```
+```haskell
 map :: (a -> b) -> [a] -> [b]   
 map _ [] = []   
 map f (x:xs) = f x : map f xs
@@ -765,7 +765,7 @@ map f (x:xs) = f x : map f xs
 这就是 Haskell 的有趣之处：有时只看类型声明就能对函数的行为猜个大致。
 map 函数多才多艺，有一百万种用法。如下是其中一小部分:
 
-```
+```haskell
 ghci> map (+3) [1,5,3,1,6]   
 [4,8,6,4,9]
 
@@ -777,7 +777,7 @@ map多个条件也仅仅遍历一遍数组
 
 filter：函数取一个限制条件和一个 List，回传该 List 中所有符合该条件的元素
 
-```
+```haskell
 filter :: (a -> Bool) -> [a] -> [a]   
 filter _ [] = []   
 filter p (x:xs)    
@@ -804,13 +804,13 @@ ghci> sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
 
 例如，表达式:
 
-```
+```haskell
 map (+3) [1,6,3,2] 与 map (\x -> x+3) [1,6,3,2]
 ```
 
 对于多个参数：
 
-```
+```haskell
 ghci> zipWith (\a b -> (a * 30 + 3) / b) [5,4,3,2,1] [1,2,3,4,5] 
 ```
 
@@ -827,7 +827,7 @@ ghci> zipWith (\a b -> (a * 30 + 3) / b) [5,4,3,2,1] [1,2,3,4,5]
 
 我们再实现下 sum，这次用 fold 替代那复杂的递归：
 
-```
+```haskell
 sum' :: (Num a) => [a] -> a   
 sum' xs = foldl (\acc x -> acc + x) 0 xs
 
@@ -842,7 +842,7 @@ acc是累加值
 
 实现'elem'
 
-```
+```haskell
 elem' :: (Eq a) => a -> [a] -> Bool   
 elem' y ys = foldl (\acc x -> if x == y then True else acc) False ys
 ```
@@ -854,19 +854,19 @@ elem' y ys = foldl (\acc x -> if x == y then True else acc) False ys
 foldl1是fold的简化版，初始值默认为数组的第一个元素
 上面求和的函数用foldl1实现如下：
 
-```
+```haskell
 sum1 xs = foldl1 (\acc x -> acc + x) xs
 ```
 
 这条语句等于:
 
-```
+```haskell
 foldl1 (+) [1,2,3]
 ```
 scanl 和 scanr 与 foldl 和 foldr 相似，只是它们会记录下累加值的所有状态到一个 List。
 也有 scanl1 和 scanr1。
 
-```
+```haskell
 ghci> scanl (+) 0 [3,5,2,1]   
 [0,3,8,10,11]   
 ghci> scanr (+) 0 [3,5,2,1]   
@@ -878,7 +878,7 @@ ghci> scanr (+) 0 [3,5,2,1]
 
 先看一个map函数
 
-```
+```haskell
 val = map (\x -> negate (abs x)) [5,-3,-6,7,-3,2,-19,24]   
 [-5,-3,-6,-7,-3,-2,-19,-24]
 
@@ -887,7 +887,7 @@ val = map (\x -> negate (abs x)) [5,-3,-6,7,-3,2,-19,24]
 先求绝对值再求反
 也可以合并执行：
 
-```
+```haskell
 val2 = map (negate . abs) [5,-3,-6,7,-3,2,-19,24]   
 
 oddSquareSum :: Integer   

@@ -1,13 +1,13 @@
 ---
 
-title:Rails 4.0 Quick Reference
+title: Rails 4.0 Quick Reference
 layout: post
 
 ---
 
 <em>所有文章均为作者原创,转载请注明出处</em>
 
->本文为Rails项目的开发笔记 
+>本文为笔者Rails项目的开发笔记 
 
 ##Create a new app
 
@@ -36,7 +36,7 @@ server会把/movies传给router，router用来找movies资源的位置。
 
 routers.rb提供了一个block：
 
-```
+```ruby
 Rails.application.routes.draw do
 
 		//inside block:
@@ -52,7 +52,7 @@ end
 - name_of_controller : 页面的controller
 - name_of_action : 响应这个页面请求的方法名，一个action就是controller的一个方法
 
-```
+```ruby
 Flix::Application.routes.draw do
   	get "movies" => "movies#index"
 end
@@ -65,7 +65,7 @@ end
 会在这个目录下生成文件：
 app/controllers/movies_controller.rb 
 
-```
+```ruby
 class MoviesController < ApplicationController
 
 end
@@ -73,7 +73,7 @@ end
 
 然后需要定义index方法：
 
-```
+```ruby
 class MoviesController < ApplicationController
   
   def index
@@ -110,7 +110,7 @@ erb是一模板类，它会生成最终的HTML代码
 
 然后再index方法中给@movies赋值：
 
-```
+```ruby
 def index
   @movies = ['Iron Man', 'Superman', 'Spider-Man']
 end
@@ -157,7 +157,7 @@ end
 
 在app/models/movie.rb下：
 
-```
+```ruby
 class Movie < ActiveRecord::Base
 end
 ```
@@ -167,7 +167,7 @@ end
 `YYYYMMDDHHMMSS_create_movies.rb`
 
 
-```
+```ruby
 class CreateMovies < ActiveRecord::Migration
   def change
     create_table :movies do |t|
@@ -194,7 +194,7 @@ created_at和updated_at,id列也是默认的。
 
 通常情况下，rails有多个数据库，在config/database.yml中：
 
-```
+```ruby
 development:
   adapter: sqlite3
   database: db/development.sqlite3
@@ -306,7 +306,7 @@ Movied的find_by方法，参数是属性
 
 一种方法是找到对象，然后修改对象的属性：
 
-```
+```ruby
  iron_man = Movie.find(1)
  iron_man.title = 'Iron Man 2'
  iron_man.total_gross *= 2
@@ -349,7 +349,7 @@ Movied的find_by方法，参数是属性
 
 原来代码为：
 
-```
+```ruby
 def index
   @movies = ['Iron Man', 'Superman', 'Spider-Man']
 end
@@ -394,7 +394,7 @@ end
 创建一个新的migration文件：
 `YYYYMMDDHHMMSS_add_fields_to_movies.rb`：
 
-```
+```ruby
 class AddFieldsToMovies < ActiveRecord::Migration
   def change
     add_column :movies, :description, :text
@@ -443,7 +443,7 @@ reload的意思是保证数据是最新的。
 
 发现新建的两个字段都为空
 
-```
+```ruby
 movie.description = "Tony Stark builds an armored suit to fight the throes of evil"movie.released_on = "2008-05-02"
 movie.save
 ```
@@ -464,14 +464,14 @@ movie.save
 
 `% rails console` 进入命令行
 
-```
+```ruby
 helper.pluralize(0,'Movie')
 helper.pluralize(1,'Movie')
 helper.pluralize(2,'Movie')
 
 ```
 
-```
+```ruby
 helper.truncate("aaa",length:50, separator:'')
 ```
 
@@ -481,7 +481,7 @@ helper.truncate("aaa",length:50, separator:'')
 
 当创建Controller时，默认创建了view helper：
 
-```
+```ruby
 module EventsHelper
 
 	def display_price(event)
@@ -540,14 +540,14 @@ Time::DATE_FORMATS[:default] = "%B %d, %Y at %I:%M %p"
 
 对于events/1 这种详情页，在route中定义如下：
 
-```
+```ruby
 get "events/:id" => "events#show", as: :events_detail
 
 ```
 
 对应controller中的show方法
 
-```
+```ruby
 def show
 	@event = Event.find(params[:id])
 end
@@ -581,7 +581,7 @@ irb(main):008:0> app.events_url
 
 如果在erb中加入link，可以用link_to方法
 
-```
+```ruby
 <%= link_to 'Back', events_path %>
 
 ```
@@ -590,7 +590,7 @@ irb(main):008:0> app.events_url
 
 方法如下，在route.rb：
 
-```
+```ruby
 get "events", to: "events#index", as: :events
 get "events/:id" => "events#show", as: :event
   
@@ -598,7 +598,7 @@ get "events/:id" => "events#show", as: :event
 
 然后再运行 `% rake routes` : 
 
-```
+```ruby
  events GET    /events(.:format)              events#index
  event GET     /events/:id(.:format)          events#show
 
@@ -614,7 +614,7 @@ irb(main):002:0> app.event_path(e.id)
 
 指定默认路径：
 
-```
+```ruby
 root "statuses#index"
 
 ```
@@ -622,7 +622,7 @@ root "statuses#index"
 
 - 安装 RSpec & Capybara
 
-```
+```ruby
 group :test, :development do
 	gem "rspec-rails"
 end
@@ -642,7 +642,7 @@ rails  rails g rspec:install
 
 测试内容展示正确与否：
 
-```
+```ruby
 require "spec_helper"
 
 describe "Viewing the list of events" do 
@@ -668,7 +668,7 @@ end
 
 测试连接跳转正确与否
 
-```
+```ruby
 it "From event index page to detail page " do 
 
 	##mock data:
@@ -697,7 +697,7 @@ end
 
 seeds.rb:可以为数据库初始化一些数据
 
-```
+```ruby
 Event.create!( [ {:name:"a", :location:"b"}, {}, {}, ] )
 
 ```
@@ -720,7 +720,7 @@ Event.create!( [ {:name:"a", :location:"b"}, {}, {}, ] )
 
 在edit.html.erb中插入模板:
 
-```
+```ruby
 <%= form_for(@event) do |f| %>
 	
 	<p>
@@ -762,7 +762,7 @@ Event.create!( [ {:name:"a", :location:"b"}, {}, {}, ] )
 
 然后再controller中增加update方法
 
-```
+```ruby
 def update
 	@event = Event.find(params[:id])
 	@event.update(params[:event])
@@ -776,7 +776,7 @@ end
 
 改为：
 
-```
+```ruby
 def update
 	
 	@event = Event.find(params[:id])
@@ -796,7 +796,7 @@ rails对增删改查的route有默认的表示：`resources :events`
 
 对于创建form的操作，路径是/events/new，因此，controller要有个new方法。
 
-```
+```ruby
 def new
 	@event = Event.new
 end
@@ -808,7 +808,7 @@ end
 
 对应controller的create方法
 
-```
+```ruby
 def create
 	@event = Event.new(event_params)
 	@event.save
@@ -835,7 +835,7 @@ render 方法不需要加_form
 
 调用controller的destroy方法：
 
-```
+```ruby
 def destroy
 	@event = Event.find(params[:id])
 	@event.destroy
@@ -846,7 +846,7 @@ end
 ```
 link_to点击默认的是用GET操作加载path，如果path不是GET，要告诉link_to：
 
-```
+```ruby
 <%= link_to 'Delete', event_path(@event.id),method: :delete, data:{confirm:'Are you sure?'} %>
 
 ```
@@ -869,12 +869,12 @@ link_to点击默认的是用GET操作加载path，如果path不是GET，要告�
 
 model层面的数据校验：
 
-```
+```ruby
 validates :name, presence:true
 ```
 在rails console中，可以测试:
 
-```
+```ruby
 e = Event.new
 e.valid? 
 
@@ -893,7 +893,7 @@ model的valid方法会影响controller的create和edit
 
 修改controller这两个方法：
 
-```
+```ruby
 def update
 
 	@event = Event.find(params[:id])
@@ -936,23 +936,23 @@ rails g resource user name:string email:string password:digest
 
 如果Event对应多个registration，那么对于Event,声明为:
 
-```
+```ruby
 has_many :registrations
 ```
 这样便给Event增加了一个property，叫做registraions,可以访问:
 
-```
+```ruby
 e.registrations
 ```
 
 对于registration来说，声明为:
 
-```
+```ruby
 belongs_to :event
 ```
 这样便给registration增加一个property，叫做event，可以访问:
 
-```
+```ruby
 r.event
 ```
 
@@ -974,7 +974,7 @@ rails g resource user name:string email:string password:digest
 
 可见它依赖Event传过来的Id，为了生成上面类似的path，可以将registrations做如下声明：
 
-```
+```ruby
 resources :events do 
     resources :registrations
 end
@@ -1001,7 +1001,7 @@ edit_event_registration GET    /events/:event_id/registrations/:id/edit(.:format
 
 增加sesssion的url_path到routes.rb
 
-```
+```ruby
   resources :sessions 
 
 ```
