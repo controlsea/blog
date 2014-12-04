@@ -13,10 +13,12 @@ title: About
 
 - Programming Langauage
 
-- Agile Development
+- Agile development and architecture
 
 - OpenGL
 
+###Available For Hire
 
-==Available For Hire== : Jayson.xu@foxmail.com
+- Jayson.xu@foxmail.com
+
 
