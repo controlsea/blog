@@ -21,7 +21,7 @@ layout: post
 
 
 
-```haskell
+```sml
 (* This is a comment. This is our first program. *)
 
 val x = 34; 
@@ -54,7 +54,7 @@ val abs_of_z_simpler = abs(z)
 ```
 ### A Variable Binding
 
-```haskell
+```ml
 val z = (x+y) + (y+2);
 ```
 More generally: 
