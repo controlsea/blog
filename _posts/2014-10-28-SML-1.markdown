@@ -21,7 +21,7 @@ layout: post
 
 
 
-```
+```haskell
 (* This is a comment. This is our first program. *)
 
 val x = 34; 
@@ -54,7 +54,7 @@ val abs_of_z_simpler = abs(z)
 ```
 ### A Variable Binding
 
-```
+```haskell
 val z = (x+y) + (y+2);
 ```
 More generally: 
@@ -177,7 +177,7 @@ But it's an instructive exercise
 - Help explain how the enviroment "works"
 - Help explain how a variable binding "works" 
 
-```
+```haskell
 val a = <hidden-value> : int
 val b = 20 : int
 val a = <hidden-value> : int
@@ -191,7 +191,7 @@ a之前的赋值被shadow掉，提示<hidden-value>
 
 下面代码:
 
-```
+```haskell
 val a = 1
 val b = a (* b is bound to 1 *)
 val a = 2
@@ -217,7 +217,7 @@ Functions: the most important build block in the whole course
 
 Example function binding:
 
-```
+```haskell
 (*Note:correct only if y>=0 *)
 
 fun pow(x:int, y:int) = if y=0 then 1 else x*pow(x,y-1)
@@ -228,7 +228,7 @@ Note：The body includes recursive call
 
 compile and run:
 
-```
+```haskell
 val pow = fn : int * int -> int
 val cube = fn : int -> int
 
@@ -363,7 +363,7 @@ Actually , you can have tuples with more than two parts.
 
 Pairs and tuples can be nested however you want
 
-```
+```haskell
 val x1 = (7,(true,9)) (* int*(bool*int) *)
 
 val x2 = #1 (#2 x1) (* bool *)
