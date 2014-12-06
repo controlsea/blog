@@ -1,6 +1,8 @@
 ---
-layout: post
+
 title: Effective C++ Reading Note
+
+layout: post
 
 ---
 
