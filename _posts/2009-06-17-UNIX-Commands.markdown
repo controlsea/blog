@@ -54,7 +54,7 @@ int main(void);
 
 main.c:
 
-```C 
+```c
 
  #include "main.h" 
  #include "module_1.h"

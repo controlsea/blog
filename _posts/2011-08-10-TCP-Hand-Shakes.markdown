@@ -47,6 +47,7 @@ Checksum: 0xb0cc [validation disabled]
 - ACK
 
 C收到后，先校验Seq Num对不对，如果正确，将ACK标志位至为1，同时产生新的Ack Num为0x0f8baa6f(S的Seq Num+1)。
+
 ```
 Source port: 54133 (54133)
 Destination port: mit-dov (91)
