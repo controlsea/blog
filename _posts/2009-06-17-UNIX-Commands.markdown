@@ -44,10 +44,13 @@ layout: post
 ----./test/ext/module_2.h  ,  module_2.c
 
 main.h : 
- 
-<pre class="lang:c decode:true " >#include &lt;stdio.h&gt;
 
-int main(void);</pre> 
+```c 
+ #include <stdio.h>;
+
+int main(void);
+
+```
 
 main.c:
 
@@ -80,13 +83,13 @@ int  main(void)
 
 - 先单独编译成.o，在link
 
-(1)<code> % gcc -c module_1.c </code>				        生成module_1.o
+	- <code> % gcc -c module_1.c </code>生成module_1.o
 
-(2)<code> % cd ./ext	% gcc -c module_2.c </code>			生成module_2.o
+	- <code> % cd ./ext	% gcc -c module_2.c </code>生成module_2.o
 
-(3)<code> % gcc -c main.c -I./ext </code>			        生成main.o
+	- <code> % gcc -c main.c -I./ext </code>生成main.o
 
-(4)<code> % gcc -o p main.o module_1.o ./ext/module_2.o </code> 	生成p
+	- <code> % gcc -o p main.o module_1.o ./ext/module_2.o </code>生成p
 
 
 ##使用Makefile##
@@ -130,12 +133,14 @@ main.o: main.c main.h
 
 这句话的意思是main.o必须由main.c，main.h来生成
 
-`$(CC)main.c`是shell命令，前面必须加tab
+`$(CC)main.c`
+
+是shell命令，前面必须加tab
 
 针对上面的例子，我们可以写一个makefile 文件
 
-<pre class="lang:sh decode:true " >C
 
+```
 C = gcc
 CFLAGS = -g -I./ext/
 
@@ -146,7 +151,7 @@ SRCS = main.c module_1.c ./ext/module_2.c
 $(PROG) : main.h main.c module_1.h ./ext/module_2.h
 	$(CC) -o $(PROG) $(SRCS) $(CFLAGS)
 
-</pre>
+```
 
 
 <h3>Further Reading:</h3>

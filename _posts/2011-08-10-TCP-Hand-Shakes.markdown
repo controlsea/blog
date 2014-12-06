@@ -47,18 +47,19 @@ Checksum: 0xb0cc [validation disabled]
 - ACK
 
 C收到后，先校验Seq Num对不对，如果正确，将ACK标志位至为1，同时产生新的Ack Num为0x0f8baa6f(S的Seq Num+1)。
-<div style = "overflow:hidden"><p style="background:beige;width:auto;float:left;"><code>Source port: 54133 (54133)
-    Destination port: mit-dov (91)
-    [Stream index: 0]
-    Sequence number: 0x0b97d19d
-    Acknowledgment: 0x0f8baa6f
-    Header length: 32 bytes
-    Flags: 0x010 (ACK)
-    Window size value: 8235
-    [Calculated window size: 131760]
-    [Window size scaling factor: 16]
-    Checksum: 0xcf36 [validation disabled]
-</code></p></div>
+```
+Source port: 54133 (54133)
+Destination port: mit-dov (91)
+[Stream index: 0]
+Sequence number: 0x0b97d19d
+Acknowledgment: 0x0f8baa6f
+Header length: 32 bytes
+Flags: 0x010 (ACK)
+Window size value: 8235
+[Calculated window size: 131760]
+[Window size scaling factor: 16]
+Checksum: 0xcf36 [validation disabled]
+```
 
 至此，三步握手完成,链接建立，但是我们发现，在第三步的时候，C向S通知了自己window窗的大小：8235和 scaling factor：16。关于流控和滑动窗口不在这里讨论，但是当S收到后，需要调整自己的window size然后给C一个应答：
 
