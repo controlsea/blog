@@ -1,5 +1,5 @@
 ---
-title: SML-1
+title: Programming Language
 
 layout: post
 
@@ -21,7 +21,7 @@ layout: post
 
 
 
-```sml
+```haskell
 (* This is a comment. This is our first program. *)
 
 val x = 34; 
@@ -54,7 +54,7 @@ val abs_of_z_simpler = abs(z)
 ```
 ### A Variable Binding
 
-```ml
+```haskell
 val z = (x+y) + (y+2);
 ```
 More generally: 
