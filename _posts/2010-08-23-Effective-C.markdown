@@ -13,15 +13,14 @@ title: Effective C++ Reading Note
 
 ##02:尽量以const,enum,inline替换#define
 
-问：const和#define有什么不同？
+- const和#define有什么不同？
 
 在定义常量上，两者相同，但const有其优点：
 
-  1. cosnt有数据类型，宏常量没有数据类型，只做文本方式的替换，没有安全检查。
-  2. 不能对宏常量进行调试，const可以完全取代宏
+  - cosnt有数据类型，宏常量没有数据类型，只做文本方式的替换，没有安全检查。
+  - 不能对宏常量进行调试，const可以完全取代宏
 
 对这一点，《Effective C++》的条款2，3做了细致的讲解，摘录如下：
-
 
    * 对于单纯常量，最好以const或enums替换#defines
    * 对于函数宏，最好改用inline替换#defines
@@ -35,6 +34,7 @@ title: Effective C++ Reading Note
 
 
 ```c
+
 //将这个宏用模板类inline函数替代
 
 template<typename T>
@@ -49,7 +49,7 @@ inline T callWithMin(const T& a, const T& b)
 ##03:尽可能的使用const
 
 
-  1. 用来修饰变量：
+- 用来修饰变量：
 
 ```c
 const char* p = "greeting";               //p指向内容不可修改
@@ -61,7 +61,7 @@ char* const p = "greeting";               //p值不可修改
 
 根据const和*的位置不同，const含义不同
 
-     2.用来修饰函数参数和返回值
+- 用来修饰函数参数和返回值
 
 const成员函数：提出的目的：条款20说提高效率的一个办法是用传引用代替传值，因为减少了变量复制的过程，因此需要成员函数提供带有const参数的函数。
 
@@ -81,6 +81,7 @@ void print(const TestBook& ctb)
 
 例如：
 
+```c
 class a
 {
     a(): _ival(0),_ival2(10),_ival3(_ival){}                                  // 一个良好的习惯是为每个类提供一个默认的构造函数
@@ -95,5 +96,5 @@ private :
      int &_ival3;     
 
 }
-
+```
 
