@@ -1,5 +1,5 @@
 --- 
-title: Build VZInspector
+title: VZInspector
 layout: post
 
 ---
@@ -21,7 +21,7 @@ VZInpsector的大部分功能是独立的，但是有一些功能是依赖Vizzle
 
 - 内存状态：
 
-![Alt text](/blog/images/2014/12/vzi_memory.png)
+![Alt text](/blog/images/2014/12/vzi_memory.tiff)
 
 如图所示，我们可以通过内存的起伏来判断页面消耗内存的情况，以及判断是否存在内存泄露。
 
@@ -51,7 +51,7 @@ VZInpsector的大部分功能是独立的，但是有一些功能是依赖Vizzle
 
 - Request Log:
 
-![Alt text](/blog/images/2014/12/vzi_request.png)
+![Alt text](/blog/images/2014/12/vzi_request_log.png)
 
 如图所示，我们可以在App内部实时抓取HTTP请求中的参数。
 
@@ -64,7 +64,7 @@ VZInpsector的大部分功能是独立的，但是有一些功能是依赖Vizzle
 
 - Response Log:
 
-![Alt text](/blog/images/2014/12/vzi_response.png)
+![Alt text](/blog/images/2014/12/vzi_response_log.png)
 
 如图所示，我们可以在App内部实时抓取HTTP请求的返回值。
 
@@ -82,7 +82,7 @@ VZInpsector的大部分功能是独立的，但是有一些功能是依赖Vizzle
 
 通常情况下，我们在脱离调试环境时发生crash都无法及时查找原因。VZInspector会拦截crash产生的exception并将内容按照时间戳保存到本地的沙盒中，便于及时查看，如图：
 
-![Alt text](/blog/images/2014/12/vzi_crashes)
+![Alt text](/blog/images/2014/12/vzi_crashes.png)
 
 
 - 查询Heap中仍然存活的object:
