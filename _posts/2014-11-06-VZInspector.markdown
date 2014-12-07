@@ -10,18 +10,23 @@ layout: post
 
 [VZInspector](https://github.com/akaDealloc/VZInspector) 是一个可以在App内部运行的debugger，功能类似Instrument，可以监测App在运行时的状态信息。最开始在项目中运用，得到了测试和服务端开发人员的一致好评，因此我决定将它从业务中剥离出来，希望可以复用到每个独立的工程中。
 
+<ul style="list-style:none;">
+	<li><img src="/blog/images/2014/12/vzi_1.png" alt="vzi_1.png" style="float: left; display:inline-block; width:20%;margin-right:5%;"></li》	
+	<li> <img src="/blog/images/2014/12/vzi_2.png" alt="vzi_2.png" style="float: left; display:inline-block; width:20%; margin-right: 5%;"></li>
+	<li> <img src="/blog/images/2014/12/vzi_3.png" alt="vzi_3.png" style="float: left; display:inline-block; width:20%; margin-right: 5%;"></li>
+	<li> <img src="/blog/images/2014/12/vzi_4.png" alt="vzi_4.png" style="float: left; display:inline-block; width:20%; margin-right: 5%;"></li>
+</ul>
 
-###注意：
 
-VZInpsector的大部分功能是独立的，但是有一些功能是依赖Vizzle的，关于Vizzle请参考[这篇文章](http://akadealloc.github.io/blog/2014/09/15/Vizzle.html)
 
+<p style="clear: both; margin-bottom:20px;"></p>
 ##Features：
 
 ### 全局状态
 
 - 内存状态：
 
-![Alt text](/blog/images/2014/12/vzi_memory.tiff)
+![Alt text](/blog/images/2014/12/vzi_memory.png)
 
 如图所示，我们可以通过内存的起伏来判断页面消耗内存的情况，以及判断是否存在内存泄露。
 
@@ -57,9 +62,9 @@ VZInpsector的大部分功能是独立的，但是有一些功能是依赖Vizzle
 
 这个功能的用处很多，实际项目中主要有两方面：
 
-1. 在App出了问题，电脑又不在旁边时，我们可以先查看网络请求的参数是否正确
+(1) 在App出了问题，电脑又不在旁边时，我们可以先查看网络请求的参数是否正确
 
-2. 服务端的开发人员可以通过这个功能来Debug自己的接口，来查看UI展示是否正确
+(2) 服务端的开发人员可以通过这个功能来Debug自己的接口，来查看UI展示是否正确
 
 
 - Response Log:
@@ -101,13 +106,9 @@ VZInpsector的大部分功能是独立的，但是有一些功能是依赖Vizzle
 
 ![Alt text](/blog/images/2014/12/vzi_sandbox.png)
 
-- 模拟内存警告
+除了这几个功能外，VZInspector的命令行还具备如下功能:
 
-命令为: `mw on`,`mw off`
-
-这个功能可以在App内部每隔1s触发一次低内存警告，此时memory的颜色会变红，用来标识当前收到低内存警告。
-
-除了这几个功能外，命令行还提供如下功能:
+- `mw on/off` : 这个功能可以在App内部每隔1s触发一次低内存警告。
 
 - `show_grid` : 当前界面栅格化，方便设计师查看元素对其情况
 
@@ -147,6 +148,11 @@ VZInpsector的大部分功能是独立的，但是有一些功能是依赖Vizzle
  #endif
 
 ```
+
+###注意：
+
+VZInpsector的大部分功能是独立的，但是有一些功能是依赖Vizzle的，关于Vizzle请参考[这篇文章](http://akadealloc.github.io/blog/2014/09/15/Vizzle.html)
+
 
 ##小结
 
