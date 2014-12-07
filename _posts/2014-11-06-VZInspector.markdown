@@ -11,10 +11,10 @@ layout: post
 [VZInspector](https://github.com/akaDealloc/VZInspector) 是一个可以在App内部运行的debugger，功能类似Instrument，可以监测App在运行时的状态信息。最开始在项目中运用，得到了测试和服务端开发人员的一致好评，因此我决定将它从业务中剥离出来，希望可以复用到每个独立的工程中。
 
 <ul style="list-style:none;">
-	<li><img src="/blog/images/2014/12/vzi_1.png" alt="vzi_1.png" style="float: left; display:inline-block; width:20%;margin-right:5%;"></li》	
-	<li> <img src="/blog/images/2014/12/vzi_2.png" alt="vzi_2.png" style="float: left; display:inline-block; width:20%; margin-right: 5%;"></li>
-	<li> <img src="/blog/images/2014/12/vzi_3.png" alt="vzi_3.png" style="float: left; display:inline-block; width:20%; margin-right: 5%;"></li>
-	<li> <img src="/blog/images/2014/12/vzi_4.png" alt="vzi_4.png" style="float: left; display:inline-block; width:20%; margin-right: 5%;"></li>
+	<li><img src="/blog/images/2014/12/vzi_1.png" alt="vzi_1.png" style="float: left; display:inline-block; width:45%;margin: 5px 5% 10px 0;"></li>
+	<li> <img src="/blog/images/2014/12/vzi_2.png" alt="vzi_2.png" style="float: left; display:inline-block; width:45%;margin: 5px 0 10px 0;"></li>
+	<li> <img src="/blog/images/2014/12/vzi_3.png" alt="vzi_3.png" style="float: left; display:inline-block; width:45%; margin: 5px 5% 10px 0;"></li>
+	<li> <img src="/blog/images/2014/12/vzi_4.png" alt="vzi_4.png" style="float: left; display:inline-block; width:45%; margin: 5px 0 10px 0;"></li>
 </ul>
 
 
@@ -143,7 +143,7 @@ layout: post
        
         return ret;
     }];
-    //在状态栏显示VZInspector
+    //在状态栏显示VZInspector入口
     [VZInspector showOnStatusBar];
  #endif
 
