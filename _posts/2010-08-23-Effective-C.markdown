@@ -1,6 +1,6 @@
 ---
 
-title: [笔记]Effective C++
+title: 【笔记】Effective C++
 
 layout: post
 

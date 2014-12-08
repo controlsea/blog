@@ -1,9 +1,7 @@
-# Site settings
+#Site settings
 baseurl: /blog 
 url: http://akadealloc.github.io
 title: Blog
-#url: 127.0.0.1
-#baseurl:
 
 # Build settings
 markdown: redcarpet
