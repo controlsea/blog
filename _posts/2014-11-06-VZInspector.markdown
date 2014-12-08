@@ -8,7 +8,7 @@ layout: post
 
 ##VZInspector
 
-[VZInspector](https://github.com/akaDealloc/VZInspector) 是一个可以在App内部运行的debugger，功能类似Instrument，可以监测App在运行时的状态信息。最开始在项目中运用，得到了测试和服务端开发人员的一致好评，因此我决定将它从业务中剥离出来，希望可以复用到每个独立的工程中。
+[VZInspector](https://github.com/akaDealloc/VZInspector) 是一个可以在App内部运行的debugger，功能类似Instrument，可以监测App在运行时的状态信息。最开始在项目中运用，得到了测试和服务端开发人员的一致认可，因此我决定将它从业务中剥离出来，希望可以复用到每个独立的工程中。
 
 <ul style="list-style:none;">
 	<li><img src="/blog/images/2014/12/vzi_1.png" alt="vzi_1.png" style="float: left; display:inline-block; width:45%;margin: 5px 5% 10px 0;"></li>
@@ -18,8 +18,6 @@ layout: post
 </ul>
 
 
-
-<p style="clear: both; margin-bottom:20px;"></p>
 ##Features：
 
 ### 全局状态
@@ -52,7 +50,7 @@ layout: post
 
 一个案例是，一次在饭店吃饭的过程中，打开APP发现数据有问题，通过查看全局的地理位置状态发现了是手机定位的问题。
 
-### Log
+### 记录网络请求的Log
 
 - Request Log:
 
@@ -156,6 +154,6 @@ VZInpsector的大部分功能是独立的，但是有一些功能是依赖Vizzle
 
 ##小结
 
-随着业务不断复杂，项目的不断迭代，代码不断增长，血多代码执行细节变的难以把控。我们需要一些手段来对App做这样的监控，和调试。同样随着挑战的不断增加，VZInspector会持续集成一些实用的功能进来，越来越强大。
+随着业务不断复杂，项目的不断迭代，代码不断增长，许多代码执行细节变的难以把控。我们需要一些手段来对App做这样的监控，和调试。同样随着挑战的不断增加，VZInspector会持续集成一些实用的功能进来。后面有空会把它做成pod。
 
 That‘s all
