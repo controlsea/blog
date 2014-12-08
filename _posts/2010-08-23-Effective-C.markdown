@@ -1,6 +1,6 @@
 ---
 
-title: Effective C++ Reading Note
+title: [笔记]Effective C++
 
 layout: post
 

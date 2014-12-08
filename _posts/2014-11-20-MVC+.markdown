@@ -1,5 +1,5 @@
 ---
-title: MVC+
+title: MVC+的构想
 layout: post
 
 ---

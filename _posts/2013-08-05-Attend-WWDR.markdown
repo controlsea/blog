@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Attend WWDR
+title: 参加WWDR
 
 ---
 
