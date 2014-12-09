@@ -1,4 +1,5 @@
 ---
+title: Trick in KVO
 layout: post
 
 ---
