@@ -1,5 +1,5 @@
 ---
-title: 关于MVC+的构想
+title: Next Step of Vizzle 
 layout: post
 
 ---

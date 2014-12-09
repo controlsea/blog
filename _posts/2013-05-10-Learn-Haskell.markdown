@@ -1,5 +1,5 @@
 ---
-title: 【笔记】Learn Haskell 
+title:  Learn Haskell 
 layout: post
 
 ---

@@ -1,5 +1,5 @@
 ---
-title: 【翻译】Lua-Chap24
+title: Lua-Chap24
 layout: post
 
 ---

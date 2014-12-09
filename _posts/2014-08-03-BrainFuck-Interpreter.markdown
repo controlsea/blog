@@ -1,5 +1,5 @@
 ---
-title: BrainFuck解释器
+title: BrainFuck
 layout: post
 
 ---
