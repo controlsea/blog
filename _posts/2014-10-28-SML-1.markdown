@@ -9,6 +9,14 @@ layout: post
 
 > Programming Language课程笔记
 
+
+
+## 0 - 1:
+
+- Use ML,Racket,Ruby
+- Focus on Functional Programming 
+
+
 ## 1 - 1:ML Variable Bindings and Expressions
 
 - "Let go" of all programming languages you already know"

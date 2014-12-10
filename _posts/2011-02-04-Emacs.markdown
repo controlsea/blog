@@ -1,0 +1,14 @@
+---
+
+layout: post
+
+title: Emacs Short Cut
+
+---
+
+<em>所有文章均为作者原创，转载请注明出处</em>
+
+- 进入命令行: C-c, C-x
+
+	- 使用命令行load文件:use "section1.sml";
+
