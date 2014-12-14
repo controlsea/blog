@@ -96,6 +96,7 @@ rvm是ruby的版本管理工具，项目中可以通过rvm来创建多套gem环�
 ```
 
 [RVM官网](https://rvm.io/rvm/basics)
+
 [Ruby China 关于RVM命令的介绍](https://ruby-china.org/wiki/rvm-guide)
 
 <h3>解决10.9下cocoapods的bug</h3>
@@ -229,11 +230,11 @@ void mySBLog(NSString* format,...)
     va_start(ap, format);
     NSString* string = [[NSString alloc]initWithFormat:format arguments:ap];
     va_end(ap);
-    printf("!![SBLog]--&gt;!!%s \n",[string UTF8String]);
+    printf("!![SBLog]-->!!%s \n",[string UTF8String]);
 }
 ```
 
 ###Linux/Mac OS下文件夹的含义
 
-[这里](http://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard)
+[Answer](http://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard)
 
