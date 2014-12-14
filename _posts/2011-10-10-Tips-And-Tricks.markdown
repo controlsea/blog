@@ -3,6 +3,100 @@ layout: post
 
 ---
 
+<h3>HomeBrew和Gem</h3>
+
+- HomeBrew
+
+HomeBrew会将`/usr/local`初始化为git环境:
+
+```
+-bin          用于存放所安装程序的启动链接（相当于快捷方式）
+-Cellar       所以brew安装的程序，都将以[程序名/版本号]存放于本目录下
+-etc          brew安装程序的配置文件默认存放路径
+-Library      Homebrew 系统自身文件夹
+```
+
+- Gem包路径：
+
+使用`%gem environment`查看gem环境:
+
+```
+RubyGems Environment:
+  - RUBYGEMS VERSION: 2.2.2
+  - RUBY VERSION: 2.1.1 (2014-02-24 patchlevel 76) [x86_64-darwin13.0]
+  - INSTALLATION DIRECTORY: /Users/xt/.rvm/gems/ruby-2.1.1
+  - RUBY EXECUTABLE: /Users/xt/.rvm/rubies/ruby-2.1.1/bin/ruby
+  - EXECUTABLE DIRECTORY: /Users/xt/.rvm/gems/ruby-2.1.1/bin
+  - SPEC CACHE DIRECTORY: /Users/xt/.gem/specs
+  - RUBYGEMS PLATFORMS:
+    - ruby
+    - x86_64-darwin-13
+  - GEM PATHS:
+     - /Users/xt/.rvm/gems/ruby-2.1.1
+     - /Users/xt/.rvm/gems/ruby-2.1.1@global
+  - GEM CONFIGURATION:
+     - :update_sources => true
+     - :verbose => true
+     - :backtrace => false
+     - :bulk_threshold => 1000
+     - :sources => ["https://rubygems.org/"]
+  - REMOTE SOURCES:
+     - https://rubygems.org/
+  - SHELL PATH:
+     - /Users/xt/.rvm/gems/ruby-2.1.1/bin
+     - /Users/xt/.rvm/gems/ruby-2.1.1@global/bin
+     - /Users/xt/.rvm/rubies/ruby-2.1.1/bin
+     - /Users/xt/.rvm/bin
+     - /usr/local/heroku/bin
+     - /usr/bin
+     - /bin
+     - /usr/sbin
+     - /sbin
+     - /usr/local/bin
+     - /opt/X11/bin
+```
+如果不指定某个gemset，则gem默认将包装到这个gemset：
+
+```
+/Users/xt/.rvm/gems/ruby-2.1.1@global
+```
+
+
+<h3>RVM Command</h3>
+
+rvm是ruby的版本管理工具，项目中可以通过rvm来创建多套gem环境。
+
+- rvm路径：`~/.rvm`
+
+- 管理ruby：
+
+```
+//rvm 管理的ruby斑斑
+% rvm list
+
+//使用系统ruby版本
+% rvm use system
+
+//使用rvm管理的default版本
+% rvm use default
+```
+
+- 管理gemset
+
+```
+//创建gemset
+% rvm gemset create xxx
+
+//使用某个gemset
+% rvm gemset use xxx
+
+//查看所有的gemset
+% rvm gemset list
+
+```
+
+[RVM官网](https://rvm.io/rvm/basics)
+[Ruby China 关于RVM命令的介绍](https://ruby-china.org/wiki/rvm-guide)
 
 <h3>解决10.9下cocoapods的bug</h3>
 
@@ -67,17 +161,20 @@ http://www.abakia.de/blog/2012/12/05/nsstring-hash-is-bad/
 
 开源项目SDWebImage就是直接使用NSCache来缓存图片：
 
-<pre class="theme:tomorrow-night lang:objc decode:true " >@interface SDImageCache ()
+```objc
+@interface SDImageCache ()
 
 @property (strong, nonatomic) NSCache *memCache;
 @property (strong, nonatomic) NSString *diskCachePath;
 @property (SDDispatchQueueSetterSementics, nonatomic) dispatch_queue_t ioQueue;
 
-@end</pre> 
+@end
+```
 
 但实际项目中，为了查询方便，通常还会提供一个list来保存image的key，比如我个人的SDK中，image cache中还会增加一个keySet：
- 
-<pre class="theme:tomorrow-night lang:objc decode:true " >@interface ETImageCache()&lt;NSCacheDelegate&gt;
+
+```c 
+@interface ETImageCache()<NSCacheDelegate>
 {
     //mutable keyset
     NSMutableSet* _keySet;
@@ -87,7 +184,8 @@ http://www.abakia.de/blog/2012/12/05/nsstring-hash-is-bad/
     
     // an async write-only-lock
     dispatch_queue_t _lockQueue;
-}</pre> 
+}
+```
 
 基本上使用NSCache可以解决大部分的问题：你可以尽情的向cache中塞图片，当内存不足时，你可以选择手动释放掉NSCache中所有图片，也可以默认NSCache自己的策略：根据LRU规则释放掉最不活跃的图片。当app退到后台时，NSCache会自动释放掉图片，腾出空间给其它app。
 
@@ -98,9 +196,11 @@ http://www.abakia.de/blog/2012/12/05/nsstring-hash-is-bad/
 
 多数情况下，UIKit和Foundation对象的copy都是shallow copy（浅拷贝）。比如UIImage：
 
-<pre class="theme:tomorrow-night lang:objc decode:true " >UIImage* img = [UIImage imageNamed:@"pic.jpg"];
+```objc
+UIImage* img = [UIImage imageNamed:@"pic.jpg"];
 UIImage* img_copy = [img copy];
-NSLog(@"%p,%p,%p,%p",img,img_copy,&img,&img_copy);</pre> 
+NSLog(@"%p,%p,%p,%p",img,img_copy,&img,&img_copy);
+```
 
 结果为：
 0xc135b90,0xc135b90,0xbfffedc0,0xbfffedbc
