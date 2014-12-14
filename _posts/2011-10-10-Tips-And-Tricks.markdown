@@ -122,7 +122,8 @@ void NSLog(NSString *format, ...)
 我们可以自己实现一个NSLog：
 
  
-<pre class="theme:tomorrow-night lang:c decode:true " >void mySBLog(NSString* format,...)
+```c
+void mySBLog(NSString* format,...)
 {
     va_list ap;
     va_start(ap, format);
@@ -130,5 +131,9 @@ void NSLog(NSString *format, ...)
     va_end(ap);
     printf("!![SBLog]--&gt;!!%s \n",[string UTF8String]);
 }
-</pre> 
+```
+
+###Linux/Mac OS下文件夹的含义
+
+[这里](http://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard)
 
