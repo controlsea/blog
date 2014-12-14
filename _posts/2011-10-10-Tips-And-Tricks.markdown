@@ -3,6 +3,45 @@ layout: post
 
 ---
 
+<h3>Rails生产环境部署</h3>
+
+- 修改database.yml中db文件
+
+```ruby
+production:
+  <<: *default
+  database: db/development.sqlite3
+```  
+
+- 生成secret:
+
+```
+% rake secret ENV="production"
+
+```
+
+- 预编译资源文件
+
+在production.rb中修改:
+
+```ruby
+config.assets.compile = true
+```
+
+- 指定IP
+
+```
+% rails s -b 123.45.67.89 -e production
+
+```
+
+
+- 生成
+
+<h3>Rake Commands</h3>
+
+[Answer](http://jonathanhui.com/rake-command)
+
 <h3>HomeBrew和Gem</h3>
 
 - HomeBrew
