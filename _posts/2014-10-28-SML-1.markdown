@@ -62,6 +62,8 @@ val abs_of_z_simpler = abs(z)
 ```
 ### A Variable Binding
 
+> 在函数型语言里，没有赋值(assign)的概念，而是叫做binding，一个变量(符号)被bind一个value后，这个变量是不允许再去bind其它的value
+
 ```haskell
 val z = (x+y) + (y+2);
 ```
