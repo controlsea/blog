@@ -298,3 +298,21 @@ void mySBLog(NSString* format,...)
 
 [Answer](http://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard)
 
+###改变Git Repo的作者和email
+
+- `cd proj`
+
+- `git config user.name "jack"`
+
+- `git config user.email "jack@gmail.com"`
+
+查看全局的git账户信息:
+
+- `git config --global user.name`
+
+- `git config --global user.email`
+
+
+
+
+
