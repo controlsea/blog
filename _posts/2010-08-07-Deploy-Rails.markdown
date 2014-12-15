@@ -6,6 +6,8 @@ title: Deploy Rails
 
 >更新于 2014/05/02
 
+##以非root账户登录,假设账户名为 : admin
+
 ##Install RVM
 
 - 安装rvm: 
@@ -36,15 +38,13 @@ title: Deploy Rails
 
 	- `rvm gemset list`
 		 	
-
-
 ##Install Rails
 
 - 安装rails:
 	
 	- `gem install rails` 
 
-	- rails会默认安装到global的gemset中
+>gem包会安装到默认的rvm环境中
 	
 - 安装sqlite3:
 
@@ -52,67 +52,95 @@ title: Deploy Rails
 	
 	- `sudo apt-get install libsqlite3-dev `
 
-	
+
+##Install MySQL:
+
+	- 检查是否安装过sql: 
+		- `netstat -tap |grep mysql`
+		
+	- 安装mysql: 
+		- `sudo apt-get install mysql-server mysql-client` 
+		- `sudo /etc/init.d/mysql start|stop|restart|reload|force-reload|status  `
 
 ##Install Passenger
 
 - 安装passenger：
 
-	- `gem install passenger `
+	- `gem install passenger `(deprecated)
+	
+	- 导入 Passenger 的密钥: 
+			- `sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7` 
+	
+	- 安装 apt 插件以支持 https :
+			- `sudo apt-get install apt-transport-https ca-certificates`
+	
+	- 进入apt配置列表：
+			- `/etc/apt/sources.list.d`
+	
+	- 创建passenger.list
+			- `vim passenger.list`
+			- Ubuntu:12.04: deb https://oss-binaries.phusionpassenger.com/apt/passenger precise main 
+			- Ubuntu:14.04: deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main		
+	
+	- 改写权限:
+			- `sudo chown root: /etc/apt/sources.list.d/passenger.list`  
+    			- `sudo chmod 600 /etc/apt/sources.list.d/passenger.list`
+    	
+	- 更新apt源:
+			- `sudo apt-get update`
+		
 	
 - 安装nginx
 
-	- `rvmsudo passenger-install-nginx-module`
+	- `sudo apt-get install nginx-extras passenger`
 	
 ##Config nginx
 	
-- 找到nginx的配置文件:
+- 编辑nginx的配置文件:
 	
-	- `vim /opt/nginx/conf`
+	- `sudo vim /etc/nginx/nginx.conf`
+	
+	- 打开关于passenger的两段注释
+		
+	- 修改ruby路径:
+		- 查看当前的ruby路径:`% which ruby` 
+		- 替换nginx.conf的ruby路径: `passenger_ruby /home/admin/.rvm/wrappers/default/ruby;`
+	
 
-- 配置rails:
-	
+- 配置rails server:
+
+	- `cd /etc/nginx/sites-enabled`
+	- 干掉默认的配置文件: `sudo rm -rf default`
+	- 创建新的配置文件:`sudo vim vizline`
 ```
 http {
-   passenger_root /Users/moxinxt/.rvm/gems/ruby-2.1.1@global/gems/passenger-4.0.55;
-   passenger_ruby /Users/moxinxt/.rvm/gems/ruby-2.1.1/wrappers/ruby;
-
-   include       mime.types;
-   default_type  application/octet-stream;
-
-   sendfile        on;
-   keepalive_timeout  65;
 
    server {
        listen       2000;
-       server_name  localhost;
+       server_name  123.456.78.9;
 
-       root /home/admin/vizline/vizline/public;
+       root /home/admin/rails_app/vizline/public;
        passenger_enabled on;
        rails_env development;
    }
     
 ``` 
+- link 到 site-available中:
+	- ` ln -s /etc/nginx/sites-enabled/vizline /etc/nginx/sites-available/vizline`
 
-
-	
-##Run nginx
+- 更新nginx配置:
+	- `sudo nginx -s reload`
 
 - 启动nginx:
  
-	- `sudo nginx` 
+	- `sudo service nginx restart` 
 
 - 停止nginx:
 	
-	- `sudo nginx -s stop`
-	
-- 修改配置后重新reload：
-
-	- `sudo nginx -s reload`
+	- `sudo service nginx stop`
 	
 - 访问:
-
-	- `http://localhost:2000`
+	- `http://123.456.78.9:2000`
 
 
 
