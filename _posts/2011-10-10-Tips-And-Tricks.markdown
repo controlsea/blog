@@ -3,6 +3,12 @@ layout: post
 
 ---
 
+<h3>查看RSA的FingerPrint</h3>
+
+```
+ssh-keygen -l -f rsa_key.pub
+```
+
 <h3>Mac OS 卸载 MySQL</h3>
 
 ```
