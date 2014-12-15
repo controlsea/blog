@@ -89,7 +89,7 @@ title: Deploy Rails
 	
 	- 创建passenger.list
 	
-			- `vim passenger.list`
+			- 创建：`vim passenger.list`
 			
 			- Ubuntu:12.04: deb https://oss-binaries.phusionpassenger.com/apt/passenger precise main 
 			
