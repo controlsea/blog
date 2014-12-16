@@ -131,6 +131,7 @@ title: Deploy Rails
 	- 干掉默认的配置文件: `sudo rm -rf default`
 	
 	- 创建新的配置文件:`sudo vim vizline`
+	
 ```
 http {
 
@@ -144,6 +145,7 @@ http {
    }
     
 ``` 
+
 - link 到 site-available中:
 
 	- ` ln -s /etc/nginx/sites-enabled/vizline /etc/nginx/sites-available/vizline`
