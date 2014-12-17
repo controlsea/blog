@@ -58,15 +58,15 @@ title: Deploy Rails on Ubuntu
 ##Install MySQL:
 
 
-	- 检查是否安装过sql: 
+- 检查是否安装过sql: 
 	
-		- `netstat -tap |grep mysql`
+	- `netstat -tap |grep mysql`
 		
-	- 安装mysql: 
+- 安装mysql: 
 	
-		- `sudo apt-get install mysql-server mysql-client` 
+	- `sudo apt-get install mysql-server mysql-client` 
 		
-		- `sudo /etc/init.d/mysql start|stop|restart|reload|force-reload|status`
+	- `sudo /etc/init.d/mysql start|stop|restart|reload|force-reload|status`
 	
 
 ##Install Passenger
@@ -75,32 +75,33 @@ title: Deploy Rails on Ubuntu
 
 	- 导入 Passenger 的密钥: 
 	
-			- `sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7` 
+		- `sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7` 
 	
 	- 安装 apt 插件以支持 https :
 	
-			- `sudo apt-get install apt-transport-https ca-certificates`
+		- `sudo apt-get install apt-transport-https ca-certificates`
 	
 	- 进入apt配置列表：
 	
-			- `/etc/apt/sources.list.d`
+		- `/etc/apt/sources.list.d`
 	
 	- 创建passenger.list
 	
-			- 创建：`vim passenger.list`
+		- 创建：`vim passenger.list`
 			
-			- Ubuntu:12.04: deb https://oss-binaries.phusionpassenger.com/apt/passenger precise main 
+		- Ubuntu:12.04: deb https://oss-binaries.phusionpassenger.com/apt/passenger precise main 
 			
-			- Ubuntu:14.04: deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main		
+		- Ubuntu:14.04: deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main		
 	
 	- 改写权限:
-			- `sudo chown root: /etc/apt/sources.list.d/passenger.list` 
+		
+		- `sudo chown root: /etc/apt/sources.list.d/passenger.list` 
 			
-    			- `sudo chmod 600 /etc/apt/sources.list.d/passenger.list`
+    		- `sudo chmod 600 /etc/apt/sources.list.d/passenger.list`
     	
 	- 更新apt源:
 	
-			- `sudo apt-get update`
+		- `sudo apt-get update`
 		
 	
 - 安装nginx
