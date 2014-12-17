@@ -4,6 +4,9 @@ title: Deploy Rails on Ubuntu
 
 ---
 
+<em>所有文章均为作者原创，转载请注明出处</em>
+
+
 >更新于 2014/05/02
 
 下面所有操作以非root账户登录,账户名为 : admin

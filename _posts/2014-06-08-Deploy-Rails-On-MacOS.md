@@ -4,6 +4,9 @@ title: Deploy Rails on MacOS
 
 ---
 
+<em>所有文章均为作者原创，转载请注明出处</em>
+
+
 ##Install Rails
 
 关于Rails在MacOS上的安装，可以参考以前的[文章](http://akadealloc.github.io/blog/2010/08/07/Deploy-Rails.html),或者Ruby China中的[文章](https://ruby-china.org/wiki/install_ruby_guide)
@@ -55,7 +58,7 @@ http
         listen       2000;
         server_name  localhost;
 
-        root /Users/admin/codingForFun/rails/vizline/vizline/public;
+        root /Users/admin/rails/vizline/vizline/public;
         passenger_enabled on;
     }
 }
@@ -116,7 +119,7 @@ default: &default
 
 development:
   <<: *default
-  database: sqlite3
+  database: db/development.sqlite3
 
 test:
   <<: *default
@@ -144,6 +147,8 @@ production:
 	
 - 生产环境:
 	
+	- 使用Nginx+Passenger+MySQL 
+	
 	- `bundle exec rake db:create RAILS_ENV=production`
 	
 	- `bundle exec rake db:migrate RAILS_ENV=production`
@@ -158,13 +163,13 @@ production:
 		
 		- `show tables;`
 		
-	- `生成secret`
+	- 生成secret
 	
 		- `bundle exec rake secret RAILS_ENV=production`
 		
 		- 替换secret.yml中的加密串
 		
-	- `预编译asset`
+	- 预编译asset
 	
 		- 在production.rb中：`config.assets.compile = true`
 		
