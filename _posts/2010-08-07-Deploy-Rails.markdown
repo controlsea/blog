@@ -48,37 +48,31 @@ title: Deploy Rails on Ubuntu
 	
 	- `gem install rails` 
 
->gem包会安装到默认的rvm环境中
 	
 - 安装sqlite3:
 
 	- `sudo apt-get install sqlite3`
 	
-	- `sudo apt-get install libsqlite3-dev `
-
+	- `sudo apt-get install libsqlite3-dev`
 
 ##Install MySQL:
 
-	- Ubuntu:
-		- 检查是否安装过sql: 
+
+	- 检查是否安装过sql: 
 	
-			- `netstat -tap |grep mysql`
+		- `netstat -tap |grep mysql`
 		
-		- 安装mysql: 
+	- 安装mysql: 
 	
-			- `sudo apt-get install mysql-server mysql-client` 
+		- `sudo apt-get install mysql-server mysql-client` 
 		
-			- `sudo /etc/init.d/mysql start|stop|restart|reload|force-reload|status`
+		- `sudo /etc/init.d/mysql start|stop|restart|reload|force-reload|status`
 	
 
 ##Install Passenger
 
 - 安装passenger：
 
-	- Mac OS:
-	- 
-	- `gem install passenger `(Mac OS)
-	
 	- 导入 Passenger 的密钥: 
 	
 			- `sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7` 
