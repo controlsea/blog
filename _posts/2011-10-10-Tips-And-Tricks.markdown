@@ -3,6 +3,9 @@ layout: post
 
 ---
 
+<em>所有文章均为作者原创，转载请注明出处</em>
+  
+
 <h3>查看RSA的FingerPrint</h3>
 
 ```
@@ -24,140 +27,9 @@ sudo rm -rf /var/db/receipts/com.mysql.*
 
 ```
 
-<h3>Rails生产环境部署</h3>
-
-- 修改database.yml中db文件
-
-```ruby
-production:
-  <<: *default
-  database: db/development.sqlite3
-```  
-
-- 生成secret:
-
-```
-% rake secret ENV="production"
-
-```
-
-- 预编译资源文件
-
-在production.rb中修改:
-
-```ruby
-config.assets.compile = true
-```
-
-- 指定IP
-
-```
-% rails s -b 123.45.67.89 -e production
-
-```
-
-
-- 生成
-
 <h3>Rake Commands</h3>
 
 [Answer](http://jonathanhui.com/rake-command)
-
-<h3>HomeBrew和Gem</h3>
-
-- HomeBrew
-
-HomeBrew会将`/usr/local`初始化为git环境:
-
-```
--bin          用于存放所安装程序的启动链接（相当于快捷方式）
--Cellar       所以brew安装的程序，都将以[程序名/版本号]存放于本目录下
--etc          brew安装程序的配置文件默认存放路径
--Library      Homebrew 系统自身文件夹
-```
-
-- Gem包路径：
-
-使用`%gem environment`查看gem环境:
-
-```
-RubyGems Environment:
-  - RUBYGEMS VERSION: 2.2.2
-  - RUBY VERSION: 2.1.1 (2014-02-24 patchlevel 76) [x86_64-darwin13.0]
-  - INSTALLATION DIRECTORY: /Users/xt/.rvm/gems/ruby-2.1.1
-  - RUBY EXECUTABLE: /Users/xt/.rvm/rubies/ruby-2.1.1/bin/ruby
-  - EXECUTABLE DIRECTORY: /Users/xt/.rvm/gems/ruby-2.1.1/bin
-  - SPEC CACHE DIRECTORY: /Users/xt/.gem/specs
-  - RUBYGEMS PLATFORMS:
-    - ruby
-    - x86_64-darwin-13
-  - GEM PATHS:
-     - /Users/xt/.rvm/gems/ruby-2.1.1
-     - /Users/xt/.rvm/gems/ruby-2.1.1@global
-  - GEM CONFIGURATION:
-     - :update_sources => true
-     - :verbose => true
-     - :backtrace => false
-     - :bulk_threshold => 1000
-     - :sources => ["https://rubygems.org/"]
-  - REMOTE SOURCES:
-     - https://rubygems.org/
-  - SHELL PATH:
-     - /Users/xt/.rvm/gems/ruby-2.1.1/bin
-     - /Users/xt/.rvm/gems/ruby-2.1.1@global/bin
-     - /Users/xt/.rvm/rubies/ruby-2.1.1/bin
-     - /Users/xt/.rvm/bin
-     - /usr/local/heroku/bin
-     - /usr/bin
-     - /bin
-     - /usr/sbin
-     - /sbin
-     - /usr/local/bin
-     - /opt/X11/bin
-```
-如果不指定某个gemset，则gem默认将包装到这个gemset：
-
-```
-/Users/xt/.rvm/gems/ruby-2.1.1@global
-```
-
-
-<h3>RVM Command</h3>
-
-rvm是ruby的版本管理工具，项目中可以通过rvm来创建多套gem环境。
-
-- rvm路径：`~/.rvm`
-
-- 管理ruby：
-
-```
-//rvm 管理的ruby斑斑
-% rvm list
-
-//使用系统ruby版本
-% rvm use system
-
-//使用rvm管理的default版本
-% rvm use default
-```
-
-- 管理gemset
-
-```
-//创建gemset
-% rvm gemset create xxx
-
-//使用某个gemset
-% rvm gemset use xxx
-
-//查看所有的gemset
-% rvm gemset list
-
-```
-
-[RVM官网](https://rvm.io/rvm/basics)
-
-[Ruby China 关于RVM命令的介绍](https://ruby-china.org/wiki/rvm-guide)
 
 <h3>解决10.9下cocoapods的bug</h3>
 
