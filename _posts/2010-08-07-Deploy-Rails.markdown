@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Deploy Rails
+title: Deploy Rails on Ubuntu
 
 ---
 
@@ -59,21 +59,25 @@ title: Deploy Rails
 
 ##Install MySQL:
 
-	- 检查是否安装过sql: 
+	- Ubuntu:
+		- 检查是否安装过sql: 
 	
-		- `netstat -tap |grep mysql`
+			- `netstat -tap |grep mysql`
 		
-	- 安装mysql: 
+		- 安装mysql: 
 	
-		- `sudo apt-get install mysql-server mysql-client` 
+			- `sudo apt-get install mysql-server mysql-client` 
 		
-		- `sudo /etc/init.d/mysql start|stop|restart|reload|force-reload|status  `
+			- `sudo /etc/init.d/mysql start|stop|restart|reload|force-reload|status`
+	
 
 ##Install Passenger
 
 - 安装passenger：
 
-	- `gem install passenger `(deprecated)
+	- Mac OS:
+	- 
+	- `gem install passenger `(Mac OS)
 	
 	- 导入 Passenger 的密钥: 
 	
@@ -106,7 +110,7 @@ title: Deploy Rails
 		
 	
 - 安装nginx
-
+	
 	- `sudo apt-get install nginx-extras passenger`
 	
 ##Config nginx
