@@ -123,11 +123,11 @@ layout: post
 
 ##用法
 
-- 使用cocoapods:
+- 使用cocoapods（v>0.34）:
 
 ```ruby
 
-pod 'VZInspector'
+pod 'VZInspector', :configurations => ['Debug']
 
 ```
 
