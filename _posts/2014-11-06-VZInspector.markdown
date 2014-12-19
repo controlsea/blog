@@ -78,10 +78,9 @@ layout: post
 
 命令行这个功能非常强大，我们可以通过输入一些命令来获取我们想要的结果。
 
-
 - 查询Crash日志：
 
-命令为: `show_crashes`
+命令为: `crash`
 
 通常情况下，我们在脱离调试环境时发生crash都无法及时查找原因。VZInspector会拦截crash产生的exception并将内容按照时间戳保存到本地的沙盒中，便于及时查看，如图：
 
@@ -90,7 +89,7 @@ layout: post
 
 - 查询Heap中仍然存活的object:
 
-命令为: `show_heap`
+命令为: `heap`
 
 这个功能类似于Instrument中的allocation，可以通过过滤类名前缀查看当前heap上活跃的object，从而可以判断出哪些对象没有被释放。如图：
 
@@ -98,7 +97,7 @@ layout: post
 
 - 查询沙盒文件:
 
-命令为: `show_sandbox`
+命令为: `sandbox`
 
 这个功能可以实时查询沙盒内的文件:
 
@@ -108,9 +107,11 @@ layout: post
 
 - `mw on/off` : 这个功能可以在App内部每隔1s触发一次低内存警告。
 
-- `show_grid` : 当前界面栅格化，方便设计师查看元素对其情况
+- `grid` : 当前界面栅格化，方便设计师查看元素对其情况
 
-- `show_border`: 会拦截点击时间，并将其应用在响应的View上，会实时标红响应View的边框。
+- `border`: 会拦截点击时间，并将其应用在响应的View上，会实时标红响应View的边框。
+
+- `help`: 显示所有命令
 
 
 ### 环境切换
@@ -122,38 +123,98 @@ layout: post
 
 ##用法
 
-在AppDelegate或者其它全局初始化方法中加入:
+- 使用cocoapods:
+
+```ruby
+
+pod 'VZInspector'
+
+```
+
+- 全局初始化:
 
 ```objc
 
  #if DEBUG
-    //业务类的前缀
-    [VZInspector setClassPrefixName:@"VZ"];
-    //是否要记录crash日志到本地
+ //should handle crash
     [VZInspector setShouldHandleCrash:true];
-    //全局变量信息回调
+    
+    //config class prefix
+    [VZInspector setClassPrefixName:@"TBCity"];
+    
+    //config global info
     [VZInspector setObserveCallback:^NSString *{
        
-        NSString* v = [NSString stringWithFormat:@"System Ver:%@\n",[UIDevice currentDevice].systemVersion];
-        NSString* n = [NSString stringWithFormat:@"System Name:%@\n",[UIDevice currentDevice].systemName];
+        NSString* appVer    = [[@"App版本: " stringByAppendingString:[TBCityGlobal version]?:@""] stringByAppendingString:@"\n"];
+        NSString* sysVer    = [[@"系统版本: " stringByAppendingString:[[UIDevice currentDevice] systemVersion]?:@""] stringByAppendingString:@"\n"];
         
-        NSString* ret = [v stringByAppendingString:n];
-       
+        NSString* user_cord = [[@"GPS坐标: " stringByAppendingString: NSStringFromCGPoint(CGPointMake([TBCityGlobal userCoordinate].latitude, [TBCityGlobal userCoordinate].longitude))] stringByAppendingString:@"\n"];
+        NSString* used_cord = [[@"默认坐标: " stringByAppendingString: NSStringFromCGPoint(CGPointMake([TBCityGlobal usedCoordinate].latitude, [TBCityGlobal usedCoordinate].longitude))] stringByAppendingString:@"\n"];
+        
+        NSString* userCity = [[@"GPS城市: " stringByAppendingString:[TBCityGlobal userCity].cityId?:@""] stringByAppendingString:@"\n"];
+        NSString* usedCity = [[@"选择的城市: " stringByAppendingString:[TBCityGlobal usedCity].cityId?:@""] stringByAppendingString:@"\n"];
+     
+        NSString* userNick = [[@"用户名: " stringByAppendingString:[MTopLoginEngine userName]?:@""] stringByAppendingString:@"\n"];
+        NSString* utdid    = [[@"UTDID: " stringByAppendingString:[MTopLoginEngine utdid]?:@""] stringByAppendingString:@"\n"];
+        
+        
+        NSString* ret = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@\n%@\n%@\n%@",appVer,sysVer,user_cord,used_cord,userCity,usedCity,userNick,utdid];
+        
         return ret;
     }];
-    //在状态栏显示VZInspector入口
+    
+    //config log
+    [VZInspector setRequestLogNotificationIdentifier:@"SBRequestLog" urlKey:@"url"];
+    [VZInspector setResponseLogNotificationIdentifier:@"SBResponseLog" responseKey:@"json" errorKey:@"error"];
+    
+    //api-env：dev
+    [VZInspector setDevAPIEnvCallback:^{
+        
+        [[TBSecretMgr sharedInstance] TBSetAPIEnvironment:2];
+        
+        //API请求
+        TBSDKConfiguration *configuration = [TBSDKConfiguration shareInstance];
+        configuration.environment = TBSDKEnvironmentDaily;
+        
+        //windvane
+        [WVUserConfig setEnvironment:WVEnvironmentDaily];
+
+        
+    }];
+    
+    //api-env：pre-release
+    [VZInspector setTestAPIEnvCallback:^{
+        
+        [[TBSecretMgr sharedInstance] TBSetAPIEnvironment:1];
+        TBSDKConfiguration *configuration = [TBSDKConfiguration shareInstance];
+        configuration.environment = TBSDKEnvironmentDebug;
+        [WVUserConfig setEnvironment:WVEnvironmentDebug];
+        
+    }];
+    
+    //api-env：production
+    [VZInspector setProductionAPIEnvCallback:^{
+        
+        [[TBSecretMgr sharedInstance] TBSetAPIEnvironment:0];
+        TBSDKConfiguration *configuration = [TBSDKConfiguration shareInstance];
+        configuration.environment = TBSDKEnvironmentRelease;
+        [WVUserConfig setEnvironment:WVEnvironmentRelease];
+        
+    }];
+    
+    //default api-env
+    [VZInspector setDefaultAPIEnvIndex:[TBCityGlobal apiEnv]];
+    
+    
+    //show a small icon on status bar
     [VZInspector showOnStatusBar];
  #endif
 
 ```
 
-###注意：
-
-VZInpsector的大部分功能是独立的，但是有一些功能是依赖Vizzle的，关于Vizzle请参考[这篇文章](http://akadealloc.github.io/blog/2014/09/15/Vizzle.html)
-
 
 ##小结
 
-随着业务不断复杂，项目的不断迭代，代码不断增长，许多代码执行细节变的难以把控。我们需要一些手段来对App做这样的监控，和调试。同样随着挑战的不断增加，VZInspector会持续集成一些实用的功能进来。后面有空会把它做成pod。
+随着业务不断复杂，项目的不断迭代，代码不断增长，许多代码执行细节变的难以把控。我们需要一些手段来对App做这样的监控，和调试。同样随着挑战的不断增加，VZInspector会持续集成一些实用的功能进来。
 
 That‘s all
