@@ -145,19 +145,15 @@ pod 'VZInspector'
     //config global info
     [VZInspector setObserveCallback:^NSString *{
        
-        NSString* appVer    = [[@"App版本: " stringByAppendingString:[TBCityGlobal version]?:@""] stringByAppendingString:@"\n"];
-        NSString* sysVer    = [[@"系统版本: " stringByAppendingString:[[UIDevice currentDevice] systemVersion]?:@""] stringByAppendingString:@"\n"];
+        NSString* appVer    = [[@"App ver: " stringByAppendingString:[TBCityGlobal version]?:@""] stringByAppendingString:@"\n"];
+        NSString* sysVer    = [[@"System Ver: " stringByAppendingString:[[UIDevice currentDevice] systemVersion]?:@""] stringByAppendingString:@"\n"];
         
-        NSString* user_cord = [[@"GPS坐标: " stringByAppendingString: NSStringFromCGPoint(CGPointMake([TBCityGlobal userCoordinate].latitude, [TBCityGlobal userCoordinate].longitude))] stringByAppendingString:@"\n"];
-        NSString* used_cord = [[@"默认坐标: " stringByAppendingString: NSStringFromCGPoint(CGPointMake([TBCityGlobal usedCoordinate].latitude, [TBCityGlobal usedCoordinate].longitude))] stringByAppendingString:@"\n"];
+        NSString* user_cord = [[@"user GPS: " stringByAppendingString: NSStringFromCGPoint(CGPointMake([TBCityGlobal userCoordinate].latitude, [TBCityGlobal userCoordinate].longitude))] stringByAppendingString:@"\n"];
         
-        NSString* userCity = [[@"GPS城市: " stringByAppendingString:[TBCityGlobal userCity].cityId?:@""] stringByAppendingString:@"\n"];
-        NSString* usedCity = [[@"选择的城市: " stringByAppendingString:[TBCityGlobal usedCity].cityId?:@""] stringByAppendingString:@"\n"];
-     
-        NSString* userNick = [[@"用户名: " stringByAppendingString:[MTopLoginEngine userName]?:@""] stringByAppendingString:@"\n"];
-        NSString* utdid    = [[@"UTDID: " stringByAppendingString:[MTopLoginEngine utdid]?:@""] stringByAppendingString:@"\n"];
-        
-        
+        NSString* used_cord = [[@"default GPS: " stringByAppendingString: NSStringFromCGPoint(CGPointMake([TBCityGlobal usedCoordinate].latitude, [TBCityGlobal usedCoordinate].longitude))] stringByAppendingString:@"\n"];
+
+        NSString* userNick = [[@"userNick: " stringByAppendingString:[MTopLoginEngine userName]?:@""] stringByAppendingString:@"\n"];
+ 
         NSString* ret = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@\n%@\n%@\n%@",appVer,sysVer,user_cord,used_cord,userCity,usedCity,userNick,utdid];
         
         return ret;
@@ -169,42 +165,21 @@ pod 'VZInspector'
     
     //api-env：dev
     [VZInspector setDevAPIEnvCallback:^{
-        
-        [[TBSecretMgr sharedInstance] TBSetAPIEnvironment:2];
-        
-        //API请求
-        TBSDKConfiguration *configuration = [TBSDKConfiguration shareInstance];
-        configuration.environment = TBSDKEnvironmentDaily;
-        
-        //windvane
-        [WVUserConfig setEnvironment:WVEnvironmentDaily];
-
-        
+	[APIConfig SetAPIEnvironment:2];
     }];
     
     //api-env：pre-release
     [VZInspector setTestAPIEnvCallback:^{
-        
-        [[TBSecretMgr sharedInstance] TBSetAPIEnvironment:1];
-        TBSDKConfiguration *configuration = [TBSDKConfiguration shareInstance];
-        configuration.environment = TBSDKEnvironmentDebug;
-        [WVUserConfig setEnvironment:WVEnvironmentDebug];
-        
+	[APIConfig SetAPIEnvironment:1];
     }];
     
     //api-env：production
     [VZInspector setProductionAPIEnvCallback:^{
-        
-        [[TBSecretMgr sharedInstance] TBSetAPIEnvironment:0];
-        TBSDKConfiguration *configuration = [TBSDKConfiguration shareInstance];
-        configuration.environment = TBSDKEnvironmentRelease;
-        [WVUserConfig setEnvironment:WVEnvironmentRelease];
-        
+        [APIConfig SetAPIEnvironment:0];
     }];
     
     //default api-env
-    [VZInspector setDefaultAPIEnvIndex:[TBCityGlobal apiEnv]];
-    
+    [VZInspector setDefaultAPIEnvIndex:[APIConfig apiEnv]];
     
     //show a small icon on status bar
     [VZInspector showOnStatusBar];
