@@ -4,6 +4,8 @@ title: Transition To 64bit Platform
 
 ---
 
+<em>所有文章均为作者原创，转载请注明出处</em>
+
 两个月前Apple放出了这样[一条消息](https://developer.apple.com/news/?id=10202014a)。今天Apple[又来了](https://developer.apple.com/news/)：
 
 >As we announced in October, beginning on February 1, 2015 new iOS apps submitted to the App Store must include 64-bit support and be built with the iOS 8 SDK. Beginning June 1, 2015 app updates will also need to follow the same requirements. To enable 64-bit in your project, we recommend using the default Xcode build setting of “Standard architectures” to build a single binary with both 32-bit and 64-bit code.
