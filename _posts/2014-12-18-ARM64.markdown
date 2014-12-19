@@ -26,7 +26,7 @@ title: Transition To 64bit Platform
 
 但Apple还没有明确说禁止提交32bit的app，估计是要慢慢过渡。
 
-今天仔细读了一遍[64-Bit Transition Guide for Cocoa Touch]((https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaTouch64BitGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40013501-CH1-SW1)。摘录下其中关键的部分:
+今天仔细读了一遍[64-Bit Transition Guide for Cocoa Touch](https://developer.apple.com/library/ios/documentation/General/Conceptual/CocoaTouch64BitGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40013501-CH1-SW1)。摘录下其中关键的部分:
 
 ##At a Glance
 
@@ -80,6 +80,7 @@ C或Objective-C是不会去限制原生数据类型的size的，因为这与具�
 
 >If you are writing low-level code that targets the Objective-C runtime directly, you can no longer access an object’s isa pointer directly. Instead, you need to use the runtime functions to access that information.
 
+直接给出在64bit平台下，访问isa指针的方法：
 
 ```C
 
@@ -115,7 +116,8 @@ int *d = c + 1;               // Correct!
 
 例子:
 	
-```
+```c
+
 long PerformCalculation(void);
  
 int  x = PerformCalculation(); // incorrect
@@ -151,6 +153,7 @@ CFNumberCreate(kCFAllocatorDefault, kCFNumberCGFloatType, &value);
 例子：
 	
 ```c
+
 int a=-2;
 unsigned int b=1;
 long c = a + b;
@@ -185,15 +188,66 @@ printf("%lld\n", d);
 ![alt text](/blog/images/2014/12/64bit-data-type-c99.png)
 
 
+###要兼顾字节对齐：
+
+定义struct要注意字节对齐:
+
+```c
+struct bar {
+    int32_t foo0;
+    int32_t foo1;
+    int32_t foo2;
+    int64_t bar;
+};
+```
+在32bit的环境中，`bar`的padding offset是12字节。到了64bit中，`bar`的padding offset变成了16字节。因为在64bit的环境中，最小alignment的字节数变为8字节，那么在`foo2`后面会额外补充4字节的0。
+
+f you are defining a new data structure, organize the elements with the largest alignment values first and the smallest elements last. This structure organization eliminates the need for most padding bytes. If you are working with an existing structure that includes misaligned 64-bit integers, you can use a pragma to force the proper alignment. Listing 2-10 shows the same data structure, but here the structure is forced to use the 32-bit alignment rules.
+
+如果你要定义一个新的结构体struct，将size最大的数据类型定义在最前面，size最小的数据类型定义在最后面。这种定义方式会尽量减少padding的字节数。如果你要使用原先32bit环境下的struct，可以用`#pragma pack(4)`来强行指定字节对齐方式按照32bit来对齐，这种方式当然会损耗一些性能。
+
+如下:
+
+```c
+
+ #pragma pack(4)
+struct bar {
+    int32_t foo0;
+    int32_t foo1;
+    int32_t foo2;
+    int64_t bar;
+};
+ #pragma options align=reset
+
+```
 
 
-
-###使用malloc要注意，不要用:`malloc(4)`来动态分配内存，尽量用`sizeof`来计算分配空间的大小
-
+###函数与函数指针
 
 
+在64bit的环境中，编译器生成的用来处理可变参数的函数的指令顺序和32bit环境有着较大的区别,因此这两者不可以强制相互cast：
 
-	
+```c
+
+int MyFunction(int a, int b, ...);
+ 
+int (*action)(int, int, int) = (int (*)(int, int, int)) MyFunction;
+action(1,2,3); // Error!
+
+```
+在64bit的环境中，尽量使用函数原型，这种通过函数指针调用函数的方式有风险，因为可能会碰到可变参数的函数。
+
+
+###Message Dispatch
+
+
+###其它
+
+- 不要自定义原生数据类型，因为它涉及到32bit和64bit两套环境，以及他们之间的相互转换。
+
+- 不要直接访问`isa`指针，因为它指向的数据结构发生了变化。使用`object_getclass`或`object_setclass`。 
+
+- 不要Hard Code虚拟内存的page size。关于iOS下的虚拟内存，参考之前的[这篇文章](http://akadealloc.github.io/blog/2012/07/10/Debuging-Memory-Issues-1.html)。
 
 
 
