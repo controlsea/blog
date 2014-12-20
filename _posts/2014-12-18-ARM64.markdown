@@ -30,41 +30,45 @@ title: Transition To 64bit Platform
 
 ##At a Glance
 
-- Apple A7支持两种不同的指令集:
-	
-	- 32bit ARM : 所有CPU都支持
-	
-	- 64bit ARM : 64bit ARM
-	
-- 使用64bit ARM architecture的优势:
+---
 
-	- CPU寻址空间变大了
+###Apple A7支持两种不同的指令集:
 	
-	- 整形,浮点型的寄存器数量增加了一倍
+- 32bit ARM : 所有CPU都支持
 	
-	- LLVM针对64bit进行了优化，提升了App的性能
+- 64bit ARM : 64bit ARM
 	
-- 注意的点:
+###使用64bit ARM architecture的优势:
 
-	- 64bit的pointer意味着消耗更多的内存。
+- CPU寻址空间变大了
 	
-	- 64bit的app只能运行在iOS 7.0.3以后的系统上，并且设备是支持64bit的（iPhone 5s以后）。
+- 整形,浮点型的寄存器数量增加了一倍
 	
-	- 从32bit到64bit需要对基本的数据类型做一些处理,如int,NSInteger,float,CGFloat等。
+- LLVM针对64bit进行了优化，提升了App的性能
+	
+###注意的点:
+
+- 64bit的pointer意味着消耗更多的内存。
+	
+- 64bit的app只能运行在iOS 7.0.3以后的系统上，并且设备是支持64bit的（iPhone 5s以后）。
+	
+- 从32bit到64bit需要对基本的数据类型做一些处理,如int,NSInteger,float,CGFloat等。
 	
 
 ##Major 64 bit changes
 
-- 64bit 和 32bit的运行时环境，主要由两方面区别：
+---
 
-	- 64bit环境中，基本数据类型均要求严格的内存对齐，这会带来自身size的增加。
+### 64bit 和 32bit的运行时环境，主要由两方面区别：
+
+- 64bit环境中，基本数据类型均要求严格的内存对齐，这会带来自身size的增加。
 	
-	- 64bit环境中，对函数原型([function protype](http://en.wikipedia.org/wiki/Function_prototype))的声明，有这个更严格的要求。
+- 64bit环境中，对函数原型([function protype](http://en.wikipedia.org/wiki/Function_prototype))的声明，有这个更严格的要求。
 	
 
 C或Objective-C是不会去限制原生数据类型的size的，因为这与具体的平台相关，不同平台会针对硬件环境和操作系统来重新定义这些数据类型。从32bit到64bit，这些基本数据类型的大小要重新定义。
 
-- ILP32 vs LP64
+###ILP32 vs LP64
 
 32bit的runtime环境使用ILP32的数据模型，integer，long，pointer都是32bit长。64bit的runtime环境使用的是LP64的数据模型，integer是32bit长，long，pointer类型是64bit长。更多数据类型的变化如下图：
 
@@ -99,6 +103,7 @@ C或Objective-C是不会去限制原生数据类型的size的，因为这与具�
 
 ##Converting Your App to a 64-Bit Binary
 
+---
 
 ### 不要将pointer强制转换为int类型。
 
@@ -202,8 +207,6 @@ struct bar {
 ```
 在32bit的环境中，`bar`的padding offset是12字节。到了64bit中，`bar`的padding offset变成了16字节。因为在64bit的环境中，最小alignment的字节数变为8字节，那么在`foo2`后面会额外补充4字节的0。
 
-f you are defining a new data structure, organize the elements with the largest alignment values first and the smallest elements last. This structure organization eliminates the need for most padding bytes. If you are working with an existing structure that includes misaligned 64-bit integers, you can use a pragma to force the proper alignment. Listing 2-10 shows the same data structure, but here the structure is forced to use the 32-bit alignment rules.
-
 如果你要定义一个新的结构体struct，将size最大的数据类型定义在最前面，size最小的数据类型定义在最后面。这种定义方式会尽量减少padding的字节数。如果你要使用原先32bit环境下的struct，可以用`#pragma pack(4)`来强行指定字节对齐方式按照32bit来对齐，这种方式当然会损耗一些性能。
 
 如下:
@@ -240,6 +243,25 @@ action(1,2,3); // Error!
 
 ###Message Dispatch
 
+`objc_msgSend`的函数原型为:`id objc_msgSend(id self, SEL op, ...)`，显然它是一个可变参数的函数。在32bit的环境中，我们可以通过这个方法在运行时调用某个类的某个method，而不用考虑可变参数的问题:
+
+```c
+  int ret1 = objc_msgSend(obj,@selector(method1:),@"hello");
+  int ret2 = objc_msgSend(obj,@selector(method1:),@"hello",nil);
+
+```
+但是在64bit环境中，如果使用`objc_msgSend`来调用某个method，需要明确的提供这个method的函数原型:
+
+```c
+
+- (int) doSomething:(int) x { ... }
+- 
+- (void) doSomethingElse {
+    int (*action)(id, SEL, int) = (int (*)(id, SEL, int)) objc_msgSend;
+    action(self, @selector(doSomething:), 0);
+}
+
+```
 
 ###其它
 
@@ -249,12 +271,19 @@ action(1,2,3); // Error!
 
 - 不要Hard Code虚拟内存的page size。关于iOS下的虚拟内存，参考之前的[这篇文章](http://akadealloc.github.io/blog/2012/07/10/Debuging-Memory-Issues-1.html)。
 
+- 关于使用内存的优化，这部分不详细列出。
+
+
+
+
+
+
 
 
 
 ---
 
-###附：iPhone Hardware/OS Model
+##附：iPhone Hardware/OS Model
 
 
 | Hardware |iPhone 3gs| iPhone 4 |iPhone 4s| iPhone 5 | iPhone 5s | iPhone 6 | iPhone 6+ |
