@@ -30,8 +30,6 @@ title: Transition To 64 Bit
 
 ##At a Glance
 
----
-
 ###Apple A7支持两种不同的指令集:
 	
 - 32bit ARM : 所有CPU都支持
@@ -56,8 +54,6 @@ title: Transition To 64 Bit
 	
 
 ##Major 64 bit changes
-
----
 
 ### 64bit 和 32bit的运行时环境，主要由两方面区别：
 
@@ -102,8 +98,6 @@ C或Objective-C是不会去限制原生数据类型的size的，因为这与具�
 
 
 ##Converting Your App to a 64-Bit Binary
-
----
 
 ### 不要将pointer强制转换为int类型。
 
@@ -207,7 +201,7 @@ struct bar {
 ```
 在32bit的环境中，`bar`的padding offset是12字节。到了64bit中，`bar`的padding offset变成了16字节。因为在64bit的环境中，最小alignment的字节数变为8字节，那么在`foo2`后面会额外补充4字节的0。
 
-如果你要定义一个新的结构体struct，将size最大的数据类型定义在最前面，size最小的数据类型定义在最后面。这种定义方式会尽量减少padding的字节数。如果你要使用原先32bit环境下的struct，可以用`#pragma pack(4)`来强行指定字节对齐方式按照32bit来对齐，这种方式当然会损耗一些性能。
+如果你要定义一个新的结构体，将size最大的数据类型定义在最前面，size最小的数据类型定义在最后面。这种定义方式会尽量减少padding的字节数。如果你要使用原先32bit环境下的struct，可以用`#pragma pack(4)`来强行指定字节对齐方式按照32bit来对齐，这种方式当然会损耗一些性能。
 
 如下:
 
@@ -272,13 +266,6 @@ action(1,2,3); // Error!
 - 不要Hard Code虚拟内存的page size。关于iOS下的虚拟内存，参考之前的[这篇文章](http://akadealloc.github.io/blog/2012/07/10/Debuging-Memory-Issues-1.html)。
 
 - 关于使用内存的优化，这部分不详细列出。
-
-
-
-
-
-
-
 
 
 ---
