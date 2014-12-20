@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Transition To 64bit Platform
+title: Transition To 64 Bit 
 
 ---
 
