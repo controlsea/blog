@@ -5,7 +5,7 @@ layout: post
 
 <em>所有文章均为作者原创，转载请注明出处</em>
   
-<h3>使用Trunk提交cocoaPods
+<h3>使用Trunk提交cocoaPods</h3>
 
 2014年5月20日之后，cocoaPods不再接受pull Request的提交方式，而转为用[trunk](http://blog.cocoapods.org/CocoaPods-Trunk/)。使用trunk需要cocoapods的版本大于0.33。
 
@@ -32,7 +32,7 @@ layout: post
   - 在podsepc的目录下: `pod trunk push`
 
   - 成功后回返回podspec的json格式的url
-    
+
 <h3>查看RSA的FingerPrint</h3>
 
 ```
