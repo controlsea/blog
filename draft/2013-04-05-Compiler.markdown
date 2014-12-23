@@ -1,0 +1,351 @@
+---
+layout: post
+title: Compiler
+
+---
+
+<em>所有文章均为作者原创，转载请注明出处</em>
+
+##1-1: Intro
+
+###编译器和解释器的区别:
+
+- Compiler: 
+
+program -> compiler -> exec + data -> output
+
+- Interpreters：
+
+program+data -> Interpreter -> output
+
+
+###历史:
+
+- 1954 IBM develops the 704
+
+这个时候发现software取代hardware，成了性能的瓶颈。
+
+- Speedcoding:
+
+	- 1953, by Jon Backus
+	
+	- 解释型语言
+	
+	- 优势是提高了开发效率
+	
+	- 劣势是代码执行效率很低
+	
+		- 比直接手写代码慢10-20倍
+		
+		- 解释器占了300字节，相当于全部内存的30%
+		
+
+Speedcoding并没有流行起来，但John Backus认为自己的思路是有正确的，并将它用到了另一个项目中。由于当时的重要的application主要是scientific application。学术界通常都需要计算机能直接执行公式（Formulas）,John Backus认为Speedcoding最大的问题是使用了解释器去实时解析公式，于是他这次改变了思路：将公式（Formulas）先变成可执行的机器码（Translate），这样能加快程序的执行速度，同时又能保持开发的高效，于是便有了FORTRAN 1。
+
+- FORTRAN 1
+
+	- 1954 - 1957
+	
+	- 1958 : 50% 的代码都是通过FORTRAN写的
+	
+	- 世界上第一个编译器诞生了
+	
+	- FORTRAN成了世界上第一个比较成功的高级编程语言，对计算机科学产生了深远的影响
+
+	- 现代的编译器保留了FORTRAN 1的一些框架：
+	
+		 - Lexical Analysis
+
+		 - Parsing
+
+		 - Sementic Analysis
+
+		 - Optimization
+
+		 - Code Generation
+
+## 1-2: Structure of Compiler
+
+###Lexical Analysis: 把代码变成words，tokens。
+
+```
+if x == y then 
+	z = 1;
+else
+	 z=2;
+end
+```
+- 上面代码可以分解为以下的一些tokens:
+
+	- keyword: if, then ,else, end
+
+	- variable : x, y ,z
+
+	- constant : 1, 2
+
+	- operator : = , ; , ==
+
+	- seperator : space
+
+###parsing:拆分句子结构，通常将代码按照树形结构划分
+
+```
+This line is a long sentence
+```
+- 类比：解析一句英文
+	
+	- 根节点 : sentence
+	
+	- 一级叶子类目：subject,verb,object（主谓宾）
+
+	- 二级叶子类目：This line, is ,a long sentence
+
+
+
+```
+if x==y then z = 1;
+else z = 2;
+
+```
+
+- 以上面代码为例：
+
+	- 根节点：if - then - else
+
+	- 一级叶子类目：predicate, then语句(赋值), else语句
+	
+	- 二级叶子类目： x == y  ,  z = 1  , z = 2
+
+###：Semantic Analysis:理解语义
+
+- 一旦树形结构确定，接下来就是最难的语义分析，编译器在这方面很难保持它的理解和programmer的理解是一致的，以英语为例：
+
+```
+Jack said Jerry left his assignment at home。
+```
+编译器很难理解his指的是jack还是jerrry。
+
+再来看一种极端情况：
+
+```
+Jack said Jack left his assignment at home?
+```
+
+编译器不理解，到底有几个人，两个Jack是不是同一个人，his只谁？
+
+- 这种问题对于编译器来说，是variable binding
+
+编译器在处理这类变量名称模糊的情况，是由严格语法规定的：
+
+```
+{
+	int jack = 3;
+
+	{
+		int jack = 4;
+		
+		cout<<jack; 
+
+	}
+
+}
+
+```
+上面的例子中两个jack都是相同的类型，因此编译器需要通过scope来判断输出哪一个jack。
+
+- 除了通过variable binding之外，还可以使用类型判断语义。比如:
+
+```
+Jack left her homework at home.
+
+```
+Jack的类型为male，her显然类型为female。由此，编译器便可以知道句子中Jack和her不是同一个人，对应到程序中，便是有两个不同类型的变量。
+
+
+###Optimization: 优化
+
+- 优化通常是用来减少代码体积，例如：
+
+```
+But a little bit like editing
+```
+被优化成：But akin to editing
+
+- 节省了代码容量，代码能运行的更快，消耗内存较少
+
+- 编译器的优化是有针对性的，比如： 
+
+```
+x = y*0 
+```
+在满足一定条件时才会会被优化成:
+
+```
+x = 0
+```
+仅仅当，x，y是整数的时候，编译器才会这么优化。当x或y为浮点型时，x,y为NAN类型，而
+
+```
+NAN * 0 = NAN
+```
+
+
+###Code Generation：生成代码
+
+- 生成汇编代码
+
+- 转换成平台相关语言
+
+
+###小结
+
+- 基本上所有的compiler都会遵从上面几个步骤
+
+- 但是从FORTRAN开始，上面5部分的比重却在发生变化：
+
+	- 对于比较老的编译器来说，L,P所占的比重会很高，S,O会很低
+	
+	- 对于现代编译器来说，由于有了工具，L,P所在比重明显下降，而O所占的比重却大幅度上升
+
+
+
+##1-3：Economy of Programming Language
+
+
+- 为什么有很多种编程语言？
+
+	- 科学计算，需要大量计算，需要对float point numbers支持，需要对array支持的很好和并行计算。并不是每种语言都能很好的支持上面的需求，FORTRAN在这方面做的很好。
+
+	- 商用：需要持久化存储，report generation，数据分析。SQL在这方面做的很好
+
+ 	- 系统编程：low level control of resource，real time constrains。C/C++
+ 	
+ 	- 需求很多，很难设计一种语言满足所有场景。
+
+- 为什么还有新的编程语言不断涌现？
+
+传统语言改变的很慢，学习新语言很容易。如果新语言能更快的解决问题，那么它就有存在的价值
+
+
+##2-1：Cool OVerview
+
+
+###overview:
+
+- Cool是用来学习编译器的语言:(Classroom Object Oriented Language)。
+
+- Compiler很容易被实现
+
+- 特性：抽象，静态类型，继承，内存管理等。
+
+- 目标 : 生成MIPS汇编代码
+
+###brief demo:
+
+- 使用emacs: 
+
+	- `%emacs 1.cl`
+
+
+- 实例代码:
+
+```
+class Main{
+
+	i:IO <- new IO;
+	
+	main():Int{ 
+	
+		i.out_string("Hello\n");
+		1
+	};
+
+};
+
+```
+
+- 每个cool程序必须有Main这个类，Main类中必须有main方法
+
+- 所有方法需要生命返回值类型
+
+- 分号结束
+
+- 编译cool：
+
+	- `%coolc 1.cl`
+	
+	- 生成 `1.s`的汇编代码
+	
+- 运行cool:
+
+	- `%spim 1.s`
+
+
+
+##3-1: Lexical Analysis
+
+词法分析：首先将代码分解成token；
+
+identifiers,keywords,符号，数字
+
+这些token，有这么几种类型：
+
+Identifier:以英文字母开头
+
+Intiger：一串非空的数字
+
+keyword：if，else等
+
+whitespace：空格
+
+token是由一系列<class:string>的pair组成的，参见我的blog
+
+LA的输入是一串字符串，输出是一系列的pair
+
+例如输入是：foo=42;
+
+输出是:	<identifier = "foo">,	<op = "=">,	<"int" = "42">
+
+
+<chap 3-2 Lexical Analysis example>
+
+FORTRAN : 空格不记入token
+
+例如：VAR1 = VA R1
+
+再比如，在FORTRAN中，循环：
+
+DO 5 I = 1,25
+
+意思是在DO符号开始处和符号5(类似goto的label)之间的语句是循环体
+
+变量从I的值从1到25
+
+但是这样的表达式：DO 5 I = 1.25意思是变量DO51的值为1.25
+
+因此，LA是如何判断等号左边是变量还是循环？
+
+LA检测token的顺序是从左到右，这时它涉及到 look ahead
+
+当LA发现DO时，当它需要DO后面的空格时，它会look ahead去看=后面是逗号还是点。
+
+因此在设计LA的时候要尽量避免这种look ahead，会影响性能。
+
+FORTRAN有这种funny rule，是因为那个时候很容易不小心打出空格
+
+另一个例子是C++
+
+C++的模版：Foo<Bar>
+
+C++的输入：cin>>var
+
+如果碰到:Foo<Bar<Bazz>>怎么办？
+
+最后的>>怎么判断？
+
+C++的LA解决办法是，让developer手动加一个空格> >
+
+<chap 3-3 Regular Languages>
+
+当拿到了n多个token之后，我要匹配出token class
+

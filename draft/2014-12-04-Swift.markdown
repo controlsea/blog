@@ -1,0 +1,17 @@
+---
+title: Swift Memory Layout
+layout: post
+
+---
+
+<em>所有文章均为作者原创，转载请注明出处</em>
+
+
+##[认识]Swift
+
+拖到今天才有时间静下心来好好理一理swift，几个demo下来，swift给我带来了不少惊喜，同时也有不少疑惑，总的来说，swift
+
+
+
+##Optional
+
