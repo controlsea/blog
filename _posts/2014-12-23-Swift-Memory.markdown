@@ -10,7 +10,7 @@ title: Behind Swift Object
 
 ##Memory Layout
 
-```
+```c
 class MySwiftClass
 {
     let a : UInt64 = 10
@@ -23,7 +23,7 @@ class MySwiftClass
 >所谓Memory Layout是指一个对象在内存中的存储形式。如果熟悉C++，那么对这个概念不会陌生，即使不熟悉C++，Objective-C对象在内存中也有固定的[存储形式]()。
 
 
-```
+```c
 //creat an instance of MySwiftClass
 let obj = MySwiftClass()
 
@@ -62,7 +62,7 @@ println("%@",d)
 
 网上有一篇很神奇的文章[Inside Swift](http://www.eswick.com/2014/06/inside-swift/)。他是通过逆向Mach-O文件，在`__objc_classlist`段，找到了`objc_class`
 
-```
+```c
 struct objc_class {
     uint64_t isa;
     uint64_t superclass;
@@ -79,7 +79,7 @@ struct objc_class {
 
 但有一个问题，如果这个Swift对象需要和Objective-C对象通信怎么办？例如，有这样一段OC代码，它向`s`发消息:
 
-```
+```c
 MySwiftClass* s = [MySwiftClass new];
 
 if([s responseToSelector(@selector(method))])
@@ -96,11 +96,11 @@ if([s responseToSelector(@selector(method))])
 
 接着上面的问题，既然我们已经知道Swift对象必须具有introspect的能力，那么我们如何来验证呢？首先想到的就是在运行时反射出Swift对象的一些信息，由于上文已经创建好了`obj`：
 
-```
+```c
 let obj = MySwiftClass()
 
 ```
-我们接下来的任务就是反射出`obj`更多的信息，关于在Swift中如何拿到这些信息，Mike写了一个[非常牛逼的工具](https://github.com/mikeash/memorydumper/blob/master/memory.swift)，这个工具的思路是根据对象address和size，通过`dladdr`将里面的内容符号化。这份代码对于理解Swift和C有着很好的帮助。但是...仅从实现这个功能来说，不需要那么复杂，我上传了一份比较精简的[代码]。总之，不论用哪种方法，都能得到下面的结果:
+我们接下来的任务就是反射出`obj`更多的信息，关于在Swift中如何拿到这些信息，Mike写了一个[非常牛逼的工具](https://github.com/mikeash/memorydumper/blob/master/memory.swift)，这个工具的思路是根据对象address和size，通过`dladdr`将里面的内容符号化。这份代码对于理解Swift和C有着很好的帮助。但是...仅从实现这个功能来说，不需要那么复杂，我上传了一份比较精简的[代码](https://github.com/akaDealloc/blog/tree/gh-pages/code/swift/swift-basic/chap14-Runtime/chap14.playground)。总之，不论用哪种方法，都能得到下面的结果:
 
 
 ```
@@ -167,7 +167,7 @@ Symbol _TFC16TestSwiftRuntime12MySwiftClasscfMS0_FT_S0
 
 Swift黑语法:
 
-```
+```c
 //name mangling:
 println("%s",_stdlib_getTypeName(obj))
 (%s, _TtC16TestSwiftRuntime12MySwiftClass)
