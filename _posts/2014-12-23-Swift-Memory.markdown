@@ -14,7 +14,7 @@ title: Behind Swift Object
 class MySwiftClass
 {
     let a : UInt64 = 10
-    func test(){ }
+    func method(){ }
 }
 ```
 
@@ -82,9 +82,9 @@ struct objc_class {
 ```
 MySwiftClass* s = [MySwiftClass new];
 
-if([s responseToSelector(@selector(test))])
+if([s responseToSelector(@selector(method))])
 {
-	[s test];
+	[s method];
 }
 	
 
