@@ -7,9 +7,22 @@ import UIKit
 //one single rule : Every value must be initialized before it is used
 class B
 {
+    var b:String{
+    
+        get { return "bb"}
+        
+        set {}
+     
+    }
+    
     func foo() -> Void
     {
         
+    }
+    
+    func boo(name:String!, withType type:String)
+    {
+    
     }
 }
 
@@ -57,6 +70,7 @@ func testDeinit()
 {
     var obj:C = C(color: UIColor.blackColor())
     obj.foo()
+    obj.boo(nil, withType:"a")
     
 }
 
