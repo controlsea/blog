@@ -1,0 +1,31 @@
+---
+layout: post
+title: cocoaTalk#3
+
+---
+
+今天在团队内部分享了Swift的一些内容，包含了自己这段时间以来的实践和思考，作为一个阶段性学习成果的总结，自己还是比较满意的。
+
+分享的内容主要有两点:
+
+- Swift的一些语言特性：
+
+	- optional
+	- tuple
+	- struct
+	- enum
+	- function/closure
+	- pattern matching
+	- generics
+	- ...
+	
+- Swift背后的一些实现
+
+	- memory layout
+	- isa
+	- communication
+	- vtable
+	- name mangling
+	
+	
+分享的PDF在-->[这里](https://github.com/akaDealloc/blog/blob/gh-pages/pdf/cocoaTalk-3.pdf)
