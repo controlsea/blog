@@ -23,7 +23,8 @@ BrainFuck代码如下：
 
 Ruby解释器代码如下：
 
-```
+```ruby
+
 #!/usr/bin/ruby2.1.0
 # Brainfuck解释器
 # (C) Jayson.Xu
