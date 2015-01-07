@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Learn Lua
+title: 学习Lua
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Deploy Rails on MacOS
+title: MacOS部署Rails
 
 ---
 

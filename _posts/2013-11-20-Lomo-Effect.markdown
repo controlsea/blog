@@ -1,5 +1,5 @@
 ---
-title: Lomo Effect
+title: 实现Lomo效果
 layout: post
 
 ---

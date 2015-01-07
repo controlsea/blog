@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Deploy Rails on Ubuntu
+title: Ubuntu上部署Rails 
 
 ---
 

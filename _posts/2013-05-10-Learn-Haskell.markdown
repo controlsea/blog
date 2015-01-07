@@ -1,5 +1,5 @@
 ---
-title:  Learn Haskell 
+title:  趣学Haskell 
 layout: post
 
 ---

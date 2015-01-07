@@ -1,16 +1,8 @@
 ---
 layout: post
-title:  WWDC2014 Short Notes
+title:  WWDC2014部分Session摘录
 
 ---
-
-
-##Session404:
-
-###Making Soming Anonymous
-
-
-
 
 
 ##Session407:

@@ -2,7 +2,7 @@
 
 layout: post
 
-title: Emacs Short Cut
+title: Emacs快捷键
 
 ---
 

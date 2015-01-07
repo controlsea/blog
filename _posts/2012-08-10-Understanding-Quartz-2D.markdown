@@ -1,5 +1,5 @@
 ---
-title: Understanding Quartz-2D
+title:  关于Quartz-2D的一些概念
 layout: post
 
 ---
@@ -13,7 +13,7 @@ layout: post
 
 如果熟悉openGL，那么对Quartz的坐标系相信不会有太多的疑惑。Quartz的坐标系是二维的坐标系，通过CGAffineTransform的状态矩阵来表示，顾名思义，它是一种二维线性的可逆变换，也叫<a href="http://zh.wikipedia.org/zh-cn/%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2">仿射变换</a>。在openGL中，物体是通过矩阵表示的，对于二维平面，只需要让z方向分量为单位向量:
 
-\(\begin{bmatrix}a & b &0 \\ c & d &0 \\ tx &ty &1 \end{bmatrix}\)
+%%\begin{bmatrix}a & b &0 \\ c & d &0 \\ tx &ty &1 \end{bmatrix}%%
 
 这就是CGAffineTransform矩阵。
 

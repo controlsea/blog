@@ -1,5 +1,5 @@
 ---
-title: Arduino
+title: Arduino 101
 layout: post
 
 ---
