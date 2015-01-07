@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  WWDC2014部分Session摘录
+title:  WWDC 2014部分Session的内容摘录
 
 ---
 

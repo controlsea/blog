@@ -1,6 +1,6 @@
 ---
 layout:post
-title: UIKit And Core Animation
+title: WWDC 2011部分Session的内容摘录
 
 ---
 
@@ -10,7 +10,7 @@ title: UIKit And Core Animation
 
 每一个UIView会有一个backing store叫做CALayer
 
-![Alt text](/blog/images/2012/08/layer.png)
+![Alt text](/blog/images/2011/07/layer.png)
 
 
 ###UIKit Rendering
