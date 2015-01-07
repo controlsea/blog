@@ -3,10 +3,12 @@ layout:post
 title: WWDC 2011部分Session的内容摘录
 
 ---
+<em>所有文章均为作者原创，转载请注明出处</em>
 
-##UIKit Rendering
 
-###UIView and CALayer
+#Session 121: UIKit Rendering
+
+##UIView and CALayer
 
 每一个UIView会有一个backing store叫做CALayer
 

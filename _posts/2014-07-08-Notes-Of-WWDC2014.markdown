@@ -4,8 +4,9 @@ title:  WWDC 2014部分Session的内容摘录
 
 ---
 
+<em>所有文章均为作者原创，转载请注明出处</em>
 
-##Session407:
+##Session 407:
 
 ###id and AnyObject
 
@@ -22,7 +23,7 @@ if([object respondsToSelector:@selector(removeFormSuperview)])
 ```
 对应到Swift，使用optional来做运行时的判断
 
-```c
+```ruby
 let object:AnyObject = SomeClass()
 
 object.removeFromSuperview?()
@@ -33,21 +34,21 @@ object.removeFromSuperview?()
 
 	- AnyObject does not implicity downcast
 	
-	```
+	```ruby
 	let view:UIView = object //error:'AnyObject' cannot be implicitly downcast
 	
 	```
 	
 	- 使用"as"在运行时做类型转化
 	
-	```
+	```ruby
 	let view = object as UIView
 	
 	```
 	
 	- 使用"as?"
 	
-	```
+	```ruby
 	if let view = object as? UIView
 	{
 		// view is UIView
@@ -87,7 +88,7 @@ object.removeFromSuperview?()
 
 对应Swift
 
-```c
+```ruby
 func type(name:String!, operation: UIDocumentSaveOperation) -> String!
 ```
 
@@ -115,7 +116,7 @@ func type(name:String!, operation: UIDocumentSaveOperation) -> String!
 
 - Swift
 
-```c 
+```ruby
 @objc protocol UITableViewDataSource:NSObjectProtocol
 {
 	func tableView(tableView:UITableView, numberOfRowsInSection: Int) -> Int
@@ -129,8 +130,7 @@ var dataSource: UITableViewDataSource!
 
 - Downcast via `as?` to protocol type
 
-```c
-
+```ruby
 if let ds = object as? UITableViewDataSource
 {
 	let rowsInFirstSection = ds.tableView(tableView,numberOfRowsInSection:0)
@@ -138,6 +138,7 @@ if let ds = object as? UITableViewDataSource
 }
 
 ```
+
 ### Swift Objects are the OC objects
 
 All Swift classes are "id compatible"
@@ -153,6 +154,7 @@ inheriate from Objective-C class to make your class directly visible in Objectiv
 ###getters and setters
 
 
+```ruby
 var name:String{
 
 	get { return "b" }
@@ -161,17 +163,19 @@ var name:String{
 
 
 }
+```
 
 Override the property itself not the getter or setter
 
 - getter:
 
-```
+```ruby
 override var name:String{
 	
 	return "this is my \(self.view) string"
 
 }
+```
 
  
 ###@objc
@@ -182,7 +186,7 @@ override var name:String{
 
 - 对于Swift中返回tuple的函数
 
-```
+```ruby
 @objc func myGenericMethod<T>(x:T) -> (String,String){...} //error: not expressible in oc
 
 ```
@@ -191,18 +195,18 @@ override var name:String{
 
 - 在OC的runtime中改变Swift中的数据结构名称
 
-```
+```ruby
 var enabled: Bool
 {
 	@objc(isEnabled)get{...}
 	set{...}
 }
 
-```C
+```
 
 这样在OC的runtime中，`enable`的getter方法就变为了`isEnabled`
 
-```
+```ruby
 @objc(ABCMyDocument) class MyDocument:UIDocument
 {
 
@@ -214,7 +218,7 @@ var enabled: Bool
 
 Unmanaged<T> enables manual memory management
 
-```
+```ruby
 struct Unmanaged<T:AnyObject>{
 
 	func takeUnretainedValue() -> T
@@ -227,7 +231,7 @@ struct Unmanaged<T:AnyObject>{
 
 Use it to work with unaudited CF APIs
 
-```
+```ruby
 let color = CGColorGetRandomColor().takeUnretainedValue()
 
 ```
