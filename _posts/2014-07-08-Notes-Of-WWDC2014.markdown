@@ -22,7 +22,7 @@ if([object respondsToSelector:@selector(removeFormSuperview)])
 ```
 对应到Swift，使用optional来做运行时的判断
 
-```sml
+```java
 let object:AnyObject = SomeClass()
 
 object.removeFromSuperview?()
@@ -33,21 +33,21 @@ object.removeFromSuperview?()
 
 	- AnyObject does not implicity downcast
 	
-	```sml
+	```java
 	let view:UIView = object //error:'AnyObject' cannot be implicitly downcast
 	
 	```
 	
 	- 使用"as"在运行时做类型转化
 	
-	```sml
+	```java
 	let view = object as UIView
 	
 	```
 	
 	- 使用"as?"
 	
-	```sml
+	```java
 	if let view = object as? UIView
 	{
 		// view is UIView
@@ -87,7 +87,7 @@ object.removeFromSuperview?()
 
 对应Swift
 
-```sml
+```java
 func type(name:String!, operation: UIDocumentSaveOperation) -> String!
 ```
 
@@ -115,7 +115,7 @@ func type(name:String!, operation: UIDocumentSaveOperation) -> String!
 
 - Swift
 
-```sml
+```java
 @objc protocol UITableViewDataSource:NSObjectProtocol
 {
 	func tableView(tableView:UITableView, numberOfRowsInSection: Int) -> Int
@@ -129,7 +129,7 @@ var dataSource: UITableViewDataSource!
 
 - Downcast via `as?` to protocol type
 
-```sml
+```java
 
 if let ds = object as? UITableViewDataSource
 {
@@ -152,7 +152,7 @@ inheriate from Objective-C class to make your class directly visible in Objectiv
 
 ###getters and setters
 
-```sml
+```java
 var name:String{
 
 	get { return "b" }
@@ -167,7 +167,7 @@ Override the property itself not the getter or setter
 
 - getter:
 
-```sml
+```java
 override var name:String{
 	
 	return "this is my \(self.view) string"
@@ -183,7 +183,7 @@ override var name:String{
 
 - 对于Swift中返回tuple的函数
 
-```sml
+```java
 @objc func myGenericMethod<T>(x:T) -> (String,String){...} //error: not expressible in oc
 
 ```
@@ -192,7 +192,7 @@ override var name:String{
 
 - 在OC的runtime中改变Swift中的数据结构名称
 
-```sml
+```java
 var enabled: Bool
 {
 	@objc(isEnabled)get{...}
@@ -203,7 +203,7 @@ var enabled: Bool
 
 这样在OC的runtime中，`enable`的getter方法就变为了`isEnabled`
 
-```sml
+```java
 @objc(ABCMyDocument) class MyDocument:UIDocument
 {
 
@@ -215,7 +215,7 @@ var enabled: Bool
 
 Unmanaged<T> enables manual memory management
 
-```sml
+```java
 struct Unmanaged<T:AnyObject>{
 
 	func takeUnretainedValue() -> T
@@ -228,7 +228,7 @@ struct Unmanaged<T:AnyObject>{
 
 Use it to work with unaudited CF APIs
 
-```sml
+```java
 let color = CGColorGetRandomColor().takeUnretainedValue()
 
 ```
