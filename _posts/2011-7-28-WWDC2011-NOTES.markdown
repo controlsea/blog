@@ -1,6 +1,6 @@
 ---
-layout:post
-title: WWDC 2011部分Session的内容摘录
+layout: post
+title: WWDC部分Session内容摘录
 
 ---
 <em>所有文章均为作者原创，转载请注明出处</em>
@@ -12,7 +12,7 @@ title: WWDC 2011部分Session的内容摘录
 
 每一个UIView会有一个backing store叫做CALayer
 
-![Alt text](/blog/images/2011/07/layer.png)
+![Alt text](/blog/images/2011/06/layer.png)
 
 
 ###UIKit Rendering
