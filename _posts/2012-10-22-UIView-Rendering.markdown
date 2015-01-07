@@ -51,12 +51,12 @@ label.text = @"test";
 
 做法是在runloop开始的时候调用：
 
-```
+```c
 [CATransaction begin]
 ```
 在runloop结束的时候调用
 
-```
+```c
 [CATransaction commit]
 ```
 
@@ -66,15 +66,15 @@ label.text = @"test";
 
 <a href="/blog/images/2013/11/QQ20131123-3.png"><img src="/blog/images/2013/11/QQ20131123-3.png" width="341" height="162" /></a>
 
-(1)首先cpu会为layer分配一块内存用来绘制bitmap，叫做backing store
+- 首先cpu会为layer分配一块内存用来绘制bitmap，叫做backing store
 
-(2)创建指向这块bitmap缓冲区的指针，叫做CGContextRef
+- 创建指向这块bitmap缓冲区的指针，叫做CGContextRef
 
-(3)通过Core Graphic的api，也叫Quartz2D，绘制bitmap
+- 通过Core Graphic的api，也叫Quartz2D，绘制bitmap
 
-(4)将layer的content指向生成的bitmap
+- 将layer的content指向生成的bitmap
 
-(5)清空dirty flag标记
+- 清空dirty flag标记
 
 这样CPU的绘制基本上就完成了。
 
@@ -100,6 +100,7 @@ Running Time Self Symbol Name
 ```
 
 假如某个时刻修改了label的text：
+
 ```objc
 label.text = @"hello objayc.com";
 ```
@@ -133,39 +134,46 @@ GPU大致的工作模式如下：
 
 这两个中瓶颈基本在第二点上。渲染texture基本要处理这么几个问题：
 
-- compositing：
+###Compositing：
 
-Compositing是指将多个纹理拼到一起的过程，对应UIKit，是指处理多个view合到一起的情况，如[self.view addsubview : subview]。
+Compositing是指将多个纹理拼到一起的过程，对应UIKit，是指处理多个view合到一起的情况，如
+
+```objc
+[self.view addsubview : subview]。
+```
+
 如果view之间没有叠加，那么GPU只需要做普通渲染即可。
 如果多个view之间有叠加部分，GPU需要做blending。
 
 加入两个view大小相同，一个叠加在另一个上面，那么计算公式如下：
 
+```
 R = S+D*(1-Sa)
+```
 
-R为最终的像素值
+`R`: 为最终的像素值
 
-S 代表 上面的texture（top texture）
+`S`: 代表 上面的texture（top texture）
 
-D代表下面的texture(lower texture)
+`D`: 代表下面的texture(lower texture)
 
 其中S,D都已经pre-multiplied各自的alpha值。
 
-Sa代表texture的alpha值。
+`Sa`代表texture的alpha值。
 
-假如top texture（上层view）的alpha值为1，即不透明。那么它会遮住下层的texture。即,R = S。是合理的。
-假如top texture（上层view）的alpha值为0.5，S 为 （1，0，0），乘以alpha后为（0.5，0，0）。D为（0，0，1）。
-得到的R为（0.5，0，0.5）。
+假如top texture（上层view）的alpha值为`1`，即不透明。那么它会遮住下层的texture。即,`R = S`。是合理的。
+假如top texture（上层view）的alpha值为`0.5`，`S` 为 `(1,0,0`)，乘以alpha后为`(0.5,0,0）`。D为`(0，0，1)`。
+得到的R为`（0.5，0，0.5）`。
 
 基本上每个像素点都需要这么计算一次。
 
 因此，view的层级很复杂，或者view都是半透明的（alpha值不为1）都会带来GPU额外的计算工作。
 
-- size
+###Size
 
 这个问题，主要是处理image带来的，假如内存里有一张400x400的图片，要放到100x100的imageview里，如果不做任何处理，直接丢进去，问题就大了，这意味着，GPU需要对大图进行缩放到小的区域显示，需要做像素点的sampling，这种smapling的代价很高，又需要兼顾pixel alignment。计算量会飙升。
 
-- offscreen rendering and mask
+###Offscreen Rendering And Mask
 
 如果我们对layer做这样的操作：
  
@@ -190,5 +198,6 @@ label.layer.rasterizationScale = label.layer.contentsScale;
 
 <a href="/blog/images/2013/11/QQ20131123-6.png"><img src="/blog/images/2013/11/QQ20131123-6.png" alt="QQ20131123-6" width="153" height="241"/></a>
 
+红色代表GPU需要做额外的工作来渲染View，绿色代表GPU无需做额外的工作来处理bitmap。
 
 That's all
