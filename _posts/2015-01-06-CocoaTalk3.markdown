@@ -21,7 +21,7 @@ title: CocoaTalk#3
 	- generics
 	- ...
 	
-- Swift背后的一些实现
+- Swift背后的一些实现机制：
 
 	- memory layout
 	- isa
@@ -29,5 +29,10 @@ title: CocoaTalk#3
 	- vtable
 	- name mangling
 	
-	
+总的来说这段时间在Swift上的投入是轻松快乐的，但是我现在对自己的Swift水平还不是很满意，仅仅停留在语言特性和cocoa的API上，还未到达理想中“道”的境界。
+
+做技术的人要对技术抱有敬畏之心，因为你不知道的实在太多了，沾沾自喜，骄傲轻浮只会自己变得滑稽可笑。
+
+因为你眼里看到的是一棵树，而在别人眼里看到的却是一片森林。
+
 分享的PDF在-->[这里](https://github.com/akaDealloc/blog/blob/gh-pages/pdf/cocoaTalk-3.pdf)
