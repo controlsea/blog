@@ -1,12 +1,12 @@
 ---
-title:  UIView的绘制过程
+title:  `UIView`的绘制过程
 layout: post
 
 ---
 
 <em>所有文章均为作者原创，转载请注明出处</em>
 
-UIView是如何显示到Screen上的
+`UIView`是如何显示到Screen上的
 
 也许要先从`Runloop`开始说，iOS的main`Runloop`是一个60fps的回调，也就是说每16.7ms会绘制一次屏幕，这个时间段内要完成view的缓冲区创建，view内容的绘制（如果重写了`drawRect`），这些CPU的工作。然后将这个缓冲区交给GPU渲染，这个过程又包括多个view的拼接(compositing)，纹理的渲染（texture）等，最终显示在屏幕上。因此，如果在16.7ms内完不成这些操作，比如，CPU做了太多的工作，或者view层次过于多，图片过于大，导致GPU压力太大，就会导致“卡”的现象，也就是丢帧。
 
@@ -14,12 +14,12 @@ UIView是如何显示到Screen上的
 
 这个60fps改怎么理解呢？一般来说如果帧率达到25+fps，人眼就基本感觉不到停顿了，因此，如果你能让你ios程序稳定的保持在30fps已经很不错了，注意，是“稳定”在30fps，而不是，10fps，40fps，20fps这样的跳动，如果帧频不稳就会有卡的感觉。60fps真的很难达到，尤其在iphone4，4s上。
 
-总的来说，UIView从绘制到Render的过程有如下几步：
+总的来说，`UIView`从绘制到Render的过程有如下几步：
 
 
-- 每一个UIView都有一个layer，每一个layer都有个content，这个content指向的是一块缓存，叫做backing store。
+- 每一个`UIView`都有一个`layer`，每一个`layer`都有个`content`，这个`content`指向的是一块缓存，叫做backing store。
 
-- UIView的绘制和渲染是两个过程，当UIView被绘制时，CPU执行`drawRect`，通过context将数据写入backing store
+- `UIView`的绘制和渲染是两个过程，当`UIView`被绘制时，CPU执行`drawRect`，通过context将数据写入backing store
 
 - 当backing store写完后，通过render server交给GPU去渲染，将backing store中的bitmap数据显示在屏幕上
 
@@ -31,7 +31,7 @@ UIView是如何显示到Screen上的
 
 <h3> CPU bound：</h3>
 
-假设我们创建一个UILable：
+假设我们创建一个`UILabel`：
 
 ```objc
 UILabel* label = [[UILabel alloc]initWithFrame:CGRectMake(10, 50, 300, 14)];
@@ -41,7 +41,7 @@ label.text = @"test";
 [self.view addSubview:label];
 ```
 
-这个时候不会发生任何操作，由于UILabel重写了`drawRect`，因此，这个view会被marked as “dirty”：
+这个时候不会发生任何操作，由于`UILabel`重写了`drawRect`，因此，这个view会被marked as “dirty”：
 
 类似这个样子：
 
@@ -87,11 +87,11 @@ Running Time Self Symbol Name
 2.0ms 1.2% 0.0 CA::Context::commit_transaction(CA::Transaction*)
 1.0ms 0.6% 0.0 CA::Layer::layout_and_display_if_needed(CA::Transaction*)
 1.0ms 0.6% 0.0 CA::Layer::display_if_needed(CA::Transaction*)
-1.0ms 0.6% 0.0 -[CALayer display]</span>
-1.0ms 0.6% 0.0 CA::Layer::display()</span>
-1.0ms 0.6% 0.0 -[CALayer _display]</span>
-1.0ms 0.6% 0.0 CA::Layer::display_()</span>
-1.0ms 0.6% 0.0 CABackingStoreUpdate_</span>
+1.0ms 0.6% 0.0 -[CALayer display]
+1.0ms 0.6% 0.0 CA::Layer::display()
+1.0ms 0.6% 0.0 -[CALayer _display]
+1.0ms 0.6% 0.0 CA::Layer::display_()
+1.0ms 0.6% 0.0 CABackingStoreUpdate_
 1.0ms 0.6% 0.0 backing_callback(CGContext*, void*)
 1.0ms 0.6% 0.0 -[CALayer drawInContext:]
 1.0ms 0.6% 0.0 -[UIView(CALayerDelegate) drawLayer:inContext:]
@@ -102,7 +102,7 @@ Running Time Self Symbol Name
 假如某个时刻修改了label的text：
 
 ```objc
-label.text = @"hello objayc.com";
+label.text = @"hello world";
 ```
 由于内容变了，layer的content的bitmap的尺寸也要变化，因此这个时候当新的`Runloop`到来时，CPU要为layer重新创建一个backing store，重新绘制bitmap。
 
@@ -120,7 +120,7 @@ Core Animation对OpenGL的api有一层封装，当我们的要渲染的layer已�
 
 GPU大致的工作模式如下：
 
-<a href="/blog/images/2013/11/QQ20131123-4.png"><img src="/blog/images/2013/11/QQ20131123-4.png" alt="uiview rendering-03" width="325" height="136"/></a>
+<a href="/blog/images/2013/11/QQ20131123-4.png"><img src="/blog/images/2013/11/QQ20131123-4.png" alt="`UIView` rendering-03" width="325" height="136"/></a>
 
 整个过程也就是一件事：CPU将准备好的bitmap放到RAM里，GPU去搬这快内存到VRAM中处理。
 
