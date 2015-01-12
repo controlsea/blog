@@ -8,7 +8,7 @@ layout: post
 
 UIView是如何显示到Screen上的
 
-也许要先从RunLoop开始说，iOS的mainRunloop是一个60fps的回调，也就是说每16.7ms会绘制一次屏幕，这个时间段内要完成view的缓冲区创建，view内容的绘制（如果重写了drawRect），这些cpu的工作。然后将这个缓冲区交给GPU渲染，这个过程又包括多个view的拼接(compositing)，纹理的渲染（texture）等，最终显示在屏幕上。因此，如果在16.7ms内完不成这些操作，比如，cpu做了太多的工作，或者view层次过于多，图片过于大，导致GPU压力太大，就会导致“卡”的现象，也就是丢帧。
+也许要先从`Runloop`开始说，iOS的main`Runloop`是一个60fps的回调，也就是说每16.7ms会绘制一次屏幕，这个时间段内要完成view的缓冲区创建，view内容的绘制（如果重写了`drawRect`），这些CPU的工作。然后将这个缓冲区交给GPU渲染，这个过程又包括多个view的拼接(compositing)，纹理的渲染（texture）等，最终显示在屏幕上。因此，如果在16.7ms内完不成这些操作，比如，CPU做了太多的工作，或者view层次过于多，图片过于大，导致GPU压力太大，就会导致“卡”的现象，也就是丢帧。
 
 苹果官方给出的最佳帧率是：60fps，也就是1帧不丢，当然这是理想中的绝佳的体验。
 
@@ -19,7 +19,7 @@ UIView是如何显示到Screen上的
 
 - 每一个UIView都有一个layer，每一个layer都有个content，这个content指向的是一块缓存，叫做backing store。
 
-- UIView的绘制和渲染是两个过程，当UIView被绘制时，CPU执行drawRect，通过context将数据写入backing store
+- UIView的绘制和渲染是两个过程，当UIView被绘制时，CPU执行`drawRect`，通过context将数据写入backing store
 
 - 当backing store写完后，通过render server交给GPU去渲染，将backing store中的bitmap数据显示在屏幕上
 
@@ -41,20 +41,20 @@ label.text = @"test";
 [self.view addSubview:label];
 ```
 
-这个时候不会发生任何操作，由于UILabel重写了drawRect，因此，这个view会被marked as “dirty”：
+这个时候不会发生任何操作，由于UILabel重写了`drawRect`，因此，这个view会被marked as “dirty”：
 
 类似这个样子：
 
 <a href="/blog/images/2013/11/QQ20131123-2.png"><img src="/blog/images/2013/11/QQ20131123-2.png" width="233" height="167" /></a>
 
-然后一个新的runloop到来，上面说道在这个runloop中需要将界面渲染上去，对于UIKit的渲染，apple用的是它的Core Animation。
+然后一个新的`Runloop`到来，上面说道在这个`Runloop`中需要将界面渲染上去，对于UIKit的渲染，Apple用的是它的Core Animation。
 
-做法是在runloop开始的时候调用：
+做法是在`Runloop`开始的时候调用：
 
 ```c
 [CATransaction begin]
 ```
-在runloop结束的时候调用
+在`Runloop`结束的时候调用
 
 ```c
 [CATransaction commit]
@@ -66,7 +66,7 @@ label.text = @"test";
 
 <a href="/blog/images/2013/11/QQ20131123-3.png"><img src="/blog/images/2013/11/QQ20131123-3.png" width="341" height="162" /></a>
 
-- 首先cpu会为layer分配一块内存用来绘制bitmap，叫做backing store
+- 首先CPU会为layer分配一块内存用来绘制bitmap，叫做backing store
 
 - 创建指向这块bitmap缓冲区的指针，叫做CGContextRef
 
@@ -104,7 +104,7 @@ Running Time Self Symbol Name
 ```objc
 label.text = @"hello objayc.com";
 ```
-由于内容变了，layer的content的bitmap的尺寸也要变化，因此这个时候当新的runloop到来时，CPU要为layer重新创建一个backing store，重新绘制bitmap。
+由于内容变了，layer的content的bitmap的尺寸也要变化，因此这个时候当新的`Runloop`到来时，CPU要为layer重新创建一个backing store，重新绘制bitmap。
 
 CPU这一块最耗时的地方往往在Core Graphic的绘制上，关于Core Graphic的性能优化是另一个话题了，又会牵扯到很多东西，就不在这里讨论了。
 
@@ -114,7 +114,7 @@ CPU完成了它的任务：将view变成了bitmap，然后就是GPU的工作了�
 
 基本上我们控制GPU都是通过OpenGL来完成的，但是从bitmap到texture之间需要一座桥梁，Core Animation正好充当了这个角色：
 
-Core Animation对openGL的api有一层封装，当我们的要渲染的layer已经有了bitmap content的时候，这个content一般来说是一个CGImageRef，CoreAnimation会创建一个openGL的texture并将CGImageRef（bitmap）和这个texture绑定，通过textureID来标识。
+Core Animation对OpenGL的api有一层封装，当我们的要渲染的layer已经有了bitmap content的时候，这个content一般来说是一个CGImageRef，CoreAnimation会创建一个OpenGL的texture并将CGImageRef（bitmap）和这个texture绑定，通过textureID来标识。
 
 这个对应关系建立起来之后，剩下的任务就是GPU如何将texture渲染到屏幕上了。
 
