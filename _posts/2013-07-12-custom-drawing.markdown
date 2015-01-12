@@ -8,26 +8,26 @@ layout: post
 
 今天讨论下UI绘制的性能问题，通常来说，如果熟悉下面列出的内容基本上能解决80%以上的性能问题了：
 
-1. <a href="http://www.objayc.com/blog/?p=121">UIView是如何渲染到屏幕上的</a>
+1. [UIView是如何渲染到屏幕上的](http://akadealloc.github.io/blog/2012/10/22/UIView-Rendering.html)
 
 2. WWDC2011:Session 318 - iOS Performance in Depth
 
 3. WWDC2012:Session 238 - iOS App Performance_ Graphics and Animations
 
-4. 熟练Instrument的Time Profiler和Core Animation，前者能帮你找到CPU的瓶颈，后者能帮你找到GPU的瓶颈
+4. 熟练Instrument的Time Profiler和Core Animation
 
-接下来讨论几个我认为很有趣的点：
+接下来讨论三个我认为有价值的点：
 
 1. Twitter的这篇关于tableview优化的文章，是对还是错？
 
 2. CoreText最佳性能优化方案
 
-3. 双缓冲异步绘制方案可行吗？
+3. 异步绘制
 
 
 ##Layer Trees v.s. Flat Drawing
 
-基本上，如果去优化Tableview的滚动性能，都会读到<a href="https://github.com/kennethreitz/osx-gcc-installer/">Twitter的这篇文章</a>。这篇文章其实就说了一件事：将cell上复杂的UI层次结构，简化为一个view，然后用Core Graphic将需要展示的元素绘制到这个view上去。
+基本上，如果去优化UITableview的滚动性能，都会读到<a href="https://github.com/kennethreitz/osx-gcc-installer/">Twitter的这篇文章</a>。这篇文章其实就说了一件事：将cell上复杂的UI层次结构，简化为一个Layer。
 
 例如：要展示这样一个cell：
 
@@ -35,30 +35,32 @@ layout: post
 
 ###传统的做法：
 
-传统的做法是定义一个cell，列出要显示UI元素的组件：三个label，一个imagView（已经抽象到父类），然后把他们add到contentView上：
+传统的做法是定义一个`cell`，在`cell`的`contentView`上添加UI元素：三个label，一个imagView：
 
 ```objc
- #import "ETTableViewSingleImageCell.h"
-@interface ETTableViewDemoAppStoreCell : ETTableViewSingleImageCell
-@property(nonatomic,strong) UILabel* nameLabel;
-@property(nonatomic,strong) UILabel* priceLabel;
-@property(nonatomic,strong) UILabel* summaryLabel;
-@end
-```
 
-当有数据来的时候（setItem为父类的方法，子类重载一下），将数据交给label显示：
+@implementation ETTableViewDemoAppStoreCell
 
-```objc
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier 
 {
-    self.nameLabel.text = appItem.appName;
-    self.priceLabel.text = appItem.appPrice;
-    self.summaryLabel.text = appItem.appSummary;
+    if (self=[super initWithStyle:style reuseIdentifier:reuseIdentifier]) 
+    {
+        [self.contentView addSubview:self.nameLabel];
+        [self.contentView addSubview:self.priceLabel];
+        [self.contentView addSubview:self.summaryLabel];
+        [self.contentView addSubview:self.imgView];
+    }
+    return self;
+}  
+
+- (void)setItem:(ETTableViewDemoAppStoreItem* )item
+{
+    self.nameLabel.text = item.appName;
+    self.priceLabel.text = item.appPrice;
+    self.summaryLabel.text = item.appSummary;
+    [self.imgView setImageURL:item.appImageURL];
 }
-```
 
-最后，把他们layout出来：
-
-```objc
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -68,6 +70,9 @@ layout: post
     self.priceLabel.frame = CGRectMake(100, 32, 100, 14);
     self.summaryLabel.frame = CGRectMake(100, 45, 210, 50);
 }
+
+@end
+
 ```
 
 ###Twitter的做法：
@@ -98,7 +103,9 @@ layout: post
 }
 ```
 
-这里有一点需要指明，由于internalContentView的contentMode指定为Redraw，这意味着，每当它frame改变的时候，都会重新绘制一次。这个InternalContentView的定义如下：
+由于`internalContentView`的`contentMode`为`Redraw`，因此每当它`frame`改变的时候，都会重新绘制一次。
+
+这个InternalContentView的定义如下：
 
 ```objc
 @interface ETTableViewDemoAppStoreFlatContentView : UIView
@@ -132,7 +139,9 @@ layout: post
 @end
 ```
 
-InternalContent通过实现它drawRect的方法，将数据绘制出来。然后就是cell如何去触发internalContentView绘制，也很简单：
+`InternalContent`通过实现它`drawRect`的方法，将数据绘制出来。
+
+然后就是cell如何去触发internalContentView绘制：
 
 ```objc
 - (void)prepareForReuse
@@ -148,13 +157,13 @@ InternalContent通过实现它drawRect的方法，将数据绘制出来。然后
     _internalContentView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
 }
 ```
-这样，当tableview滚动的时候，由于view的size不断变化，view可以不断的重绘。
+当tableview滚动的时候，由于`view`的`size`不断变化，`view`可以不断的重绘。
 
-代码相信很好理解，下面我们先来想下这两种方式背后的差别在哪：
+下面我们先来想下这两种方式背后的差别：
 
-- 传统方式：当一个新的runloop到来时候，cell首先要将数据交给三个label去绘制，由于cell上的UI元素本身就是复用的，因此label不会重新创建，只需要重新update自己的backing store，将新的text数据写进去，生成bitmap。imageView同理，但是由于imageview不需要update backing store，它的layer直接指向了一块bitmap。到此CPU的工作做完了，GPU要将cell和这三个label加imageview组成的layer tree一起做compositing，最后渲染出来。
+- 传统方式：当新的一帧到来时候，`cell`首先要将数据交给三个label去绘制，由于`cell`上的UI元素本身就是复用的，因此`label`不会重新创建，只需要重新update自己的backing store，将新的text数据写进去，生成bitmap。`imageView`同理，但是由于`imageview`不需要update backing store，它的`layer`直接指向了一块bitmap。到此CPU的工作做完了，GPU要将`cell`和这三个`label`加`imageview`组成的`layer tree`一起做compositing，最后渲染出来。
 
-- twitter的方式：当一个新的runloop到来，由于cell上之只有一个internalContentView，它更新完自己的backing store后生成一块bitmap交给GPU，而GPU由于之渲染一个bitmap，composting的压力也不大。
+- twitter的方式：当一个新的runloop到来，由于`cell`上之只有一个`internalContentView`，它更新完自己的backing store后生成一块bitmap交给GPU，而GPU由于之渲染一个bitmap，composting的压力也不大。
 
 从上面的过程来看，显然，传统方式GPU的工作多一些，当layer-tree很复杂的时候，GPU的耗时也会增加，但是CPU的压力不大。twitter这种方式，CPU的压力大一些，因为Core Graphic的api是CPU在执行，但是由于之渲染一个bitmap，GPU的压力小很多。
 
@@ -162,13 +171,13 @@ InternalContent通过实现它drawRect的方法，将数据绘制出来。然后
 
 所以，这是一个test - measure的过程。twitter最开始使用这种方式而获得性能上的成功要追溯到2008年，那时候的iPhone还是低清屏的3gs，到了retina的时代，这种方式还适不适合，<a href="http://floriankugler.com/blog/2013/5/24/layer-trees-vs-flat-drawing-graphics-performance-across-ios-device-generations">这篇文章</a>给出了量化的结论：在retina的时代里，使用Core Graphic绘制的代价远高于GPU渲染layer-tree的代价，在iPhone4及以后的平台上使用这种方式绘制cell，时间反而会变长，twitter的这种方式过时了！
 
-但就我个人而言，我更喜欢这种方式，倒不是因为效率问题，而是这种写法很简单，项目里，一般不复杂的列表，没有性能问题的，我都这么写。但是如果很复杂的列表，像path这种的，使用这种方式就是灾难了，尤其在retina屏上，效率很低了。
+但就我个人而言，我更喜欢使用这种方式，倒不是因为效率问题，而是这种写法很简单，项目里，一般不复杂的列表，没有性能问题的，都可以这么实现。但是如果很复杂的列表，有很多subview，使用这种方式就不太适合了，尤其在retina屏上，效率降低了。
 
 ##CoreText Optimization
 
 这一节主要来讨论使用CoreText绘制文本的优化，场景是这样的：
 
-对于社交类的app如微博，微信，都有用户内容的timeline（通常是一个tableview），在timeline中，用户会发一些表情，会有##话题，@某人，发起一个http连接等，一般这种场合在iOS中会用CoreText处理，假设我们绘制这样一段文本：
+对于社交类的app如微博，微信，都有用户内容的timeline（通常是一个tableview），在timeline中，用户会发一些表情，会有##话题，@某人，发起一个http连接等，一般这种场合在iOS中会用`CoreText`处理，假设我们绘制这样一段文本：
 
 <a href="/blogimages/2013/07/coretext.png"><img class="alignnone size-full wp-image-257" alt="coretext" src="/blog/images/2013/07/coretext.png" width="308" height="161" /></a>
 
@@ -188,7 +197,7 @@ InternalContent通过实现它drawRect的方法，将数据绘制出来。然后
 
 1. 在非retina的3gs上，CoreText绘制的时间低于retina屏的iPhone4，再次印证了上面的结论。
 
-2. 即使是iphone5在不做优化的情况下，从检测到绘制这段文字也需要16ms左右。虽然实际情况中，不是每一段文本内容都这么复杂，但如果碰见一两条，就会出现明显的卡顿感出现，而且即使文本不复杂的情况，就算它需要8ms，那么如果不优化，留给其它ui元素的绘制时间就会变短，对于60fps，16ms/f的标准，是很难达到的。
+2. 即使是iphone5在不做优化的情况下，从检测到绘制这段文字也需要16ms左右。虽然实际情况中，不是每一段文本内容都这么复杂，但如果碰见一两条，就会出现明显的卡顿感出现，而且即使文本不复杂的情况，就算它需要8ms，那么如果不优化，留给其它UI元素的绘制时间就会变短，对于60fps，16ms/f的标准，是很难达到的。
 
 下面我们讨论下优化方案：
 
@@ -206,10 +215,11 @@ InternalContent通过实现它drawRect的方法，将数据绘制出来。然后
 
 目前开源的有<a href="https://github.com/mattt/TTTAttributedLabel">TTTAttributeLabel</a>，320作者写的，也是AFNetworking的作者，它里面优化的方案是第二种：deferDetection，但实际的效果来看，并不理想。
 
-我用第三种方案的思路实现了ETAttributedLabel，用法和UILabel一样。它最大的优势在于提供了一个parser，可以将计算，解析，绘制等耗时的操作和UI显示剥离开。我们可以先使用parser在另一个线程中生成好attributedString然后丢给label直接显示，也可以使用parser将文本直接会制成图片，然后丢给label.layer.content：
+我用第三种方案的思路实现了`ETAttributedLabel`，用法和`UILabel`一样。它最大的优势在于提供了一个`parser`，可以将计算，解析，绘制等耗时的操作和UI显示剥离开,而且是线程安全的。我们可以先使用`parser`在另一个线程中生成好`attributedString`然后丢给`label`直接显示，也可以使用parser将文本直接会制成图片，然后丢给`label.layer.content`：
 
 
 ```objc 
+
 ETUIAttributeStringParser* parser = [ETUIAttributeStringParser new];
 parser.constraintTextWidth = 300;
 parser.lineHeight = 20;
@@ -236,7 +246,7 @@ _label.layer.contents = (id)parser.preRenderedImage.CGImage;
 [self.view addSubview:_label];
 ``` 
 
-假如我们一次请求服务器获得了10条数据，那么在tableview刷新前，我们使用parser将每条数据的text渲染成图片，渲染完成后，通知tableview刷新，然后在cell绘制的时候为label的layer.content赋值。
+假如我们一次请求服务器获得了10条数据，那么在`tableview`刷新前，我们使用`parser`将每条数据的text渲染成图片，渲染完成后，通知`tableview`刷新，然后在`cell`绘制的时候为`label`的`layer.content`赋值。
 
 ##Asynchronous Drawing
 

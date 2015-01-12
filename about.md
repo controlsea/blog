@@ -13,9 +13,8 @@ title: About
 
 - Programming Langauage
 
-- Agile development and architecture
+- iOS development and architechture
 
-- OpenGL
 
 ###Available For Hire
 

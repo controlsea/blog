@@ -124,7 +124,7 @@ for (int i=0; i<srcBitmapHeight*srcBitmapRowBytes; i+=4) {
 模糊图像可以有很多种方式来实现，现在比较流行是高斯模糊，为了简单起见，我们就用前一篇文章提到的均值模糊来实现：
 
 ```c
-vImageBoxConvolve_ARGB8888(&amp;effectInBuffer, &amp;effectOutBuffer, NULL, 0, 0, 25, 25, bgColor, kvImageEdgeExtend);
+vImageBoxConvolve_ARGB8888(effectInBuffer, effectOutBuffer, NULL, 0, 0, 25, 25, bgColor, kvImageEdgeExtend);
 ``` 
 
 模糊结果如下：
@@ -153,9 +153,9 @@ $$G(u,v) = e^{-(u^2 + v^2)/(2 \sigma^2)}$$
 ```c
 int rx,ry = 0;
 double sigma = 300;
-for (int i=0; i&lt;1024; i++)
+for (int i=0; i<1024; i++)
 {
-   for (int j=0; j&lt;1024; j++) {
+   for (int j=0; j<1024; j++) {
        
        rx = j-512;
        ry = i-512;
@@ -177,7 +177,7 @@ for (int i=0; i&lt;1024; i++)
 int w_x,w_y = 0.0;
 float w = 0.0f;
 
-for (int i=0; i&lt;srcBitmapHeight*srcBitmapRowBytes; i+=4) {
+for (int i=0; i<srcBitmapHeight*srcBitmapRowBytes; i+=4) {
     
     w_x = (i%srcBitmapRowBytes)/4;
     w_y = i/srcBitmapRowBytes;
