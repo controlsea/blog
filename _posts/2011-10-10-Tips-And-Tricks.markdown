@@ -154,7 +154,7 @@ http://www.abakia.de/blog/2012/12/05/nsstring-hash-is-bad/
 <h3>Objective-C中的copy</h3>
 
 
-多数情况下，UIKit和Foundation对象的copy都是shallow copy（浅拷贝）。比如UIImage：
+UIKit和Foundation对象的copy都是shallow copy（浅拷贝）。比如UIImage：
 
 ```objc
 UIImage* img = [UIImage imageNamed:@"pic.jpg"];
@@ -163,11 +163,16 @@ NSLog(@"%p,%p,%p,%p",img,img_copy,&img,&img_copy);
 ```
 
 结果为：
+
+```
 0xc135b90,0xc135b90,0xbfffedc0,0xbfffedbc
+```
 
 他们指向的heap地址是相同的，他们各自在stack上的地址是不同的，相差4字节。
 
-mutableCopy也是shallow copy。
+`mutableCopy`也是`shallow copy`。
+
+对于自定义对象，比如`ETSomeItem:NSObject`，这种对象要实现`<NSCopy>`，对这种对象的`copy`操作为`deep copy`
 
 ###NSNull和Nil
 
