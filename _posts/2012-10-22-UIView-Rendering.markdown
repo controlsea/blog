@@ -8,7 +8,7 @@ layout: post
 
 `UIView`是如何显示到Screen上的
 
-也许要先从`Runloop`开始说，iOS的main`Runloop`是一个60fps的回调，也就是说每16.7ms会绘制一次屏幕，这个时间段内要完成view的缓冲区创建，view内容的绘制（如果重写了`drawRect`），这些CPU的工作。然后将这个缓冲区交给GPU渲染，这个过程又包括多个view的拼接(compositing)，纹理的渲染（texture）等，最终显示在屏幕上。因此，如果在16.7ms内完不成这些操作，比如，CPU做了太多的工作，或者view层次过于多，图片过于大，导致GPU压力太大，就会导致“卡”的现象，也就是丢帧。
+也许要先从`Runloop`开始说，iOS的main`Runloop`是一个60fps的回调，也就是说每16.7ms会绘制一次屏幕，这个时间段内要完成view的缓冲区创建，view内容的绘制（如果重写了`drawRect`），这些CPU的工作。然后将这个缓冲区交给GPU渲染，这个过程又包括多个view的拼接(compositing)，纹理的渲染（Texture）等，最终显示在屏幕上。因此，如果在16.7ms内完不成这些操作，比如，CPU做了太多的工作，或者view层次过于多，图片过于大，导致GPU压力太大，就会导致“卡”的现象，也就是丢帧。
 
 苹果官方给出的最佳帧率是：60fps，也就是1帧不丢，当然这是理想中的绝佳的体验。
 
@@ -110,13 +110,13 @@ CPU这一块最耗时的地方往往在Core Graphic的绘制上，关于Core Gra
 
 <h3> GPU bound：</h3>
 
-CPU完成了它的任务：将view变成了bitmap，然后就是GPU的工作了，GPU处理的单位是texture。
+CPU完成了它的任务：将view变成了bitmap，然后就是GPU的工作了，GPU处理的单位是Texture。
 
-基本上我们控制GPU都是通过OpenGL来完成的，但是从bitmap到texture之间需要一座桥梁，Core Animation正好充当了这个角色：
+基本上我们控制GPU都是通过OpenGL来完成的，但是从bitmap到Texture之间需要一座桥梁，Core Animation正好充当了这个角色：
 
-Core Animation对OpenGL的api有一层封装，当我们的要渲染的layer已经有了bitmap content的时候，这个content一般来说是一个CGImageRef，CoreAnimation会创建一个OpenGL的texture并将CGImageRef（bitmap）和这个texture绑定，通过textureID来标识。
+Core Animation对OpenGL的api有一层封装，当我们的要渲染的layer已经有了bitmap content的时候，这个content一般来说是一个CGImageRef，CoreAnimation会创建一个OpenGL的Texture并将CGImageRef（bitmap）和这个Texture绑定，通过TextureID来标识。
 
-这个对应关系建立起来之后，剩下的任务就是GPU如何将texture渲染到屏幕上了。
+这个对应关系建立起来之后，剩下的任务就是GPU如何将Texture渲染到屏幕上了。
 
 GPU大致的工作模式如下：
 
@@ -130,9 +130,9 @@ GPU大致的工作模式如下：
 
 - 将数据从RAM搬到VRAM中
 
-- 将texture渲染到屏幕上
+- 将Texture渲染到屏幕上
 
-这两个中瓶颈基本在第二点上。渲染texture基本要处理这么几个问题：
+这两个中瓶颈基本在第二点上。渲染Texture基本要处理这么几个问题：
 
 ###Compositing：
 
@@ -153,16 +153,16 @@ R = S+D*(1-Sa)
 
 `R`: 为最终的像素值
 
-`S`: 代表 上面的texture（top texture）
+`S`: 代表 上面的Texture（Top Texture）
 
-`D`: 代表下面的texture(lower texture)
+`D`: 代表下面的Texture(lower Texture)
 
 其中S,D都已经pre-multiplied各自的alpha值。
 
-`Sa`代表texture的alpha值。
+`Sa`代表Texture的alpha值。
 
-假如top texture（上层view）的alpha值为`1`，即不透明。那么它会遮住下层的texture。即,`R = S`。是合理的。
-假如top texture（上层view）的alpha值为`0.5`，`S` 为 `(1,0,0`)，乘以alpha后为`(0.5,0,0）`。D为`(0，0，1)`。
+假如Top Texture（上层view）的alpha值为`1`，即不透明。那么它会遮住下层的Texture。即,`R = S`。是合理的。
+假如Top Texture（上层view）的alpha值为`0.5`，`S` 为 `(1,0,0`)，乘以alpha后为`(0.5,0,0）`。D为`(0，0，1)`。
 得到的R为`（0.5，0，0.5）`。
 
 基本上每个像素点都需要这么计算一次。

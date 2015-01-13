@@ -169,7 +169,19 @@ NSLog(@"%p,%p,%p,%p",img,img_copy,&img,&img_copy);
 
 mutableCopy也是shallow copy。
 
+###NSNull和Nil
 
+```objc
+
+NSString* null = [NSString stringWithFormat:@"%@",[NSNull null]];
+NSString* nill = [NSString stringWithFormat:@"%@",nil];
+
+```
+输出为：
+
+- `"<null>"`
+
+- `"(null)"`
 
 <h3>NSLog:C语言中的可变参数</h3>
 
