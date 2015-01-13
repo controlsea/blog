@@ -115,9 +115,9 @@ http://www.abakia.de/blog/2012/12/05/nsstring-hash-is-bad/
 
 <em>update @2012/12/5 </em> 
 
-（1）当系统内存紧张时，NSCache会自动释放一些资源
-（2）线程安全
-（3）NSCache不会copy存入object的key
+- 当系统内存紧张时，NSCache会自动释放一些资源
+- 线程安全
+- NSCache不会copy存入object的key
 
 开源项目SDWebImage就是直接使用NSCache来缓存图片：
 
@@ -131,9 +131,10 @@ http://www.abakia.de/blog/2012/12/05/nsstring-hash-is-bad/
 @end
 ```
 
-但实际项目中，为了查询方便，通常还会提供一个list来保存image的key，比如我个人的SDK中，image cache中还会增加一个keySet：
+但实际项目中，为了查询方便，通常还会提供一个list来保存image的key:
 
-```c 
+```objc
+
 @interface ETImageCache()<NSCacheDelegate>
 {
     //mutable keyset
