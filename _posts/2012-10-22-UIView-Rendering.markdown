@@ -1,5 +1,5 @@
 ---
-title:  `UIView`的绘制过程
+title:  UIView Rendering
 layout: post
 
 ---
