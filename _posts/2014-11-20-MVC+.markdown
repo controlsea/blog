@@ -124,3 +124,8 @@ MVVM的好处是：
 这是Vizzle下一步的进化方向，路很长，一点点开始吧。
 
 
+##Further Reading
+
+- [MVVM](https://www.youtube.com/watch?v=dHlwC-UNkxs)
+
+
