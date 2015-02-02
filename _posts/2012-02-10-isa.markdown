@@ -19,15 +19,18 @@ typedef struct objc_class *Class;
 OC中的对象都是id，id是一个objc_object结构体指针，这个结构体中只有一个成员是isa。isa代表了这个对象的类型：
 这句代码：
 
-<code>Class x = [obj Class]</code>
+```
+Class clz = [obj Class];
+```
 
 等价于：
 
-<code>objc_object* x = obj->isa</code>
+```
+objc_class* clz = obj->isa
 
+```
 
-
-而isa又是objc_class这个结构体的指针：
+objc_class这个结构体的定义为：
 
 ```objc
 
@@ -48,16 +51,14 @@ struct objc_class {
 那么就有:
 
 ```
-objc_object* isa_x = obj->isa->isa。
+objc_class* clz_meta = obj->isa->isa。
 ```
 
-Apple对isa_x的描述是metaClass，也就是class的class，这也很好理解，因为x同样可以接受message：[x new],也有自己的类方法。
+Apple对clz_meta的描述是metaClass，也就是`Class`的class，这也不难理解，因为`clz`同样可以接受message：[clz new],也有自己的类方法。
 
 上面描述的结构如下图所示：
 
 <a href="/blog/images/2012/02/class_hierarchy.png"><img src="/blog/images/2012/02/class_hierarchy.png" alt="class_hierarchy"width="511" height="181"/></a>
-
-so far so good，Let's go on...
 
 然后问题是：
 
@@ -152,9 +153,11 @@ NSObject
 That's it !! That solved mystery!!
 
 But wait ! MetaClass对象的isa指向了super_class，那super_class的父类，也就是NSObject的MetaClass对象的super_class指向哪里？
+
 ```
 (gdb) po obj->isa->isa->isa->super_class->super_class
 Can't print the description of a NIL object.
+
 ```
 
 Nil是我们期待的结果

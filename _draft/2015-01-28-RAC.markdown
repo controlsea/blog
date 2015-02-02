@@ -1,0 +1,82 @@
+---
+layout: post
+title: 谈谈对ReactiveCocoa的理解
+
+---
+
+##背景
+
+在《[Vizzle的下一步进化方向](http://akadealloc.github.io/blog/2014/11/20/MVC+.html)》中，我的一个想法是引入ViewModel
+
+##Knowledge Required:
+
+### 函数型语言
+
+
+### FRP
+
+##为什么都拿登录做例子
+
+##Input和Output
+
+##到底什么是Side Effect?
+
+In computer science, a function or expression is said to have a side effect if, in addition to returning a value, it also modifies some state or has an observable interaction with calling functions or the outside world. For example, a function might modify a global variable or static variable, modify one of its arguments, raise an exception, write data to a display or file, read data, or call other side-effecting functions. In the presence of side effects, a program's behavior may depend on history; that is, the order of evaluation matters. Understanding and debugging a function with side effects requires knowledge about the context and its possible histories.[1][2]
+
+在计算机科学中，一个函数或表达式如果除了提供返回值外，还会修改一些状态变量被认为具有side effect，如果
+
+Side effects are the most common way that a program interacts with the outside world (people, filesystems, other computers on networks). But the degree to which side effects are used depends on the programming paradigm. Imperative programming is known for its frequent utilization of side effects. In functional programming, side effects are rarely used. Functional languages such as Standard ML, Scheme and Scala do not restrict side effects, but it is customary for programmers to avoid them.[3] The functional language Haskell expresses side effects such as I/O and other stateful computations using monadic actions.[4][5]
+
+Assembly language programmers must be aware of hidden side effects — instructions that modify parts of the processor state which are not mentioned in the instruction's mnemonic. A classic example of a hidden side effect is an arithmetic instruction that implicitly modifies condition codes (a hidden side effect) while it explicitly modifies a register (the overt effect). One potential drawback of an instruction set with hidden side effects is that, if many instructions have side effects on a single piece of state, like condition codes, then the logic required to update that state sequentially may become a performance bottleneck. The problem is particularly acute on some processors designed with pipelining (since 1990) or with out-of-order execution. Such a processor may require additional control circuitry to detect hidden side effects and stall the pipeline if the next instruction depends on the results of those effects.
+
+
+##Signal
+
+### Cold vs. Hot
+
+
+### CreateSignal
+
+
+
+```
+
+RACSignal* sig = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+   
+    RACDisposable* disposal = [RACDisposable disposableWithBlock:^{
+       
+        NSLog(@"dispose!");
+        [subscriber sendNext:@"a"];
+        
+    }];
+    
+    [disposal dispose];
+    
+    return disposal;
+}];
+
+[sig subscribeNext:^(id x) {
+   
+    NSLog(@"subscribed");
+    
+}];
+
+```
+
+##Marcos
+
+###weakify(...)
+
+@autoreleasePool{}
+
+
+
+##Further Reading:
+
+1. [ARC](http://clang.llvm.org/docs/AutomaticReferenceCounting.html#background)
+
+2. [iOSFRP](https://leanpub.com/iosfrp/) by Ash Furrow
+
+3. [Input and Outpit](http://blog.maybeapps.com/post/42894317939/input-and-output) by Josh Abernathy
+
+

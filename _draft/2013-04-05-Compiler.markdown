@@ -308,7 +308,7 @@ NAN * 0 = NAN
 
 - C++: 
 
-	- C++的模版语法：`Foo<Bar>`
+	- C++的模版语法：`Foo<Bar>` 
 
 	- C++的IO输入语法：`cin>>var`
 

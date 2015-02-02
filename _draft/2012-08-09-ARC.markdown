@@ -1,0 +1,34 @@
+---
+layout: post
+title: ARC
+
+---
+
+<em>所有文章均为作者原创，转载请注明出处</em>
+
+>《OBJECTIVE-C AUTOMATIC REFERENCE COUNTING (ARC)》 的简明翻译
+
+#About This Document
+
+##1.1 Purpose
+
+这篇文章的主要目的是提供一份对ARC完整的技术说明。基于现有的Objective-C编译器和运行时环境完全有能力实现这套新的语法规则。第二个目的是给出ARC设计的原因以及它的合理性，关于这部分的讨论主要集中在技术层面而非商业层面。
+
+##1.2 Background
+
+这篇文档假设读者已经具备了C语言基础。
+
+Blocks是一种C的扩展语法，用来实现匿名函数。用户可以像使用普通指针一样使用block。block内部可以capure当前stack的局部变量，当这种情况发生时，内存必须动态分配。block的内存最开始被分配在stack上，但是runtime提供`Block_copy`的方法，这个方法会返回一个指针指向block，这个指针来自heap上（将当前blcok copy到了heap上，并将其引用计数设为1）。与之配对的方法是`Block_release`，这个方法会将block的引用计数-1，如果引用计数为0，则在heap上销毁这个对象。
+
+Objective-C定义了一个新的类型:<em>**object pointer types**</em>。这种类型对应两个数据结构：`id`和`Class`。`id`是所有<em>object pointer</em>的最终父类型。对于每个类`T`，有一个和它关联的`metaclass`，它没有成员变量，它的父类的类型是`T`的`metaclass`的父类的类型。
+
+一个类的声明(`@interface`)中会声明一些方法。每个方法都有一个返回值类型，一些列入参的类型，和一个selecotr：名字例如:`foo:bar:baz:`，分号的个数和参数的个数相关。方法可能是成员方法，也可能是类方法。
+
+```objc
+[receiver foo: fooArg bar: barArg baz: bazArg];
+
+```
+
+This looks in the dynamic class of the receiver for a method with this name, then in that class’s superclass, etc., until it finds something it can execute. The receiver “expression” may also be the name of a class, in which case the actual receiver is the class object for that class, or (within method definitions) it may be super, in which case the lookup algorithm starts with the static superclass instead of the dynamic class. The actual methods dynamically found in a class are not those declared in the @interface, but those defined in a separate @implementation declaration; however, when compiling a call, typechecking is done based on the methods declared in the @interface.
+
+当这个方法被调用时，系统首先会在`receiver`中需要这个方法，如果没有则在其父类中寻找，以此类推。`recevier`也可以是一个类名，这种情况下方法接受者是一个类的对象
