@@ -229,6 +229,9 @@ void mySBLog(NSString* format,...)
 
 - `git config --global user.email`
 
+改变commit的username和emal
+
+- `git commit --amend --author="Author Name <email@address.com>"`
 
 
 
