@@ -211,6 +211,27 @@ void mySBLog(NSString* format,...)
 }
 ```
 
+###关于@Synchronized
+
+@synchronized{...}相当于使用NSLock：
+
+```
+ @synchronized(self) {
+  	NSLog(@"");
+ }
+
+```
+相当于
+
+```
+[NSLock lock];
+
+NSLog(@"");
+
+[NSLock unlock]
+
+```
+
 ###Linux/Mac OS下文件夹的含义
 
 [Answer](http://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard)

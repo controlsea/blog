@@ -6,7 +6,8 @@ title: ARC
 
 <em>所有文章均为作者原创，转载请注明出处</em>
 
->《OBJECTIVE-C AUTOMATIC REFERENCE COUNTING (ARC)》 的简明翻译
+>《OBJECTIVE-C AUTOMATIC REFERENCE COUNTING (ARC)》 简明翻译
+http://clang.llvm.org/docs/AutomaticReferenceCounting.html
 
 #About This Document
 
@@ -24,11 +25,117 @@ Objective-C定义了一个新的类型:<em>**object pointer types**</em>。这�
 
 一个类的声明(`@interface`)中会声明一些方法。每个方法都有一个返回值类型，一些列入参的类型，和一个selecotr：名字例如:`foo:bar:baz:`，分号的个数和参数的个数相关。方法可能是成员方法，也可能是类方法。
 
-```objc
+```
 [receiver foo: fooArg bar: barArg baz: bazArg];
 
 ```
 
-This looks in the dynamic class of the receiver for a method with this name, then in that class’s superclass, etc., until it finds something it can execute. The receiver “expression” may also be the name of a class, in which case the actual receiver is the class object for that class, or (within method definitions) it may be super, in which case the lookup algorithm starts with the static superclass instead of the dynamic class. The actual methods dynamically found in a class are not those declared in the @interface, but those defined in a separate @implementation declaration; however, when compiling a call, typechecking is done based on the methods declared in the @interface.
+当这个方法被调用时，系统首先会在`receiver`中需要这个方法，如果没找到则在其父类中寻找，以此类推。`recevier`也可以是一个类名，这种情况下方法接受者是一个类的对象或者是这个类对象的父类，此时寻址算法会在父类的`@implementation`中寻找目标方法，但是，当编译时，编译器check的方法却是定义在`@interface`中的。
 
-当这个方法被调用时，系统首先会在`receiver`中需要这个方法，如果没有则在其父类中寻找，以此类推。`recevier`也可以是一个类名，这种情况下方法接受者是一个类的对象
+方法也可以声明在***protocol***中，这些方法不是直接关联到类中的。指针类型也可以声明为符合某种protocol类型的。
+
+使用***Class extensions***可以将某个类的`@interface`分散到多个文件中，它是成员变量和方法的合集。但是，仍然需要一个主要的implementation文件来汇总所有`@interface`中的方法。***Categories****允许方法(not ivars)被在头文件中声明，category文件的`@implementation`将会在运行时将方法add到类的method tables里面，同名方法则会被覆盖掉。
+
+在标准的环境中，对象是在heap上创建的，对象的生命周期是通过引用计数管理的。通常来说object需要实现两个方法: `retain`增加引用计数，`release`减少引用计数，当引用计数为0时，`dealloc`会被调用。为了简化某些操作，系统提供了***autorelease pool***，会回收当前线程内的对象。
+
+Block指针可以被强转为`id`。block对象的layout会兼容普通Objective-C对象，这种内置的block类型通过`retain`方法来调整引用计数，而不是通过`Block_copy`。
+
+>译者注:
+
+>上面一段其实也说明了，block为first class的，可以当做object进行传递，可以理解为一种HOF。
+
+#2 General
+
+ARC实现了对Object和Block的内存自动管理，解放了开发者手动插入`retain`,`release`代码。但是它不会解决循环引用，开发者需要手动解决这种情况。
+
+ARC需要通过设置`-fobjc-arc`标识，明确的告诉编译器开启ARC。关闭ARC需要通过设置`-fno-objc-arc`标识。
+
+如果ARC开启了，那么在预编译的时候`__has_feature(objc_arc)`宏将会展开成1，关于更多`__has_feature`的信息，参考[languate extensions](http://clang.llvm.org/docs/LanguageExtensions.html#langext-has-feature-has-extension)。
+
+#3 Retainable object pointers
+
+这一章主要介绍可以被`retain`的对象指针和基本的操作以及在ARC下的限制。注意，讨论主要指的是指针的value（指针指向的对象），而不是指针自己的地址值。
+
+
+***retainable object pointer***指的是可以被`retain`/`release`的指针类型。目前有三种这样的类型：
+
+- block指针
+
+- Objective-C对象指针(`id`,`Class`,`NSFoo* `,etc.)
+
+- 以`__attribute__((NSObject))`表示的指针
+
+其它的指针类型，如`int* `,`CFStringRef`等并不兼容ARC。
+
+> 理论说明
+
+> 我们无法让所有的代码都用ARC重新编译，因此ARC被用来替换原来需要手动`retain`/`release`的代码。通常来讲，对编译器来说，ARC转换必须满足三条规则：
+
+> - 类型系统必须明确对象的类型。例如，`int* `无法表示对象的类型。
+
+> - 类型系统必须明确如何管理这个对象。意思是这个对象必须提供类似`retian`/`release`这样的方法。
+
+> - 对象从caller被传递到callee时，它的所有权("ownership") 的转换和引用计数的计算必须明确。Objective-C中的方法会严格的遵循这条转换规则，而函数通常会对对象的引用计数`+0`。另一方面，基于C的CoreFoundation则有更多不一样的规则。
+
+使用` __attribute__((NSObject))`强转对象是不推荐的。如果非要这么使用，最好通过`typedef`显示的声明该对象的类型，并且它可能回合`__typeof`无法兼容，以及和C++模板的类的泛型参数替换也可能不兼容。
+
+##3.1 Retain cout semantics
+
+支持retain的对象指针可能是一个***null pointer***，也可能是一个确实存在的object。更对的，如果它是block类型的指针并且不是`null`，那么它一定会指向一个block类型的对象，如果他是`Class`类型的或者是通过protocol声明的，那么它一定指向这种类型的对象。
+
+对ARC来说，一个有效的object必须具备相应下面消息的能力：
+
+- `retain`，没有入参，返回对象指针。
+
+- `release`，没有入参，返回`void`。
+
+- `autorelease`，没有入参，返回对象指针。
+
+
+##3.2 Retainable object pointers as operands and arguments
+
+通常来说，ARC在一些情况下不会自动retain/release object，这些情况包括：
+
+- 返回一个非`weak`型对象的指针
+
+- 将对象作为参数在函数或方法中传递
+
+- 函数或方法中返回的对象
+
+
+### 3.2.1 Consumed parameters
+
+函数或方法的入参类型可以被标记为***consumed***，这种情况下，函数的调用者希望入参的引用计数+1。需要将参数声明为`ns_consumed`，如下:
+
+```
+void foo(__attribute((ns_consumed)) id x);
+- (void) foo: (id) __attribute((ns_consumed)) x;
+
+```
+这个属性用来标识函数或方法的类型，而不是参数类型。它只影响入参和返回值的引用计数。
+
+当入参有这个属性标识时，ARC会先`retain`入参，然后调用函数
+
+当返回值有这个属性标识时，
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##6.3 Precise lifetime semantics
+
+In general, ARC maintains an invariant that a retainable object pointer held in a __strong object will be retained for the full formal lifetime of the object. Objects subject to this invariant have precise lifetime semantics.
+
+通常来说，在ARC中，如果某个对象通过`__strong`的方式引用了另一对象，那么该对象的生命周期将被严格控制。默认情况下，局部变量的生命周期没有严格的语义控制。这些对象
+
+By default, local variables of automatic storage duration do not have precise lifetime semantics. Such objects are simply strong references which hold values of retainable object pointer type, and these values are still fully subject to the optimizations on values under local control.
