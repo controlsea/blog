@@ -75,9 +75,7 @@ struct objc_class {
 
 ###对象间通信：
 
-按照我的理解，为了[提升性能](https://www.mikeash.com/pyblog/friday-qa-2014-07-04-secrets-of-swifts-speed.html)，Swift对象间的通信（method调用），是不需要runtime的（在下一节说明这个观点），也没有了所谓的"消息"。取而代之的是，采用了类似C++的机制，将method的地址放到`vtable`里。
-
-但有一个问题，如果这个Swift对象需要和Objective-C对象通信怎么办？例如，有这样一段OC代码，它向`s`发消息:
+按照我的理解，为了[提升性能](https://www.mikeash.com/pyblog/friday-qa-2014-07-04-secrets-of-swifts-speed.html)，Swift对象间的通信（method调用），是不需要runtime的（在下一节说明这个观点），也没有了所谓的"消息"。但有一个问题，如果这个Swift对象需要和Objective-C对象通信怎么办？例如，有这样一段OC代码，它向`s`发消息:
 
 ```objc
 MySwiftClass* s = [MySwiftClass new];
@@ -87,8 +85,8 @@ if([s responseToSelector(@selector(method))])
 	[s method];
 }
 ```
-此时`obj`需要实现`responseToSelector`这样的方法，还需要检查`mehtod`这个方法是否存在。
-这说明`obj`仍然需要具备在运行时introspect的能力，而我们又没有在`MySwiftClass`中定义任何OC的方法，这是怎么做到的呢？
+此时`s`需要实现`responseToSelector`这样的方法，还需要检查`mehtod`这个方法是否存在。
+这说明`s`仍然需要具备在运行时introspect的能力，而我们又没有在`MySwiftClass`中定义任何OC的方法，这是怎么做到的呢？
 
 ###神奇的SwiftObject
 

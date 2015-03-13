@@ -16,7 +16,7 @@ title:  Introduce to AsyncDisplayKit
 
 大概在2年多以前，我经历的一个项目是做一个SNS的APP，当时市面上的主流机型是iPhone4/4s，那时候我们面临的一个很大的技术问题是Timeline列表的UI性能问题，由于用户输入的内容都比较复杂，有文字，图片，表情，关键字，短连接等，因此在UI的呈现上也比较复杂。
 
-我们当时使用的文字排版引擎是CoreText，CoreText虽然能解决各种元素混排的问题，但是其性能却非常一般，实时绘制的成本很高，直观感受就是列表滚动起来很卡。随后我们进行了一系列的优化，最后的结果是将整个绘制过程都分离到了另一个线程中，具体来说就是我们在一个后台线程开辟了一块内存，创建了一个`CGContextRef`，用这个context完成对attributedString的绘制(CoreText API是线程安全的)，生成一张bitmap，然后在主线程中将这个bitmap作为layer的backing store，直接显示出来。
+我们当时使用的文字排版引擎是`CoreText`，`CoreText`虽然能解决各种元素混排的问题，但是其性能却非常一般，实时绘制的成本很高，直观感受就是列表滚动起来很卡。随后我们进行了一系列的优化，最后的结果是将整个绘制过程都分离到了另一个线程中，具体来说就是我们在一个后台线程开辟了一块内存，创建了一个`CGContextRef`，用这个context完成对`attributedString`的绘制(`CoreText` API是线程安全的)，生成一张bitmap，然后在主线程中将这个bitmap作为layer的backing store，直接显示出来。
 
 这种方式最终极大的提升了UI性能，因为主线程不再做任何CPU相关的计算了，GPU面对的也是"a single texture"，节省了compositing的过程。
 
@@ -28,7 +28,7 @@ title:  Introduce to AsyncDisplayKit
 
 直到前几个月，看到了[AsyncDisplayKit](https://github.com/facebook/AsyncDisplayKit)，一看名字就猜到它是干嘛的了, 然后反反复复看了几遍[NSLondon](http://vimeo.com/103589245)以及[Paper](https://www.youtube.com/watch?v=OiY1cheLpmI&list=PLb0IAmt7-GS2sh8saWW4z8x2vo7puwgnR)上的Tech Talk，发现他们的思路和我上面提到的是一样的，也是在另一个线程中绘制bitmap，只是他们没有使用`renderInContext`。但是Facebook就是Facebook，他们花了1年的时间解决了我们当时遇到的所有的问题。
 
-相比POP, AS并没有引起人们很大的关注，原因一方面是现在的硬件设备强大了，无论是CPU的计算速度还是GPU的渲染能力都变强了，对于一些对帧率不敏感的App，不做优化也还算流畅。第二个原因是很多人根本不明白它究竟在解决什么问题，是干什么的，只有在这方面吃过苦，有过优化经验的人才明白它的价值。
+相比POP, AS并没有引起人们很大的关注，原因一方面是现在的硬件设备强大了，无论是CPU的计算速度还是GPU的渲染能力都变强了，对于一些对帧率不敏感的App，不做优化也还算流畅。第二个原因是很多人不太明白它究竟在解决什么问题，是干什么的，只有在这方面吃过苦，有过优化经验的人才明白它的价值。
 
 ##Paper流畅的动画
 
