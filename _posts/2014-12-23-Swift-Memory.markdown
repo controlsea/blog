@@ -139,7 +139,7 @@ method:Optional("debugDescription") type:Optional("@16@0:8")
 
 - 类名：运行时`obj`的类名变成了`TestSwiftRuntime.MySwiftClass`。格式为: `Target名称.类名`。也许有人会注意到，上面的结果和[这篇文章](https://www.mikeash.com/pyblog/friday-qa-2014-07-18-exploring-swift-memory-layout.html)得到的结果不一样，它得到类名是混淆过的结果：`_TtC16TestSwiftRuntime12MySwiftClass`。产生这个问题的原因是使用API的差别:`String(UTF8String:ptr)`和`String.fromCString(ptr)`，但这并不是根本原因，根本原因是[Name Mangling](http://en.wikipedia.org/wiki/Name_manglin)。
 
-- 父类：`SwiftObject`，貌似一个新OC基类出现了，实现了`<NSObject>`，因此具备了和其它OC对象通信的能力，但是，和`NSObject`不同的是，它还有一个成员变量叫`magic`，从TypeEncoding的结果来看，它是一个结构体，有两个成员:`isa`，`refCount`。功能上貌似是用来做引用计数。更多关于`magic`的内容还有待证研究。
+- 父类：`SwiftObject`，貌似一个新OC基类出现了，实现了`<NSObject>`，因此具备了和其它OC对象通信的能力，但是，和`NSObject`不同的是，它还有一个成员变量叫`magic`，从TypeEncoding的结果来看，它是一个结构体，有两个成员:`isa`，`refCount`。功能上貌似是用来做引用计数。更多关于`magic`的内容还有待研究。
 	
 - 关于成员变量`a`：我们为`MySwiftClass`定义了一个`UInt32`类型的成员`a`，但是我们却无法获取它的TypeEncoding，为什么呢？这说明Objective-C的runtime是无法获取到Swift变量的类型的。
 
@@ -149,7 +149,7 @@ method:Optional("debugDescription") type:Optional("@16@0:8")
 
 能输出这样的结果意味着，这些信息可以被Objective-C在运行时发现，所以我们的Swift对象:`obj`
 
-1. 要么自己就是一个Objective-C对象：这点显然不可能了，应为`objc_class`的结构是不同的。
+1. 要么自己就是一个Objective-C对象：这点显然不可能了，因为`objc_class`的结构是不同的。
 
 2. 要么它自己重新实现了上面的方法：这种可能性比较大，按照我的理解，`SwiftObject`为了和OC对象通信，对OC所有runtime API的函数原型做了不同的实现，例如上面的例子`[s method]`,实际上是`objc_msgSend(s,@selector(method),nil)`，系统首先会判断`s`的`objc_class`类型，如果是Swift对象，则在`s`的`vtable`中找到`method`的地址然后执行。如果是OC对象，则还是老一套。
 
@@ -201,7 +201,7 @@ func method(){}
 
 ```
 
-此时会当前目录下生成一个TestSwiftRuntime的目标文件:`TestSwiftRuntime`
+此时会在当前目录下生成一个TestSwiftRuntime的目标文件:`TestSwiftRuntime`
 
 
 ```

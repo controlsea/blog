@@ -4,77 +4,85 @@ title: 谈谈对ReactiveCocoa的理解
 
 ---
 
-##背景
+一年前，在[cocoaTalk#1]()中，我曾经分享了自己对于ReactiveCocoa(后面简称RAC)的理解，当时是使用RAC做了一个iPad应用，感觉很新鲜，的确是像RAC说的，它提供了另一种方式来看待cocoa编程。但是所谓的另一种方式究竟是什么？他究竟好在哪里，我当时还是很难把它从本质上描述出来，只是觉得代码变的紧凑了，一些binding/Observe的语法很好用，但是这些仅仅是很直观的表像。
 
-在《[Vizzle的下一步进化方向](http://akadealloc.github.io/blog/2014/11/20/MVC+.html)》中，我的一个想法是引入ViewModel
+在随后这一年中，我开始接触SML，Haskell和Scala，学习这些语言的确给了我很多启发，加上最近在制作Vizzle 2.0，很多场景让我觉得使用ReactiveCocoa解决会很方便，于是花了大概一个月的时间开始重新学习ReactiveCocoa。
 
-##Knowledge Required:
+## 浅谈RAC的发展
 
-### 函数型语言
+RAC最开始是[Josh Abernathy]()一个人写的，Josh是一名在Github工作的MAC桌面工程师，他设计RAC的初衷是"他嫉妒同事使用[Reactive Extension(RX)](https://msdn.microsoft.com/en-us/data/gg577609.aspx)"。于是他决定将RX搬到Cocoa的中，[在RAC2014的开发者大会](https://www.youtube.com/watch?v=NzKp2AjnMMM)中,Josh也承认说他其实是RAC的"God Father"。后来Josh招来另一位大神[Justin Spahr-Summers]()，帮助他一起实现并发布RAC 2.x。Justin对Josh的设计做了很多改动，比如抽象了`RACStream`，扩展了很多`Signal`相关的API等，后面的推广和维护也主要是Justin在做。
 
+去年RAC 2.0发布后，引起了业界广泛的关注，原因是Cocoa的世界中，终于出现了FRP的身影。很多业内名气比较大的牛人，比如[Ash Furrow](https://leanpub.com/iosfrp/)， [Colin Eberhardt](http://www.raywenderlich.com/62699/reactivecocoa-tutorial-pt1)都在积极推广RAC的使用，Youtube上也可以搜到世界各地开发者对RAC的讨论。
 
-### FRP
+对于开发者对RAC的反应，分化的也比较明显，支持者认为RAC将函数型语言的一些好处带到了Cocoa，比如使用RAC的signal chaining可以很有效的规避对各种state的修改，同时也可以很优雅的处理side effect。而否定者认为RAC的理解门槛过高，不适宜在团队内推广，与PromiseKit相比，API比较晦涩难懂。
 
-##为什么都拿登录做例子
+我觉得这两种观点都有道理，但是，即使是技术人员也很容易陷入人云亦云的窘境，经常在没有仔细研究过RAC的情况下，就浅尝辄止的下结论，而这些结论通常会很类似，有些甚至是误导性的。
 
-##Input和Output
+## 先谈谈FRP
 
-
-
-
-##Signal
-
-### Cold vs. Hot
+RAC想表达的是一种全新的编程范式(programming paradigm)，叫做Functional Reactive Programming(后面简称FRP)。这东西起源于Haskell社区，最早来自Paul Hudak 1998年的一篇论文《Functional Reactive Animation》。如何使用Haskell去描述FRP可以[移步这里](https://wiki.haskell.org/Functional_Reactive_Programming)。我对FRP的理解是
 
 
-### CreateSignal
+ 
+
+## 什么是Signal？
+
+
+RAC中的主要数据结构是`Signal`,这货听起来就够抽象了，什么是信号？信号表示什么？这对一开始接触RAC的人来说，的确是个障碍。实际上，这个概念来自于Eric Meijer或xx对Reactive Programming的描述。RAC正是建立在这样一套完备的理论基础之上。
+
+Reactive Programming，也叫响应式编程
+
+> 注意这里不要和前端的Responsive Design搞混，虽然它们翻译过来都叫做响应式编程。
+
+它的实现的手段通常是使用函数型语言，因此也叫Functional Reactive Programming(后面简称FRP)。
+
+FRP最开始是始于Haskell社区，在Haskell改版后的官网中，第一个视频就是介绍FRP的，Eric Meijer也是Haskell重要的创始人之一，他在加入微软后，将自己在Haskell上的心得制作出了一个叫Reactive Extension的.Net框架，这也是RAC的原型。
+
+在Martin Odersky(Scala的作者)的课程中有对FRP完整的诠释
+
+## FlattenMap和Monad
 
 
 
-```
+## RAC的优点
 
-RACSignal* sig = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-   
-    RACDisposable* disposal = [RACDisposable disposableWithBlock:^{
-       
-        NSLog(@"dispose!");
-        [subscriber sendNext:@"a"];
-        
-    }];
-    
-    [disposal dispose];
-    
-    return disposal;
-}];
 
-[sig subscribeNext:^(id x) {
-   
-    NSLog(@"subscribed");
-    
-}];
 
-```
 
-##Marcos
+## 对RAC的局限性
 
-###weakify(...)
+我认为RAC最大的局限性在于它不能"Unify All the things"，也就是说它很难
 
-@autoreleasePool{}
+## 我个人对RAC的评价
+
+
+## RAC 3.0
 
 
 
 ##Further Reading:
 
-1. [ARC](http://clang.llvm.org/docs/AutomaticReferenceCounting.html#background)
-
-2. [iOSFRP](https://leanpub.com/iosfrp/) by Ash Furrow
-
-3. [Input and Outpit](http://blog.maybeapps.com/post/42894317939/input-and-output) by Josh Abernathy
-
-4. [Reactive Cocoa Developer Conference • Panel Q&A and Discussion](https://www.youtube.com/watch?v=NzKp2AjnMMM);
-
-5. [React 2014 : Erik Meijer - What does it mean to be Reactive?](https://www.youtube.com/watch?v=sTSQlYX5DU0) by Erik Meijier
-
-6. [Limboy](http://limboy.me/image/FRP_ReactiveCocoa_large.png) by Limboy
-
-7. [side effect](http://en.wikipedia.org/wiki/Side_effect_(computer_science) by wiki
+- [Is functional GUI programming possible](http://stackoverflow.com/questions/2672791/is-functional-gui-programming-possible)
+- [iOSFRP](https://leanpub.com/iosfrp/) 
+- [FRP in Haskell](https://vimeo.com/96744621)
+- [Haskell社区，新版很酷](https://www.haskell.org/)
+- [C41:一个ReactiveCocoa的demo](https://github.com/AshFurrow/C-41)
+- [理解FRP：input和output](http://blog.maybeapps.com/post/42894317939/input-and-output)
+- [ReactiveCocoa Github Page](https://github.com/ReactiveCocoa/ReactiveCocoa#introduction)
+- [InfoQ上网易架构师关于FPR的解释,写的很好](http://www.infoq.com/cn/articles/functional-reactive-programming)
+- [ELM](http://elm-lang.org/)
+- [微软的Reactive Extension](https://msdn.microsoft.com/en-us/data/gg577609.aspx)
+- [Eric Majier对Reactive的解释](https://www.youtube.com/watch?v=sTSQlYX5DU0)
+- [ReactiveCocoa 3.0 preview](https://www.youtube.com/watch?v=ICNjRS2X8WM)
+- [ReactiveCocoa Github conference Q&A](https://www.youtube.com/watch?v=NzKp2AjnMMM)
+- [ReactiveCocoa Tutorial – The Definitive Introduction](http://www.raywenderlich.com/62699/reactivecocoa-tutorial-pt1)
+- [Deconstructing Functional Programming](http://www.infoq.com/presentations/functional-pros-cons)
+- [FlattenMap,Map,SwitchLatest](http://rcdp.io/flattenMap-vs-map-switchToLatest.html)
+- [PromiseKit](http://promisekit.org/introduction/)
+- [关于RAC和PromiseKit的讨论](http://www.reddit.com/r/iOSProgramming/comments/26lrqw/promisekit_a_framework_for_async_cocoa_programming/)
+- [Taming Callbacks in iOS: Bolts Framework](http://www.dimroc.com/2014/12/17/bolt-framework-promisekit-or-reactive-cocoa-for-async/)
+- [Bolts](https://github.com/BoltsFramework/Bolts-iOS)
+- [How can i implement the promise pattern with ReactiveCocoa?](http://stackoverflow.com/questions/18827122/how-can-i-implement-the-promise-pattern-with-reactivecocoa)
+- [Pipes](http://codeplease.io/pipes/)
+- [Splitting an RACSignal to eliminate state](http://stackoverflow.com/questions/18852844/splitting-an-racsignal-to-eliminate-state/18860635#18860635)
+- [FRP on iOS](http://thoughtsdumping.blogspot.tw/2014/01/ios-fp-functional-programming-native.html)
