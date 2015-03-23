@@ -679,23 +679,21 @@ In general, if the last action of a function consists of calling a function（ma
  
  针对例2，来实现一种满足*Tail Recursive*的方法。
  
- 
- ```scala
- 
- object exercise {
+```scala
+object exercise {
   
-  def factorial(x:Int):Int = 
-  {
-  		def loop(acc:Int, x:Int):Int = 
+def factorial(x:Int):Int = 
+{
+	def loop(acc:Int, x:Int):Int = 
   			
-  			if ( x== 0 ) acc
-  			else
-  				loop(acc*x,x-1)
-  			
-  		loop(1,x) 
-  }
+	if ( x== 0 ) acc
+	else
+		loop(acc*x,x-1)
+		
+	loop(1,x) 
+}
   
-  factorial(4)
+factorial(4)
   
 }
 
@@ -1989,7 +1987,7 @@ f.apply(7)
 def f(x:Int):Boolean = ...
 
 ```
-由上一小节克制`f`本身并不是函数类型，而是一个对象的`apply`方法。
+由上一小节可知`f`本身并不是函数类型，而是一个对象的`apply`方法。
 
 但是如果`f`被放到了等号右边，需要成为一个函数类型的时候，会自动转换:
 
@@ -2009,6 +2007,8 @@ new Function1[Int,Boolean]
 }
 
 ```
+## Objects Everywhere
 
+到目前，我们
 
 
