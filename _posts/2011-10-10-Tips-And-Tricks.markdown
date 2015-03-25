@@ -93,7 +93,29 @@ appledoc --no-create-docset --output ./docNew --project-name xxx --project-compa
 
 将usr/bin/libtool考到xcode要求那个目录
 
+<h3>Framework和静态库</h3>
 
+- Framework和静态库的区别：
+
+本质都是相同的，都是静态的代码。
+
+framework使用更方便，可以将头文件,资源文件等打包使用。
+
+静态库的.a只是.m文件打包的二进制代码，因此，还需要自己将.h引入进来才能编译过，同样，资源文件也需要单独引入。
+
+- xcode打Framework的方法：
+
+使用开源项目:https://github.com/kstenerud/iOS-Universal-Framework
+
+里面有两种方案：
+
+1. fakeFramework ：思路是创建一个bundle，将bundle中的文件格式改成和framework相同的格式。
+
+2. real Framework：运行一段脚本，给Xcode打补丁，重启xcode后即可看到有framework的模版出来。
+
+- xcode打静态库的方法：
+
+参见[Creating a Static Library in iOS Tutorial](http://www.raywenderlich.com/41377/creating-a-static-library-in-ios-tutorial)
 
 <h3>NSString的hash问题</h3>
 
