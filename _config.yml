@@ -12,7 +12,7 @@ filter: 'tag'
 markdown: kramdown
 sass:
   style: compressed
-gems:
-  - jekyll-sitemap
+# gems:
+#   - jekyll-sitemap
 
 
