@@ -1,7 +1,7 @@
 ---
 title: 一个新的MVC框架-Vizzle
 layout: post
-
+tag: VizLab
 ---
 
 <em>文章均为作者原创，转载请著名出处</em>

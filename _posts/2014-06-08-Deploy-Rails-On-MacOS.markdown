@@ -1,7 +1,7 @@
 ---
 layout: post
 title: MacOS部署Rails
-
+tag: Ruby
 ---
 
 <em>所有文章均为作者原创，转载请注明出处</em>

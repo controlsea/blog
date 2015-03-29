@@ -1,7 +1,7 @@
 ---
 title:  关于Quartz-2D的一些概念
 layout: post
-
+tag: iOS
 ---
 
 <em>所有文章均为作者原创，转载请注明出处</em>

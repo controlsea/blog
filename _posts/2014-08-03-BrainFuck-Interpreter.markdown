@@ -1,7 +1,7 @@
 ---
 title: BrainFuck解释器
 layout: post
-
+tag: Ruby
 ---
 
 <em>文章均为作者原创，转载请著名出处</em>

@@ -1,6 +1,7 @@
 ---
 title: Assembly on ARM
 layout: post
+tag: Assembly
 
 ---
 

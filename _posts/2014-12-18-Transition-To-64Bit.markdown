@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Transition To 64 Bit 
-
+tag: iOS
 ---
 
 <em>所有文章均为作者原创，转载请注明出处</em>

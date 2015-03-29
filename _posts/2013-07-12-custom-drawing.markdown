@@ -1,7 +1,7 @@
 ---
 title: 一些提高UI绘制性能的技巧
 layout: post
-
+tag: iOS
 ---
 
 <em>所有文章均为作者原创，转载请注明出处</em>

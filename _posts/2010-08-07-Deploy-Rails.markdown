@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Ubuntu上部署Rails 
-tag: Ruby,Rails
+tag: Ruby
 
 ---
 
