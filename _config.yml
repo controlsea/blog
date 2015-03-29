@@ -9,10 +9,15 @@ title: Blog
 filter: 'tag'
 
 # Build settings
-markdown: kramdown
-sass:
-  style: compressed
+# markdown: kramdown
+# sass:
+#   style: compressed
 # gems:
 #   - jekyll-sitemap
 
 
+markdown: redcarpet
+#markdown: kramdown
+highlighter: pygments
+redcarpet:
+  extensions: ["fenced_code_blocks", "tables", "highlight", "strikethrough"]
