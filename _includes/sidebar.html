@@ -33,14 +33,14 @@
     <nav id="toc">
       {% if site.filter == 'category' %}
         {% for post in site.posts %}
-          <a class="toc-link" data-tags="{{ post.categories | join: ' ' }}" href="{{  site.url | join: site.baseurl | join: post.url  }}">
+          <a class="toc-link" data-tags="{{ post.categories | join: ' ' }}" href="{{site.url}}{{site.baseurl}}{{post.url}}">
             {{ post.title }}
           </a>
         {% endfor %}
       {% elsif site.filter == 'tag' %}
         {% for post in site.posts %}
 
-          <a class="toc-link" data-tags="{{ post.tags | join: ' ' }}" href="{{  site.url | join: site.baseurl | join: post.url }}">
+          <a class="toc-link" data-tags="{{ post.tags | join: ' ' }}" href="{{site.url}}{{site.baseurl}}{{post.url}}">
 
           <span class="toc-title">
             {{ post.title }}
