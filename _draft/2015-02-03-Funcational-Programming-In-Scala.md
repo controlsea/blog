@@ -2010,5 +2010,3 @@ new Function1[Int,Boolean]
 ## Objects Everywhere
 
 到目前，我们
-
-

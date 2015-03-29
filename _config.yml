@@ -1,18 +1,18 @@
 #Site settings
+title: VizLab
+description: Jayson's blog
+email: jayson.xu@foxmail.com
 baseurl: /blog 
 url: http://akadealloc.github.io
 title: Blog
 
+filter: 'tag'
+
 # Build settings
-markdown: redcarpet
-#markdown: kramdown
-highlighter: pygments
-redcarpet:
-  extensions: ["fenced_code_blocks", "tables", "highlight", "strikethrough"]
+markdown: kramdown
+sass:
+  style: compressed
+gems:
+  - jekyll-sitemap
 
-
-#user info:
-twitter_username: ecs_tee
-github_username:  akadealloc
-email: jayson.xu@foxmail.com
 
