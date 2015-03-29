@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 关于内存的理解
+tag: iOS
 ---
 
 <em>所有文章均为作者原创，转载请注明出处</em>

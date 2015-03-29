@@ -3,6 +3,8 @@ title: Setup Ubuntu on Linode
 
 layout: post
 
+tag: UNIX
+
 ---
 
 ##创建用户
