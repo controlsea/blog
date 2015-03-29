@@ -1,32 +1,18 @@
 ---
 layout: default
 ---
-
-<div class="home">
-
-  <ul class="post-list">
-
-
-      {% for post in site.posts %}
-        {% unless post.next %}
-          <li class="year">{{ post.date | date: '%Y' }}</li>
-        {% else %}
-          {% capture year %}{{ post.date | date: '%Y' }}{% endcapture %}
-          {% capture nyear %}{{ post.next.date | date: '%Y' }}{% endcapture %}
-          {% if year != nyear %}
-            <li class="year">{{ post.date | date: '%Y' }}</li>
-          {% endif %}
-        {% endunless %}
-        <li>
-          <span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </li>
-      {% endfor %}
-
-
-<!--     {% for post in site.posts %}
-
-    <li><</li>
-
-    {% endfor %} -->
+<div id="home" class="container">
+  <h1>Jayson Xu</h1>
+  <p>我是一名iOS工程师 / 目前在Alibaba工作。</p>
+  <h3>我感兴趣</h3>
+  <ul style="list-style:none; line-height: 25px; padding-left: 0">
+   <li>App开发</li>
+   <li>架构设计</li>
+   <li>编程语言</li>
   </ul>
+  <h3>我在寻找</h3>
+  	<ul style="list-style: none; padding-left: 0"><li>对技术有热情，志同道合的朋友</li></ul>
+  <h3>联系我:</h3>
+  	<ul style="list-style: none; padding-left: 0"><li>Jayson.xu@foxmail.com</li></ul>
 </div>
+
